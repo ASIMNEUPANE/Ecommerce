@@ -29,7 +29,7 @@ app.use((err,req,res,next)=>{
 
 
 app.listen(PORT, ()=>{
-  console.log(`app is running on ${PORT}1`)
+  console.log(`app is running on ${PORT}`)
 })
 
 

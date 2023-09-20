@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const commonSchema = require("../../utils/commonSchema");
+const {commonSchema} = require("../../utils/commonSchema");
 
 const validateEmail = (email) => {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
@@ -19,8 +19,11 @@ const userSchema = new Schema({
       "Please fill a valid email address",
     ],
   },
-  password: { type: String, required: true },
-  
+   isEmailVerified:{type:String},
+
+  password: { type: Boolean, default:false },
+
+  isActive : {type: Boolean, default:false},
   ...commonSchema,
 });
 
