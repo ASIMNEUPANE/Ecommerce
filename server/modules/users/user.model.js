@@ -21,7 +21,7 @@ const userSchema = new Schema({
   },
    isEmailVerified:{type:String},
 
-  password: { type: Boolean, default:false },
+  password: { type: String, default:false },
 
   isActive : {type: Boolean, default:false},
   ...commonSchema,
