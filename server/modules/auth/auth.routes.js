@@ -24,6 +24,17 @@ res.json({data:result, msg:"Succes"});
         next(e)
     }
 })
+router.post('/verify', async(req,res,next)=>{
+    try{
+        const {email,token}= req.body
+        if (! email || !token) throw new Error("Email or token is missing")
+result = await controller.verifyEmail(email,token);
+res.json({data:result, msg:"Succes"});
+    }
+    catch(e){
+        next(e)
+    }
+})
 
 
 router.get('/', async(req,res,next)=>{

@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const authModel = require("../auth/auth.model");
 const userModel = require("../users/user.model");
 
-const { generateOTP } = require("../../utils/otp");
+const { generateOTP, verifyOTP } = require("../../utils/otp");
 
 const login = async (email, password) => {
   const user = await userModel.findOne({ email });
@@ -21,10 +21,37 @@ const create = async (payload) => {
   let { password, ...rest } = payload;
   rest.password = await bcrypt.hash(password, +process.env.SALT_ROUND);
   const user = await userModel.create(rest);
-  
+
   const authpayload = { email: user?.email, token: generateOTP() };
   await authModel.create(authpayload);
   return user;
 };
 
-module.exports = { login, create };
+const verifyEmail = async (email, token) => {
+  // email exists check
+
+  const auth = await authModel.findOne({ email });
+  if (!auth) throw new Error("user not found");
+
+  // token expire check
+
+  const isValidToken = await verifyOTP(token);
+  if (!isValidToken) throw new Error("Token expired");
+
+  // token match with email
+  const emailValid = auth?.token === token;
+  if (!emailValid) throw new Error("TOken mismathc");
+
+  // userModel isEmailVerified True
+  const updateUser = await userModel.findOneAndUpdate(
+    { email },
+    { isEmailVerified: true },
+    { new: true }
+  );
+
+  // remove that email from authModel
+await authModel.deleteOne({ email });
+ return updateUser;
+};
+
+module.exports = { login, create , verifyEmail };
