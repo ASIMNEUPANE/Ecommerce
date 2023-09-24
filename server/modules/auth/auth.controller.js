@@ -39,8 +39,8 @@ const verifyEmail = async (email, token) => {
   if (!isValidToken) throw new Error("Token expired");
 
   // token match with email
-  const emailValid = auth?.token === token;
-  if (!emailValid) throw new Error("TOken mismathc");
+  const emailValid = authModel?.token === +token;
+  if (!emailValid) throw new Error("Token mismathc");
 
   // userModel isEmailVerified True
   const updateUser = await userModel.findOneAndUpdate(
@@ -54,4 +54,21 @@ await authModel.deleteOne({ email });
  return updateUser;
 };
 
-module.exports = { login, create , verifyEmail };
+const regenerateToken = async(email)=>{
+
+  const auth = await authModel.findOne({email});
+  if (!auth) throw new Error('User not found')
+
+  const newToken = await generateOTP();
+  await authModel.findOneAndUpdate(
+    {email},
+    {token :newToken},
+    {new:true}
+
+  );
+  return true;
+
+}
+
+
+module.exports = { login, create , verifyEmail,regenerateToken };

@@ -36,6 +36,18 @@ res.json({data:result, msg:"Succes"});
     }
 })
 
+router.post('/regenerate', async(req,res,next)=>{
+    try{
+        const {email}= req.body
+        if (! email ) throw new Error("Email  is missing")
+result = await controller.regenerateToken(email);
+res.json({data:result, msg:"Succes"});
+    }
+    catch(e){
+        next(e)
+    }
+})
+
 
 router.get('/', async(req,res,next)=>{
     try{
