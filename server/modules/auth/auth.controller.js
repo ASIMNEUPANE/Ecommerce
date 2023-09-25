@@ -3,6 +3,8 @@ const authModel = require("../auth/auth.model");
 const userModel = require("../users/user.model");
 
 const { generateOTP, verifyOTP } = require("../../utils/otp");
+const {mailer}= require('../../services/mailer')
+
 
 // ---Register for new user---
 
@@ -10,37 +12,38 @@ const register = async (payload) => {
   let { password, ...rest } = payload;
   rest.password = await bcrypt.hash(password, +process.env.SALT_ROUND);
   const user = await userModel.create(rest);
-  await authModel.create({ email: user?.email, token: generateOTP() });
+  const token =  generateOTP()
+  await authModel.create({ email: user?.email, token });
+  await mailer(user?.email,token)
   return user;
 };
+
 
 // ---Verify email && Token--
 
 const verifyEmail = async (email, token) => {
   // email exists check
-
   const auth = await authModel.findOne({ email });
   if (!auth) throw new Error("user not found");
 
   // token expire check
-
   const isValidToken = await verifyOTP(token);
   if (!isValidToken) throw new Error("Token expired");
 
   // token match with email
   const emailValid = auth?.token === +token;
-  if (!emailValid) throw new Error("Token mismathc");
+  if (!emailValid) throw new Error("Token mismatch");
 
   // userModel isEmailVerified True
-  const updateUser = await userModel.findOneAndUpdate(
+  await userModel.findOneAndUpdate(
     { email },
     { isEmailVerified: true, isActive: true },
 
     { new: true }
   );
   // remove that email from authModel
-  await authModel.deleteOne({ email });
-  return updateUser;
+//   await authModel.deleteOne({ email });
+//   return updateUser;
 };
 
 // ---Regenerate Token
@@ -55,7 +58,9 @@ const regenerateToken = async (email) => {
     { token: newToken },
     { new: true }
   );
+  await mailer(email,newToken)
   return true;
+
 };
 
 // ---Login---
