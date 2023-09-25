@@ -39,36 +39,33 @@ const verifyEmail = async (email, token) => {
   if (!isValidToken) throw new Error("Token expired");
 
   // token match with email
-  const emailValid = authModel?.token === +token;
+  const emailValid = auth?.token === +token;
   if (!emailValid) throw new Error("Token mismathc");
 
   // userModel isEmailVerified True
   const updateUser = await userModel.findOneAndUpdate(
     { email },
-    { isEmailVerified: true },
+    { isEmailVerified: true, isActive: true },
+
     { new: true }
   );
 
   // remove that email from authModel
-await authModel.deleteOne({ email });
- return updateUser;
+  await authModel.deleteOne({ email });
+  return updateUser;
 };
 
-const regenerateToken = async(email)=>{
+const regenerateToken = async (email) => {
+  const auth = await authModel.findOne({ email });
+  if (!auth) throw new Error("User not found");
 
-  const auth = await authModel.findOne({email});
-  if (!auth) throw new Error('User not found')
-
-  const newToken = await generateOTP();
+  const newToken = generateOTP();
   await authModel.findOneAndUpdate(
-    {email},
-    {token :newToken},
-    {new:true}
-
+    { email },
+    { token: newToken },
+    { new: true }
   );
   return true;
+};
 
-}
-
-
-module.exports = { login, create , verifyEmail,regenerateToken };
+module.exports = { login, create, verifyEmail, regenerateToken };

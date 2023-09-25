@@ -19,10 +19,10 @@ const userSchema = new Schema({
       "Please fill a valid email address",
     ],
   },
-   isEmailVerified:{type:String},
-
+   isEmailVerified:{type:Boolean, default:false},
+                                                 
   password: { type: String, default:false },
-
+  
   isActive : {type: Boolean, default:false},
   ...commonSchema,
 });
