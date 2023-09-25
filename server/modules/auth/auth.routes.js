@@ -6,7 +6,7 @@ const controller = require('./auth.controller')
 
 router.post('/register', async(req,res,next)=>{
     try{
-const result = await controller.create(req.body);
+const result = await controller.register(req.body);
 res.json({data:result, msg:"Succes"});
     }
     catch(e){
