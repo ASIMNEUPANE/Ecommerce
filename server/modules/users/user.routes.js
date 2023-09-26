@@ -6,7 +6,7 @@ const secureAPI = require('../../utils/secure')
 
 
 
-router.get('/',secureAPI, async(req,res,next)=>{
+router.get('/',secureAPI(['admin']), async(req,res,next)=>{
     try{
 result = await controller.list();
 res.json({data:result, msg:"Succes"});
@@ -15,7 +15,7 @@ res.json({data:result, msg:"Succes"});
         next(e)
     }
 })
-router.get('/:id',secureAPI, async(req,res,next)=>{
+router.get('/:id',secureAPI(['admin', 'user']), async(req,res,next)=>{
     try{
 result = await controller.getById(req.params.id);
 res.json({data:result, msg:"Succes"});

@@ -3,6 +3,7 @@ const Model = require('./user.model')
 const list = async () => {
   return await Model.find();
 };
+
 const create=async(payload)=>{
   return await Model.create(payload)
 }
