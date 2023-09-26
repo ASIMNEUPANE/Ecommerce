@@ -3,6 +3,7 @@ const authModel = require("../auth/auth.model");
 const userModel = require("../users/user.model");
 
 const { generateOTP, verifyOTP } = require("../../utils/otp");
+const {generateJWT,verifyJWT}= require('../../utils/jwt')
 const {mailer}= require('../../services/mailer')
 
 
@@ -74,8 +75,16 @@ const login = async (email, password) => {
     throw new Error("User is not active. Please contact admin");
   const isValidPw = await bcrypt.compare(password, user?.password);
   if (!isValidPw) throw new Error("User or password invalid");
+// return JWT token 
 
-  return true;
+const payload = {
+  id : user?._id,
+  email:user?.email,
+  roles:user?.role,
+
+};
+const token = generateJWT(payload)
+  return {token};
 };
 
 module.exports = { login, register, verifyEmail, regenerateToken };
