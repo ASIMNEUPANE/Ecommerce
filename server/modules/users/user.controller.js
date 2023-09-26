@@ -3,9 +3,12 @@ const Model = require('./user.model')
 const list = async () => {
   return await Model.find();
 };
+const create=async(payload)=>{
+  return await Model.create(payload)
+}
 
-const deleteById = async (id) => {
-  return await Model.deleteOne({ _id: id });
-};
+const getById = async(id)=>{
+  return await Model.findOne({_id:id})
+}
 
-module.exports = {  deleteById, list };
+module.exports = {  list,getById,create };

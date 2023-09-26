@@ -10,19 +10,20 @@ const {mailer}= require('../../services/mailer')
 // ---Register for new user---
 
 const register = async (payload) => {
-  let { password, ...rest } = payload;
+  let { password,roles, ...rest } = payload;
   rest.password = await bcrypt.hash(password, +process.env.SALT_ROUND);
   const user = await userModel.create(rest);
   const token =  generateOTP()
   await authModel.create({ email: user?.email, token });
-  await mailer(user?.email,token)
-  return user;
+  const mail = await mailer(user?.email,token)
+  return mail;
 };
 
 
 // ---Verify email && Token--
 
 const verifyEmail = async (email, token) => {
+
   // email exists check
   const auth = await authModel.findOne({ email });
   if (!auth) throw new Error("user not found");
@@ -67,7 +68,7 @@ const regenerateToken = async (email) => {
 // ---Login---
 
 const login = async (email, password) => {
-  const user = await userModel.findOne({ email });
+  const user = await userModel.findOne({ email }).select('+password');
   if (!user) throw new Error("User doesnot exit");
   if (!user.isEmailVerified)
     throw new Error("Email not verify.Verify email to get started..");
@@ -80,7 +81,7 @@ const login = async (email, password) => {
 const payload = {
   id : user?._id,
   email:user?.email,
-  roles:user?.role,
+  roles:user?.role || [],
 
 };
 const token = generateJWT(payload)
