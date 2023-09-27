@@ -1,13 +1,67 @@
 const Model = require("./user.model");
 const bcrypt = require("bcrypt");
 
-const list = async () => {
-  return await Model.find();
-};
+// const list = async () => {
+//   return await Model.find();
+// };
 
 const create = async (payload) => {
   return await Model.create(payload);
 };
+
+const list =async (size,page,search)=>{
+  const pageNum = parseInt(page|| 1)
+  const limit = parseInt(size || 5)
+const query = {
+
+};
+
+
+const response = await Model.aggregate(
+    [
+      {
+        '$match': query
+        
+      }, {
+        '$sort': {
+          'created_at': 1
+        }
+      }, {
+        '$facet': {
+          'metadata': [
+            {
+              '$count': 'total'
+            }
+          ], 
+          'data': [
+            {
+              '$skip': (pageNum -1 )* limit
+            }, {
+              '$limit': limit
+            }
+          ]
+        }
+      }, {
+        '$addFields': {
+          'total': {
+            '$arrayElemAt': [
+              '$metadata.total', 0
+            ]
+          }
+        }
+      }, {
+        '$project': {
+          'data': 1, 
+          'total': 1
+        }
+      }
+    ]
+  ).allowDiskUse(true);
+  const newData= response[0]
+  const {data,total}= newData;
+  return{data,total,limit,pageNum}
+
+  }
 
 const getById = async (id) => {
   return await Model.findOne({ _id: id });
