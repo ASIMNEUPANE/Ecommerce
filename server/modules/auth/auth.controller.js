@@ -83,15 +83,21 @@ const login = async (email, password) => {
   return { token };
 };
 
+
+const generateFPToken=async(email)=>{
+const user = await userModel.findOne({ email,isActive:true,isArchive:false})
+if(!user) throw new Error ("user not found");
+const token = generateOTP()
+await authModel.create({email,token})
+await mailer(email,token)
+return true;
+}
+
 const forgetPassword = async (email,token,password)=>{
-const user = await userModel.findOne({
-  isArchive:false,
+const user = await authModel.findOne({
   email,
 })
 if (!user) throw new Error('user doesnot exit')
-  const fptoken = generateOTP();
-await mailer(user?.email,fptoken);
-await authModel.create({email: email,fptoken})
 const isValidToken = await verifyOTP(token);
 if(isValidToken) throw new Error ('Token expire')
 await userModel.findOneAndUpdate(
@@ -103,4 +109,4 @@ await userModel.findOneAndUpdate(
 await authModel.deleteOne({email});
 }
 
-module.exports = { login, register, verifyEmail,forgetPassword, regenerateToken };
+module.exports = { login, register, verifyEmail,forgetPassword, regenerateToken ,generateFPToken};

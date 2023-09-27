@@ -42,6 +42,16 @@ router.post("/login", async (req, res, next) => {
     next(e);
   }
 });
+router.put("/generateFPToken", async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    if (!email) throw new Error("Email is missing");
+    result = await controller.generateFPToken(email);
+    res.json({ data: result, msg: "Succes" });
+  } catch (e) {
+    next(e);
+  }
+});
 router.put("/forget-password", async (req, res, next) => {
   try {
     const { email, password,token } = req.body;

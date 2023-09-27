@@ -19,7 +19,7 @@ const updateById = async (id, payload) => {
 
 const changePassword = async (id, oldPassword, newPassword) => {
   // check if user exits
-  const user = await Model.findOne({ _id: id });
+  const user = await Model.findOne({ _id: id }).select("+password");
   if (!user) throw new Error("User not found");
   // check if old pass hash match to existing
   const isValid = await bcrypt.compare(oldPassword, user?.password);
