@@ -1,9 +1,8 @@
 const { Schema, model } = require("mongoose");
 const { commonSchema } = require("../../utils/commonSchema");
+const validateEmail = require('./user.validation')
 
-const validateEmail = (email) => {
-  return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
-};
+
 
 const userSchema = new Schema({
   name: { type: String, requires: "Full name is required" },

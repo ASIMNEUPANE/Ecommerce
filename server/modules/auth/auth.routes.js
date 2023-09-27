@@ -42,6 +42,16 @@ router.post("/login", async (req, res, next) => {
     next(e);
   }
 });
+router.put("/forget-password", async (req, res, next) => {
+  try {
+    const { email, password,token } = req.body;
+    if (!email || !password || !token) throw new Error("Email or Password or token is missing");
+    result = await controller.forgetPassword(email, password,token);
+    res.json({ data: result, msg: "Succes" });
+  } catch (e) {
+    next(e);
+  }
+});
 
 router.delete("/:id", async (req, res, next) => {
   try {

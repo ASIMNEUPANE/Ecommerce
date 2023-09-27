@@ -3,7 +3,7 @@ const authModel = require("../auth/auth.model");
 const userModel = require("../users/user.model");
 
 const { generateOTP, verifyOTP } = require("../../utils/otp");
-const { generateJWT, verifyJWT } = require("../../utils/jwt");
+const { generateJWT } = require("../../utils/jwt");
 const { mailer } = require("../../services/mailer");
 
 // ---Register for new user---
@@ -64,7 +64,7 @@ const regenerateToken = async (email) => {
 // ---Login---
 
 const login = async (email, password) => {
-  const user = await userModel.findOne({ email }).select("+password");
+  const user = await userModel.findOne({ email,isArchive:false}).select("+password");
   if (!user) throw new Error("User doesnot exit");
   if (!user.isEmailVerified)
     throw new Error("Email not verify.Verify email to get started..");
@@ -83,4 +83,24 @@ const login = async (email, password) => {
   return { token };
 };
 
-module.exports = { login, register, verifyEmail, regenerateToken };
+const forgetPassword = async (email,token,password)=>{
+const user = await userModel.findOne({
+  isArchive:false,
+  email,
+})
+if (!user) throw new Error('user doesnot exit')
+  const fptoken = generateOTP();
+await mailer(user?.email,fptoken);
+await authModel.create({email: email,fptoken})
+const isValidToken = await verifyOTP(token);
+if(isValidToken) throw new Error ('Token expire')
+await userModel.findOneAndUpdate(
+  { email},
+  { password: await bcrypt.hash(password,+process.env.SALT_ROUND ) },
+
+  { new: true }
+);
+await authModel.deleteOne({email});
+}
+
+module.exports = { login, register, verifyEmail,forgetPassword, regenerateToken };
