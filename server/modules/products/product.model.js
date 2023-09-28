@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-
+const {commonSchema}= require('../../utils/commonSchema')
 const productSchema = new Schema({
   product_name: { type: String, required: "Product name is required" },
   product_description: {
@@ -8,7 +8,8 @@ const productSchema = new Schema({
   },
   product_type: { type: String, required: "Product type is required" },
   // product_gallery: { type: Array, required:"Product gallery is required"},
-  product_price:{type:Number,required:"Product price is required"}
+  product_price:{type:Number,required:"Product price is required"},
+...commonSchema
 });
 
 

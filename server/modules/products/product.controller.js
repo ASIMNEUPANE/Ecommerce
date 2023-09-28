@@ -5,9 +5,56 @@ return await productModel.create(payload)
 
 }
 
-const list = async()=>{
+const list = async(size,page,search)=>{
  
-    return await productModel.find()
+
+const pageNum = parseInt(page) ||1;
+const limit = parseInt(size )|| 5;
+const query = {}
+   const response =   await productModel.aggregate(
+        [
+            {
+              '$match': 
+               query
+              
+            }, {
+              '$sort': {
+                'created_at': 1
+              }
+            }, {
+              '$facet': {
+                'metadata': [
+                  {
+                    '$count': 'total'
+                  }
+                ], 
+                'data': [
+                  {
+                    '$skip': (pageNum -1)* limit
+                  }, {
+                    '$limit': limit
+                  }
+                ]
+              }
+            }, {
+              '$addFields': {
+                'total': {
+                  '$arrayElemAt': [
+                    '$metadata.total', 0
+                  ]
+                }
+              }
+            }, {
+              '$project': {
+                'data': 1, 
+                'total': 1
+              }
+            }
+          ]
+    ).allowDiskUse(true);
+    const newData = response[0];
+    const {data,total}= newData;
+    return {data,total,limit,pageNum}
 }
 
 const getById = async(id)=>{
