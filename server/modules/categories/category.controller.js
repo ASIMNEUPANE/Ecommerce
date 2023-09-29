@@ -1,6 +1,6 @@
 const slugify = require('slugify')
 const categoryModel = require('./category.model')
-
+const productModel = require('../products/product.model')
 const slugGenerator = (payload)=>{
 
     return slugify(payload)
@@ -75,7 +75,10 @@ const updateById = async(id,payload)=>{
 };
 
 const deleteById = async(id,payload)=>{
-      return await categoryModel.findOneAndUpdate({_id:id},payload,{new:true})
+  const category = await categoryModel.findOne({_id:id})
+const isUSed = await productModel.findOne({category: category._id})
+if(isUSed) throw new Error(`${category.name} is in used. Please remove from product before deleting `)
+      return await categoryModel.deleteOne({_id:id})
 }
 
 

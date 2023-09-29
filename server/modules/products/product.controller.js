@@ -1,6 +1,7 @@
 const productModel = require('./product.model')
 
 const create = async(payload)=>{
+  
 return await productModel.create(payload)
 
 }
@@ -10,7 +11,11 @@ const list = async(size,page,search)=>{
 
 const pageNum = parseInt(page) ||1;
 const limit = parseInt(size )|| 5;
+const {name}= search;
 const query = {}
+if(name){
+  query.name = new RegExp(name, 'gi')
+}
    const response =   await productModel.aggregate(
         [
             {
@@ -67,7 +72,7 @@ return await productModel.findOneAndUpdate({_id:id},payload,{new:true})
 
 const deleteById= async(id)=>{
 
-return await productModel.deleteOne({_id:id})
+return await productModel.findOneAndUpdate({_id:id},payload,{new:true})
 
 }
 
