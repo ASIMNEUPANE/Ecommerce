@@ -18,6 +18,7 @@ var setup = {
         password: await bcrypt.hash("12345", +process.env.SALT_ROUND),
         isEmailVerified: true,
         roles: ["admin"],
+        isActive: true,
       },
       {
         name: "Asim Admin",
@@ -25,6 +26,7 @@ var setup = {
         password: await bcrypt.hash("12345", +process.env.SALT_ROUND),
         isEmailVerified: true,
         roles: ["admin"],
+        isActive: true,
       },
     ];
     await userControllor.create(payloads);
@@ -37,12 +39,14 @@ var setup = {
         email: "raktim@rumsan.com",
         password: await bcrypt.hash("12345", +process.env.SALT_ROUND),
         isEmailVerified: true,
+        isActive: true,
       },
       {
         name: "Asim User",
-        email: "asimn11@gmail.com",
+        email: "asim11@gmail.com",
         password: await bcrypt.hash("12345", +process.env.SALT_ROUND),
         isEmailVerified: true,
+        isActive: true,
       },
     ];
     await userControllor.create(userPayload);
@@ -59,6 +63,7 @@ var setup = {
         type: "tshirt",
         price: 2000,
         isRelease: true,
+        quantity: 3000,
       },
       {
         name: "zara tshirt",
@@ -66,6 +71,7 @@ var setup = {
         type: "tshirt",
         price: 3000,
         isRelease: true,
+        quantity: 4000,
       },
     ];
     await productController.create(payload);
@@ -81,6 +87,7 @@ var setup = {
         type: "pants",
         price: 2500,
         isRelease: true,
+        quantity: 4000,
       },
       {
         name: "gucci pants",
@@ -88,6 +95,7 @@ var setup = {
         type: "pants",
         price: 5000,
         isRelease: true,
+        quantity: 4000,
       },
     ];
     await productController.create(pantPayload);
