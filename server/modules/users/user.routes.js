@@ -40,7 +40,7 @@ router.put(
   async (req, res, next) => {
     try {
       if (req?.file) {
-        req.body.image = "/users/".concat(req.file.filename);
+        req.body.image = "users/".concat(req.file.filename);
       }
       const { id, ...rest } = req.body;
       rest.created_by = req.currentUser;
