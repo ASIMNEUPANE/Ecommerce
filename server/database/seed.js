@@ -59,6 +59,7 @@ var setup = {
     const payload = [
       {
         name: "Armani tshirt",
+        alias:'asu, hero',
         description: "Best pants in the town",
         type: "tshirt",
         price: 2000,

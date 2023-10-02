@@ -56,7 +56,7 @@ router.get("/:id", secureAPI(["admin", "user"]), async (req, res, next) => {
   }
 });
 
-router.put("/:id", secureAPI(["admin"]), async (req, res, next) => {
+router.put("/:id", secureAPI(["admin"]),  upload.array("images", 4),async (req, res, next) => {
   try {
     if (req.files) {
       req.body.images = [];
