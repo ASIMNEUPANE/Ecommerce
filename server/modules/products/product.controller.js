@@ -70,7 +70,7 @@ const updateById= async(id,payload)=>{
 return await productModel.findOneAndUpdate({_id:id},payload,{new:true})
 }
 
-const deleteById= async(id)=>{
+const deleteById= async(id,payload)=>{
 
 return await productModel.findOneAndUpdate({_id:id},payload,{new:true})
 

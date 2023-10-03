@@ -56,26 +56,32 @@ router.get("/:id", secureAPI(["admin", "user"]), async (req, res, next) => {
   }
 });
 
-router.put("/:id", secureAPI(["admin"]),  upload.array("images", 4),async (req, res, next) => {
-  try {
-    if (req.files) {
-      req.body.images = [];
-      req.files.map((file) =>
-        req.body.images.push("products/".concat(file.filename))
-      )}
-    
-    req.body.updated_by = req.currentUser;
-    const result = await controller.updateById(req.params.id, req.body);
-    res.json({ data: result, mssg: "Success" });
-  } catch (e) {
-    next(e);
+router.put(
+  "/:id",
+  secureAPI(["admin"]),
+  upload.array("images", 4),
+  async (req, res, next) => {
+    try {
+      if (req.files) {
+        req.body.images = [];
+        req.files.map((file) =>
+          req.body.images.push("products/".concat(file.filename))
+        );
+      }
+
+      req.body.updated_by = req.currentUser;
+      const result = await controller.updateById(req.params.id, req.body);
+      res.json({ data: result, mssg: "Success" });
+    } catch (e) {
+      next(e);
+    }
   }
-});
+);
 
 router.delete("/:id", secureAPI(["admin"]), async (req, res, next) => {
   try {
     req.body.updated_by = req.currentUser;
-    const result = await controller.deleteById(req.params.id);
+    const result = await controller.deleteById(req.params.id, req.body);
     res.json({ data: result, mssg: "succes" });
   } catch (e) {
     next(e);

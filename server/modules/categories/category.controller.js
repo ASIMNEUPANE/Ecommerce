@@ -1,90 +1,93 @@
-const slugify = require('slugify')
-const categoryModel = require('./category.model')
-const productModel = require('../products/product.model')
-const slugGenerator = (payload)=>{
+const slugify = require("slugify");
+const Model = require("./category.model");
+const productModel = require("../products/product.model");
 
-    return slugify(payload)
-
-}
-const create = async( payload)=>{
-    payload.slug = await slugGenerator(payload.name)
-    return await categoryModel.create(payload)
-}
-
-
-    const list = async(size,page,search)=>{
- 
-
-        const pageNum = parseInt(page) ||1;
-        const limit = parseInt(size )|| 5;
-        const query = {}
-           const response =   await categoryModel.aggregate(
-                [
-                    {
-                      '$match': 
-                       query
-                      
-                    }, {
-                      '$sort': {
-                        'created_at': 1
-                      }
-                    }, {
-                      '$facet': {
-                        'metadata': [
-                          {
-                            '$count': 'total'
-                          }
-                        ], 
-                        'data': [
-                          {
-                            '$skip': (pageNum -1)* limit
-                          }, {
-                            '$limit': limit
-                          }
-                        ]
-                      }
-                    }, {
-                      '$addFields': {
-                        'total': {
-                          '$arrayElemAt': [
-                            '$metadata.total', 0
-                          ]
-                        }
-                      }
-                    }, {
-                      '$project': {
-                        'data': 1, 
-                        'total': 1
-                      }
-                    }
-                  ]
-            ).allowDiskUse(true);
-            const newData = response[0];
-            const {data,total}= newData;
-            return {data,total,limit,pageNum}
-        }
-
-
-const getById = async(id)=>{
-    return await categoryModel.findOne({_id:id})
+const slugGenerator = (payload) => {
+  return slugify(payload);
 };
 
-const updateById = async(id,payload)=>{
-    if(payload.name){payload.slug =slugGenerator(payload.name)}
-    return await categoryModel.findOneAndUpdate({_id:id},payload,{new:true})
+const create = async (payload) => {
+  payload.slug = await slugGenerator(payload.name);
+  return Model.create(payload);
 };
 
-const deleteById = async(id,payload)=>{
-  const category = await categoryModel.findOne({_id:id})
-const isUSed = await productModel.findOne({category: category._id})
-if(isUSed) throw new Error(`${category.name} is in used. Please remove from product before deleting `)
-      return await categoryModel.deleteOne({_id:id})
-}
+const list = async (limit, page, search) => {
+  const pageNum = parseInt(page) || 1;
+  const size = parseInt(limit) || 5;
+  const { name, role } = search;
+  const query = {};
+  if (name) {
+    query.name = new RegExp(name, "gi");
+  }
+  const response = await Model.aggregate([
+    {
+      $match: query,
+    },
+    {
+      $sort: {
+        created_at: 1,
+      },
+    },
+    {
+      $facet: {
+        metadata: [
+          {
+            $count: "total",
+          },
+        ],
+        data: [
+          {
+            $skip: (pageNum - 1) * size,
+          },
+          {
+            $limit: size,
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        total: {
+          $arrayElemAt: ["$metadata.total", 0],
+        },
+      },
+    },
+    {
+      $project: {
+        data: 1,
+        total: 1,
+      },
+    },
+    {
+      $project: {
+        "data.password": 0,
+      },
+    },
+  ]).allowDiskUse(true);
+  const newData = response[0];
+  let { data, total } = newData;
+  total = total || 0;
+  return { data, total, limit, pageNum };
+};
 
+const getById = (id) => {
+  return Model.findOne({ _id: id });
+};
 
+const updateById = async (id, payload) => {
+  if (payload.name) {
+    payload.slug = await slugGenerator(payload.name);
+  }
+  return Model.findOneAndUpdate({ _id: id }, payload, { new: true });
+};
 
+const deleteById = async (id, payload) => {
+  const isUsed = await productModel.findOne({ category: id });
+  if (isUsed)
+    throw new Error(
+      `Category is in use. Please remove from product name ${isUsed.name} before deleting`
+    );
+  return Model.deleteOne({ _id: id });
+};
 
-
-
-
-module.exports= {create,list,getById,updateById,deleteById}
+module.exports = { create, list, getById, updateById, deleteById };

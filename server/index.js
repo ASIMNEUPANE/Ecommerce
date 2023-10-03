@@ -24,12 +24,6 @@ app.use((err,req,res,next)=>{
  res.status(500).json({data:"", msg: errMsg})
 });
 
-
-
-
-
-
-
 app.listen(PORT, ()=>{
   console.log(`app is running on ${PORT}`)
 })

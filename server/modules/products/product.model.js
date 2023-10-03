@@ -10,12 +10,7 @@ const productSchema = new Schema({
     required: "Product description is required",
     maxLength: 250,
   },
-  type: {
-    type: String,
-    required: "Product type is required",
-    minLength: 1,
-    maxLength: 15,
-  },
+ 
   quantity: { type: String, required: true, minLength: 1, maxLength: 100000 },
   category: { type: ObjectId, ref: "Category" },
 
