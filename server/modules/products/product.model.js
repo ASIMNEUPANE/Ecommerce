@@ -11,7 +11,7 @@ const productSchema = new Schema({
     maxLength: 250,
   },
  
-  quantity: { type: String, required: true, minLength: 1, maxLength: 100000 },
+  quantity: { type: Number, required: true, minLength: 1, maxLength: 100000 },
   category: { type: ObjectId, ref: "Category" },
 
   price: {

@@ -24,7 +24,7 @@ if(name){
               
             }, {
               '$sort': {
-                'created_at': 1
+                'created_at': -1
               }
             }, {
               '$facet': {
@@ -67,7 +67,8 @@ return await productModel.findOne({_id:id});
 }
 
 const updateById= async(id,payload)=>{
-return await productModel.findOneAndUpdate({_id:id},payload,{new:true})
+  const{products,...rest}= payload
+return await productModel.findOneAndUpdate({_id:id},rest,{new:true})
 }
 
 const deleteById= async(id,payload)=>{
@@ -75,7 +76,11 @@ const deleteById= async(id,payload)=>{
 return await productModel.findOneAndUpdate({_id:id},payload,{new:true})
 
 }
+const approve = async (id, payload)=>{
+  const {status}= payload;
+  return model.findOneAndUpdate({id}, {status}, {new:true})
+}
 
 
 
-module.exports={create,list,getById,updateById,deleteById};
+module.exports={approve,create,list,getById,updateById,deleteById};
