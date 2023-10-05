@@ -12,7 +12,7 @@ import {
   MDBTypography,
 } from "mdb-react-ui-kit";
 import "../../public/cart.css";
-
+  
 const Cart = () => {
   return (
     <>
