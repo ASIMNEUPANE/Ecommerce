@@ -1,15 +1,13 @@
 import { Image } from "react-bootstrap";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BsArrowLeftSquare } from "react-icons/bs";
-import { useDispatch, useSelector } from 'react-redux';
-import { increaseQuantity, decreaseQuantity} from '../slices/cartSlice'
+import { useDispatch, useSelector } from "react-redux";
+import { increaseQuantity, decreaseQuantity } from "../slices/cartSlice";
 
 import { Link } from "react-router-dom";
 
 const Cart = () => {
   const { cart } = useSelector((state) => state.cart);
- 
-  
 
   return (
     <div className="container min-vh-100">
@@ -38,7 +36,7 @@ const EmptyCart = () => {
 };
 
 const FullCart = ({ items }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   return (
     <>
       <h1 className="text-center m-5">Your Cart</h1>
@@ -70,8 +68,8 @@ const FullCart = ({ items }) => {
                     </td>
                     <td>{item?.price}</td>
                     <td>
-                    <button
-                      onClick={()=> dispatch(decreaseQuantity())}
+                      <button
+                        onClick={() => dispatch(decreaseQuantity())}
                         style={{ margin: "2px" }}
                         className="btn btn-primary"
                       >
@@ -79,7 +77,7 @@ const FullCart = ({ items }) => {
                       </button>
                       <span className="btn btn-info">{item?.quantity}</span>
                       <button
-                      onClick={()=> dispatch(increaseQuantity())}
+                        onClick={() => dispatch(increaseQuantity())}
                         style={{ margin: "2px" }}
                         className="btn btn-primary"
                       >
