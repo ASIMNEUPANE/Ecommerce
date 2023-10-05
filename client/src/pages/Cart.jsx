@@ -1,13 +1,13 @@
 import { Image } from "react-bootstrap";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BsArrowLeftSquare } from "react-icons/bs";
-import { useAppDispatch, useAppSelector } from '../hooks/index'
+import { useDispatch, useSelector } from 'react-redux';
 import { increaseQuantity, decreaseQuantity} from '../slices/cartSlice'
 
 import { Link } from "react-router-dom";
 
 const Cart = () => {
-  const { cart } = useAppSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state.cart);
  
   
 
@@ -38,7 +38,7 @@ const EmptyCart = () => {
 };
 
 const FullCart = ({ items }) => {
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
   return (
     <>
       <h1 className="text-center m-5">Your Cart</h1>
