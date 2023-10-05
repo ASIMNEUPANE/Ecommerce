@@ -1,68 +1,39 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Products from "./pages/Products";
 import ProductsDetails from "./pages/ProductsDetails";
 import ErrorPage from "./pages/ErrorPage";
+import Login from "./pages/LogIn";
 import Navbar from "./layouts/navbar";
 import Footer from "./layouts/Footer";
-import Stack from 'react-bootstrap/Stack';
+import Stack from "react-bootstrap/Stack";
 
 const PrivateRoute = () => {};
 
-<Stack gap={3}>
-<div className="p-2">First item</div>
-<div className="p-2">Second item</div>
-<div className="p-2">Third item</div>
-</Stack>
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/cart",
-    element: <Cart />,
-  },
-  {
-    path: "/products",
-    element: <Products />,
-  },
-  {
-    path: "/products/:id",
-    element: <ProductsDetails />,
-  },
-  {
-    path: "/admin/products",
-    element: (
-      <PrivateRoute>
-        <ProductsDetails />
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: "*",
-    element: <ErrorPage />,
-  },
-]);
-
 function App() {
   return (
-    
-    <div className="d-flex flex-column h-100">
+    <BrowserRouter>
+      <div className="d-flex flex-column h-100">
         <Stack gap={3}>
-        <Navbar />
-      <main className="flex-shrink-0 vh-100">
-        <div className="container">
-          <RouterProvider router={router} />
-        </div>
-      </main>
+          <Navbar />
+          <main className="flex-shrink-0 vh-100">
+            <div className="container">
+              <Routes>
+                <Route path="/" element=<Home /> />
+                <Route path="/products" element=<Products /> />
+                <Route path="/carts" element=<Cart /> />
+                <Route path="/products/id" element=<ProductsDetails /> />
+                <Route path="*" element=<ErrorPage /> />
+                <Route path="/login" element=<Login /> />
+              </Routes>
+            </div>
+          </main>
 
-      <Footer />
-    </Stack>
-     
-    </div>
+          <Footer />
+        </Stack>
+      </div>
+    </BrowserRouter>
   );
 }
 

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { FiLogIn, FiShoppingCart } from "react-icons/fi";
 import { Badge, Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
@@ -9,12 +10,24 @@ function ENavbar() {
   return (
     <Navbar fixed="top" expand="lg" className="bg-body-tertiary">
       <Container fluid>
-        <Navbar.Brand href="/">Fashion Fusion</Navbar.Brand>
+        <Navbar.Brand>
+          <Link to="/" className="text-decoration-none text-dark">
+            Fashion Fusion
+          </Link>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav className="me-auto">
-            <Nav.Link href="/products">Products</Nav.Link>
-            <Nav.Link href="/about">About</Nav.Link>
+          
+              <Link to="/products" className="text-decoration-none text-dark nav-link">
+                Product
+              </Link>
+          
+          
+              <Link to="/contact" className="text-decoration-none text-dark nav-link">
+                Contact
+              </Link>
+          
           </Nav>
           <Form className="d-flex">
             <Form.Control
@@ -25,14 +38,14 @@ function ENavbar() {
             />
             <Button variant="outline-success">Search</Button>
           </Form>
-          <a className="btn btn-light" href="/cart">
+          <Link className="btn btn-light" to="/carts">
             <FiShoppingCart />
             &nbsp;
             <Badge bg="secondary">0</Badge>
-          </a>
-          <a className="btn btn-light" href="/login">
+          </Link>
+          <Link className="btn btn-light" to="/Login">
             <FiLogIn />
-          </a>
+          </Link>
         </Navbar.Collapse>
       </Container>
     </Navbar>
@@ -40,5 +53,3 @@ function ENavbar() {
 }
 
 export default ENavbar;
-
-
