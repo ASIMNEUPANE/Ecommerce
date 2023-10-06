@@ -96,20 +96,21 @@ const Products = () => {
                       $38.<small>50</small>
                     </del> */}
                           </div>
-                          <div className="product-action">
+                          <div className="product-action ">
                             <Link
                               className="btn"
                               to={`/products/${product?.id}`}
                             >
-                              <i className="fa fa-eye"></i>
+                              <i className="  fa fa-eye">View </i>
                             </Link>
+
                             <button
                               className="btn"
                               onClick={() => {
                                 dispatch(addtoCart(product));
                               }}
                             >
-                              <i className="fa fa-shopping-cart"></i>
+                              <i className="fa fa-shopping-cart">Add</i>
                             </button>
                           </div>
                         </div>

@@ -5,8 +5,10 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { useSelector } from "react-redux";
 
 function ENavbar() {
+  const {quantity} = useSelector((state)=> state.cart)
   return (
     <Navbar fixed="top" expand="lg" className="bg-body-tertiary">
       <Container fluid>
@@ -41,7 +43,7 @@ function ENavbar() {
           <Link className="btn btn-light" to="/carts">
             <FiShoppingCart />
             &nbsp;
-            <Badge bg="secondary">0</Badge>
+            <Badge bg="secondary">{quantity ?? 0 }</Badge>
           </Link>
           <Link className="btn btn-light" to="/Login">
             <FiLogIn />

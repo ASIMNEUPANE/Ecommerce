@@ -1,8 +1,6 @@
 import "./ProductDetail.css";
-// import { useParams } from "react-router-dom";
 
-const ProductDetail = () => {
-  // const { id } = useParams();
+const ProductsDetails = () => {
   return (
     <section className="">
       <div className="container flex mt-2 d-flex justify-content-center">
@@ -118,4 +116,4 @@ const ProductDetail = () => {
   );
 };
 
-export default ProductDetail;
+export default ProductsDetails;

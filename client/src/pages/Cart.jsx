@@ -1,103 +1,141 @@
 import { Image } from "react-bootstrap";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BsArrowLeftSquare } from "react-icons/bs";
-import { useDispatch, useSelector } from "react-redux";
-import { increaseQuantity, decreaseQuantity } from "../slices/cartSlice";
 
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+  decreaseQuantity,
+  increaseQuantity,
+  removeItem,
+} from "../slices/cartSlice";
 
 const Cart = () => {
   const { cart } = useSelector((state) => state.cart);
-  console.log({ cart });
+  const dispatch = useDispatch();
+  const removeCart = (id) => {
+    dispatch(removeItem(id));
+  };
 
+  const getTotal = () => {
+    return cart.reduce(
+      (acc, obj) => acc + Number(obj?.quantity) * Number(obj?.price),
+      0
+    );
+  };
+
+  const increase = (id) => {
+    if (id) dispatch(increaseQuantity(id));
+  };
+  const decrease = (id) => {
+    if (id) dispatch(decreaseQuantity(id));
+  };
   return (
-    <div className="container min-vh-100">
-      {cart.length > 0 ? <FullCart items={cart} /> : <EmptyCart />}
-    </div>
+    <>
+      {cart.length > 0 ? (
+        <FilledCart
+          items={cart}
+          removeCart={removeCart}
+          getTotal={getTotal}
+          increase={increase}
+          decrease={decrease}
+        />
+      ) : (
+        <EmptyCart />
+      )}
+    </>
+  );
+};
+
+const FilledCart = ({ items, removeCart, getTotal, increase, decrease }) => {
+  return (
+    <>
+      <>
+        <h1 className="text-center m-5">Your Cart</h1>
+        <div className="row">
+          <div className="col-md-12">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Image</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Total Price</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.map((item, index) => {
+                  return (
+                    <tr key={item?.id || index}>
+                      <td>{item?.name}</td>
+                      <td>
+                        <Image
+                          width={40}
+                          height={40}
+                          src={item?.image}
+                          thumbnail
+                        />
+                      </td>
+                      <td>{item?.price}</td>
+                      <td>
+                        <span
+                          className="btn btn-primary"
+                          style={{ margin: "2px" }}
+                          onClick={() => {
+                            decrease(item?.id);
+                          }}
+                        >
+                          -
+                        </span>
+                        <span className="btn btn-info">{item?.quantity}</span>
+                        <span
+                          className="btn btn-primary"
+                          style={{ margin: "2px" }}
+                          onClick={() => {
+                            increase(item?.id);
+                          }}
+                        >
+                          +
+                        </span>
+                      </td>
+                      <td>{Number(item?.price) * Number(item?.quantity)}</td>
+                      <td>
+                        <AiFillCloseCircle
+                          color="red"
+                          size={24}
+                          onClick={() => {
+                            removeCart(item?.id);
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+                <tr>
+                  <td colSpan="5">Total Carts</td>
+                  <td>{getTotal()}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </>
+    </>
   );
 };
 
 const EmptyCart = () => {
   return (
     <>
-      <div className="p-5 mb-4 bg-body-tertiary rounded-3 text-center">
+      <div className="p-5 bg-body-tertiary rounded-3 text-center">
         <div className="container-fluid py-5">
           <h1 className="display-5 fw-bold">Your cart is empty</h1>
-          <button className="btn btn-outline-secondary btn-lg" type="button">
-            <BsArrowLeftSquare size={24} />
-            &nbsp;{" "}
-            <Link className="text-decoration-none text-dark" to="/">
-              Continue Shopping
-            </Link>
-          </button>
-        </div>
-      </div>
-    </>
-  );
-};
-
-const FullCart = ({ items }) => {
-  const dispatch = useDispatch();
-  return (
-    <>
-      <h1 className="text-center m-5">Your Cart</h1>
-      <div className="row">
-        <div className="col-md-12">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Image</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total Price</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((item, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{item?.name}</td>
-                    <td>
-                      <Image
-                        width={40}
-                        height={40}
-                        src="https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1926&q=80"
-                        thumbnail
-                      />
-                    </td>
-                    <td>{item?.price}</td>
-                    <td>
-                      <button
-                        onClick={() => dispatch(decreaseQuantity(item?.id))}
-                        style={{ margin: "2px" }}
-                        className="btn btn-primary"
-                      >
-                        -
-                      </button>
-                      <span className="btn btn-info">{item?.quantity}</span>
-                      <button
-                        onClick={() => dispatch(increaseQuantity(item?.id))}
-                        style={{ margin: "2px" }}
-                        className="btn btn-primary"
-                      >
-                        +
-                      </button>
-                    </td>
-                    <td>{Number(item?.price) * Number(item?.quantity)}</td>
-                    <td>
-                      <AiFillCloseCircle color="red" size={24} />
-                    </td>
-                  </tr>
-                );
-              })}
-              <tr>
-                <td colSpan="5">Total Carts</td>
-                <td>Total Amount</td>
-              </tr>
-            </tbody>
-          </table>
+          <a className="btn btn-light btn-lg" href="/products">
+            <BsArrowLeftSquare />
+            &nbsp;Continue Shopping
+          </a>
         </div>
       </div>
     </>
