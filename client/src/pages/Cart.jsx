@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 const Cart = () => {
   const { cart } = useSelector((state) => state.cart);
+  console.log({ cart });
 
   return (
     <div className="container min-vh-100">
@@ -69,7 +70,7 @@ const FullCart = ({ items }) => {
                     <td>{item?.price}</td>
                     <td>
                       <button
-                        onClick={() => dispatch(decreaseQuantity())}
+                        onClick={() => dispatch(decreaseQuantity(item?.id))}
                         style={{ margin: "2px" }}
                         className="btn btn-primary"
                       >
@@ -77,7 +78,7 @@ const FullCart = ({ items }) => {
                       </button>
                       <span className="btn btn-info">{item?.quantity}</span>
                       <button
-                        onClick={() => dispatch(increaseQuantity())}
+                        onClick={() => dispatch(increaseQuantity(item?.id))}
                         style={{ margin: "2px" }}
                         className="btn btn-primary"
                       >

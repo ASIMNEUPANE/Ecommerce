@@ -24,8 +24,9 @@ function App() {
                 <Route path="/products" element=<Products /> />
                 <Route path="/carts" element=<Cart /> />
                 <Route path="/products/id" element=<ProductsDetails /> />
-                <Route path="*" element=<ErrorPage /> />
                 <Route path="/login" element=<Login /> />
+                <Route path="*" element=<ErrorPage /> />
+               
               </Routes>
             </div>
           </main>
