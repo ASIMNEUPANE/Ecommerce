@@ -1,7 +1,7 @@
 import { Image } from "react-bootstrap";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BsArrowLeftSquare } from "react-icons/bs";
-
+import numberFormatter from 'number-formatter'
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -61,7 +61,7 @@ const FilledCart = ({ items, removeCart, getTotal, increase, decrease }) => {
                   <th>Image</th>
                   <th>Price</th>
                   <th>Quantity</th>
-                  <th>Total Price</th>
+                  <th>Total Price (NPR)</th>
                   <th></th>
                 </tr>
               </thead>
@@ -78,7 +78,9 @@ const FilledCart = ({ items, removeCart, getTotal, increase, decrease }) => {
                           thumbnail
                         />
                       </td>
-                      <td>{item?.price}</td>
+                      <td>
+                      {numberFormatter( "NPR #,###.##", Number( item?.price) )}
+                        </td>
                       <td>
                         <span
                           className="btn btn-primary"
@@ -100,7 +102,7 @@ const FilledCart = ({ items, removeCart, getTotal, increase, decrease }) => {
                           +
                         </span>
                       </td>
-                      <td>{Number(item?.price) * Number(item?.quantity)}</td>
+                      <td>{numberFormatter( "NPR #,###.##", Number(item?.price) * Number(item?.quantity))}</td>
                       <td>
                         <AiFillCloseCircle
                           color="red"
@@ -115,7 +117,7 @@ const FilledCart = ({ items, removeCart, getTotal, increase, decrease }) => {
                 })}
                 <tr>
                   <td colSpan="5">Total Carts</td>
-                  <td>{getTotal()}</td>
+                  <td>{numberFormatter( "NPR #,###.##", Number(getTotal()) )}</td>
                 </tr>
               </tbody>
             </table>
