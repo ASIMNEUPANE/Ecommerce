@@ -1,53 +1,23 @@
 import "./Products.css";
+import { useCallback,useEffect } from "react";
+import { useDispatch,useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { addtoCart } from "../slices/cartSlice";
-import { useDispatch } from "react-redux";
+import {fetchProducts  } from "../slices/productSlice";
 
 const Products = () => {
-  const products = [
-    {
-      id: 1,
-      name: "iPhone 14 Pro",
-      image:
-        "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1926&q=80",
-      quantity: "1",
-      price: "100000",
-    },
-    {
-      id: 2,
-      name: "iPhone 15 Pro",
-      image:
-        "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1926&q=80",
-      quantity: "1",
-      price: "200000",
-    },
-    {
-      id: 3,
-      name: "Samsung S23 Ultra",
-      image:
-        "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1926&q=80",
-      quantity: "1",
-      price: "200000",
-    },
-    {
-      id: 4,
-      name: "Redmi Note 10 Pro",
-      image:
-        "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1926&q=80",
-      quantity: "1",
-      price: "20000",
-    },
-    {
-      id: 5,
-      name: "Google Pixel 8",
-      image:
-        "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1926&q=80",
-      quantity: "1",
-      price: "200000",
-    },
-  ];
+
+  const {products}= useSelector((state)=> state.products)
 
   const dispatch = useDispatch();
+
+  const initFetch = useCallback(()=>{
+dispatch(fetchProducts())
+  },[dispatch])
+
+  useEffect(()=>{
+    initFetch();
+  },[initFetch])
 
   return (
     <>
@@ -119,7 +89,7 @@ const Products = () => {
                   );
                 })
               ) : (
-                <>No Products Found...</>
+                <div className="text-center p-5">No Products Found...</div>
               )}
             </div>
           </div>
