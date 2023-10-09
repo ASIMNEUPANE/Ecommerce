@@ -9,7 +9,6 @@ import ErrorPage from "./pages/ErrorPage";
 import Login from "./pages/LogIn";
 import Navbar from "./layouts/navbar";
 import Footer from "./layouts/Footer";
-import Stack from "react-bootstrap/Stack";
 
 
 const PrivateRoute = () => {};
@@ -18,7 +17,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="d-flex flex-column h-100">
-        <Stack gap={3}>
+  
           <Navbar />
           <main className="flex-shrink-0 vh-100">
             <div className="container">
@@ -32,11 +31,11 @@ function App() {
                 <Route path="*" element=<ErrorPage /> />
                 <Route path="/products/id" element=<ProductsDetails /> />
               </Routes>
+          <Footer />
             </div>
           </main>
 
-          <Footer />
-        </Stack>
+   
       </div>
     </BrowserRouter>
   );
