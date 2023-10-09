@@ -29,6 +29,9 @@ function ENavbar() {
               <Link to="/contact" className="text-decoration-none text-dark nav-link">
                 Contact
               </Link>
+              <Link to="/about" className="text-decoration-none text-dark nav-link">
+                About me
+              </Link>
           
           </Nav>
           <Form className="d-flex">
