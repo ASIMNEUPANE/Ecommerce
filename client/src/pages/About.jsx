@@ -51,13 +51,12 @@ const About = () => {
             <div className="section-title ml-lg-5">
               <h5 className="text-custom font-weight-normal mb-3">About Me</h5>
               <h4 className="title mb-4">
-                Our mission is to <br />
-                make your life easier.
+                My mission is to learn <br />
+                 MERN Stack development.
               </h4>
               <p className="text-muted mb-0">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit quod
-                debitis praesentium pariatur temporibus ipsa, cum quidem obcaecati
-                sunt?
+                I am using the latest technology like React JS, React Redux , ReduxToolKit for front End and  Node Js, Express Js for backend and MongodB
+                for database . 
               </p>
   
               <div className="row">
@@ -76,7 +75,7 @@ const About = () => {
                     <i className="fa fa-file-download h4 mb-0 text-custom"></i>
                     <h6 className="ml-3 mb-0">
                       <a href="javascript:void(0)" className="text-dark">
-                        Free Download
+                        Open Source
                       </a>
                     </h6>
                   </div>
@@ -86,7 +85,7 @@ const About = () => {
                     <i className="fa fa-user h4 mb-0 text-custom"></i>
                     <h6 className="ml-3 mb-0">
                       <a href="javascript:void(0)" className="text-dark">
-                        Support
+                        asimneupane11@gmail.com
                       </a>
                     </h6>
                   </div>
@@ -96,7 +95,7 @@ const About = () => {
                     <i className="fa fa-image h4 mb-0 text-custom"></i>
                     <h6 className="ml-3 mb-0">
                       <a href="javascript:void(0)" className="text-dark">
-                        Development
+                        Full Stact Developer
                       </a>
                     </h6>
                   </div>

@@ -11,14 +11,15 @@ import Navbar from "./layouts/navbar";
 import Footer from "./layouts/Footer";
 import { PrivateRoute } from "./components/Routes";
 import Checkout from "./pages/Checkout";
+import AdminProducts from "./pages/admin/Product";
 
 function App() {
   return (
+    <div className="">
     <BrowserRouter>
-      <div className="d-flex flex-column h-100">
-        <Navbar />
-        <main className="flex-shrink-0 vh-100">
-          <div className="container">
+      <Navbar />
+      <main className="flex-shrink-0 d-flex flex-column min-vh-100">
+        <div className="container mt-2 mb-5">
             <Routes>
               <Route path="/" element=<Home /> />
               <Route path="/products" element=<Products /> />
@@ -31,18 +32,18 @@ function App() {
               <Route
                 path="/admin/products"
                 element={
-                  <PrivateRoute role= {"admin"}>
-                    <Products/>
-                  </PrivateRoute>
+                  // <PrivateRoute role= {"admin"}>
+                    <AdminProducts/>
+                  // </PrivateRoute>
                 }
               />
               <Route path="*" element=<ErrorPage /> />
             </Routes>
-            <Footer />
-          </div>
+            </div>
         </main>
-      </div>
-    </BrowserRouter>
+        <Footer />
+      </BrowserRouter>
+    </div>
   );
 }
 
