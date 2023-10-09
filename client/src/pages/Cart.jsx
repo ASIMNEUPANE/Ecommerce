@@ -1,4 +1,6 @@
 import { Image } from "react-bootstrap";
+import "./Checkout.css";
+
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BsArrowLeftSquare } from "react-icons/bs";
 import numberFormatter from 'number-formatter'
