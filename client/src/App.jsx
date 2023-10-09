@@ -10,6 +10,7 @@ import Login from "./pages/LogIn";
 import Navbar from "./layouts/navbar";
 import Footer from "./layouts/Footer";
 import { PrivateRoute } from "./components/Routes";
+import Checkout from "./pages/Checkout";
 
 function App() {
   return (
@@ -24,8 +25,9 @@ function App() {
               <Route path="/carts" element=<Cart /> />
               <Route path="/contact" element=<Contact /> />
               <Route path="/login" element=<Login /> />
+              <Route path="/checkout" element=<Checkout /> />
               <Route path="/about" element=<About /> />
-              <Route path="/products:id" element=<ProductsDetails /> />
+              <Route path="/products/:id" element=<ProductsDetails /> />
               <Route
                 path="/admin/products"
                 element={
