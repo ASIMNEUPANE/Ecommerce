@@ -46,8 +46,8 @@ const Products = () => {
                                   product?.image ||
                                   "https://www.bootdey.com/image/380x380/FF00FF/000000"
                                 }
-                                title={product?.name || ""}
-                                alt={product?.name || ""}
+                                title={product?.title || ""}
+                                alt={product?.title || ""}
                               />
                             </a>
                           </div>

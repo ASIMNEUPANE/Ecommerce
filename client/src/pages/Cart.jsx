@@ -72,10 +72,10 @@ const FilledCart = ({ items, removeCart, getTotal, increase, decrease }) => {
                   return (
                     <tr key={item?.id || index}>
                       <td>
-                        {item.name}
-                        {/* {item?.name.length > 25
-                          ? item?.name.subString(0, 35).concat("...")
-                          : item?.name} */}
+                        {/* {item.title} */}
+                        {item?.title.length > 25
+                          ? item?.title.substring(0, 35).concat("...")
+                          : item?.title}
                       </td>
                       <td>
                         <Image
