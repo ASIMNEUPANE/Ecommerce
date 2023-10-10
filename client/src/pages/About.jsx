@@ -1,3 +1,6 @@
+import first from './about.png'
+import second from './bg_1.png'
+import third from './last.png'
 const About = () => {
     return (
       <>
@@ -9,7 +12,7 @@ const About = () => {
                   <div className="col-lg-12 col-md-12 mt-4 pt-2">
                     <div className="card work-desk rounded border-0 shadow-lg overflow-hidden">
                       <img
-                        src="https://www.bootdey.com/image/241x362/FFB6C1/000000"
+                        src={first}
                         className="img-fluid"
                         alt="Image"
                       />
@@ -24,7 +27,7 @@ const About = () => {
                   <div className="col-lg-12 col-md-12">
                     <div className="card work-desk rounded border-0 shadow-lg overflow-hidden">
                       <img
-                        src="https://www.bootdey.com/image/337x450/87CEFA/000000"
+                        src={second}
                         className="img-fluid"
                         alt="Image"
                       />
@@ -35,7 +38,7 @@ const About = () => {
                   <div className="col-lg-12 col-md-12 mt-4 pt-2">
                     <div className="card work-desk rounded border-0 shadow-lg overflow-hidden">
                       <img
-                        src="https://www.bootdey.com/image/600x401/FF7F50/000000"
+                        src={third}
                         className="img-fluid"
                         alt="Image"
                       />

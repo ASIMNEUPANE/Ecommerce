@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 function ENavbar() {
   const {quantity} = useSelector((state)=> state.cart)
   return (
-    <Navbar fixed="top" expand="lg" className="bg-body-tertiary">
+    <Navbar  fixed="top" expand="lg" className="bg-body-tertiary">
       <Container fluid>
         <Navbar.Brand>
           <Link to="/" className="text-decoration-none text-dark">
