@@ -26,13 +26,13 @@ function App() {
         <Navbar />
         <main className="flex-shrink-0 d-flex flex-column min-vh-100">
           <div className="container mt-2 mb-5">
-            <Routes>
+          <Routes>
               <Route path="/" element=<Home /> />
               <Route path="/about" element=<About /> />
-              <Route path="/carts" element=<Cart /> />
+              <Route path="/cart" element=<Cart /> />
               <Route path="/contact" element=<Contact /> />
-              <Route path="/checkout" element=<Checkout /> />
               <Route path="/login" element=<Login /> />
+              <Route path="/checkout" element=<Checkout /> />
               <Route path="/products" element=<Products /> />
               <Route path="/products/:id" element=<ProductsDetails /> />
               {adminRoutes.length > 0 &&

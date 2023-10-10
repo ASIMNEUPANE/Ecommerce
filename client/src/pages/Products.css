@@ -1,6 +1,10 @@
 .productBody {
     margin-top: 20px;
   }
+  .fixed-size {
+    width: 350px; 
+    height: 350px; 
+  }
   
   .product-card-10 {
     border: 1px solid var(--bs-gray-300);

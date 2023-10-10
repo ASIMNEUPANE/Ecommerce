@@ -2,17 +2,18 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as PRODUCT_API from "../services/products";
 
 const initialState = {
-  products: [],
-  total: 0,
   currentPage: 1,
-  product: {},
-  loading: false,
   error: "",
+  loading: false,
+  products: [],
+  product: {},
+  total: 0,
 };
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
+   
     const res = await PRODUCT_API.list();
     return res.data;
   }
@@ -27,17 +28,20 @@ const productSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Add iser to the state array
     builder
       .addCase(fetchProducts.fulfilled, (state, action) => {
+        // Add user to the state array
+        state.loading= false;
         state.products = [...action.payload];
       })
       .addCase(fetchProducts.pending, (state) => {
+        // Add user to the state array
         state.loading = true;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
+        // Add user to the state array
         state.loading = false;
-        state.error = action.payload.message;
+        state.error = action.payload?.message;
       });
   },
 });
