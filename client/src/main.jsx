@@ -13,11 +13,10 @@ import App from './App.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store} >
-      <PersistGate loading={<>Loading.....</>} persistor={newStore} >
+      <PersistGate loading={null} persistor={newStore} >
 
-\
     <App />
     </PersistGate>
     </Provider>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);

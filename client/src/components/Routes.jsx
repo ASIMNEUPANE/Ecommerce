@@ -6,5 +6,5 @@ export const PrivateRoute = ({ children, role }) => {
 const isAdmin = (role) => {
   // chekc jwt token (priovate)
 //   ROle check
-  return false;
+  return true;
 };

@@ -43,7 +43,7 @@ function ENavbar() {
             />
             <Button variant="outline-success">Search</Button>
           </Form>
-          <Link className="btn btn-light" to="/carts">
+          <Link className="btn btn-light" to="/cart">
             <FiShoppingCart />
             &nbsp;
             <Badge bg="secondary">{quantity ?? 0 }</Badge>

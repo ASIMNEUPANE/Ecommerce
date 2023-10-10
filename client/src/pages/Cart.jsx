@@ -1,9 +1,9 @@
 import { Image } from "react-bootstrap";
 import "./Checkout.css";
-
+import { Link } from "react-router-dom";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BsArrowLeftSquare } from "react-icons/bs";
-import numberFormatter from 'number-formatter'
+import numberFormatter from "number-formatter";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -71,7 +71,12 @@ const FilledCart = ({ items, removeCart, getTotal, increase, decrease }) => {
                 {items.map((item, index) => {
                   return (
                     <tr key={item?.id || index}>
-                      <td>{item?.name}</td>
+                      <td>
+                        {item.name}
+                        {/* {item?.name.length > 25
+                          ? item?.name.subString(0, 35).concat("...")
+                          : item?.name} */}
+                      </td>
                       <td>
                         <Image
                           width={40}
@@ -81,8 +86,8 @@ const FilledCart = ({ items, removeCart, getTotal, increase, decrease }) => {
                         />
                       </td>
                       <td>
-                      {numberFormatter( "NPR #,###.##", Number( item?.price) )}
-                        </td>
+                        {numberFormatter("NPR #,###.##", Number(item?.price))}
+                      </td>
                       <td>
                         <span
                           className="btn btn-primary"
@@ -104,7 +109,12 @@ const FilledCart = ({ items, removeCart, getTotal, increase, decrease }) => {
                           +
                         </span>
                       </td>
-                      <td>{numberFormatter( "NPR #,###.##", Number(item?.price) * Number(item?.quantity))}</td>
+                      <td>
+                        {numberFormatter(
+                          "NPR #,###.##",
+                          Number(item?.price) * Number(item?.quantity)
+                        )}
+                      </td>
                       <td>
                         <AiFillCloseCircle
                           color="red"
@@ -119,7 +129,11 @@ const FilledCart = ({ items, removeCart, getTotal, increase, decrease }) => {
                 })}
                 <tr>
                   <td colSpan="5">Total Carts</td>
-                  <td>{numberFormatter( "NPR #,###.##", Number(getTotal()) )}</td>
+                  <td>{numberFormatter("NPR #,###.##", Number(getTotal()))}</td>
+                </tr>
+                <tr>
+                  <td colSpan="5"></td>
+                  <td  > <Link to={'/Checkout'}>Checkout</Link> </td>
                 </tr>
               </tbody>
             </table>
