@@ -5,6 +5,8 @@ const { ObjectId } = Schema.Types;
 const orderSchema = new Schema({
   id: { type: String, required: true, unique: true },
   name: { type: String, required: true },
+  email: { type: String },
+  
   address: { type: String },
   amount: { type: Number, required: true },
   products: [
@@ -19,15 +21,15 @@ const orderSchema = new Schema({
     type: String,
     enum: ["COD", "CC", "Paypal"],
     default: "COD",
-    required: true,
-  },
-  payment: { type: String, default: "COD" },
-  status: {
-    type: String,
-    enum: ["Pending", "Completed"],
-    default: "Pending",
     
   },
+  payment: { type: String, default: "COD" },
+  // status: {
+  //   type: String,
+  //   enum: ["Pending", "Completed"],
+  //   default: "Pending",
+    
+  // },
   ...commonSchema,
 });
 

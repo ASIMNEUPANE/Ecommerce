@@ -1,9 +1,11 @@
-import { useState } from "react";
 import "./Checkout.css";
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { create } from "../slices/orderSlice";
 
 export default function Checkout() {
   const { cart } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
   const [checkout, setCheckout] = useState({
     name: "",
     email: "",
@@ -14,37 +16,53 @@ export default function Checkout() {
     amount: 0,
     status: "",
     products: [],
-    payment: [
-      {
-        nameOnCard: "",
-        cardNumber: "",
-        exp: "",
-        cvv: "",
-      },
-    ],
+
+    payment: "",
+    nameOnCard: "",
+    cardNumber: "",
+    exp: "",
+    cvv: "",
+
     paymentMethod: "",
   });
 
   const getTotal = () => {
     return cart.reduce((acc, obj) => acc + obj.price * obj.quantity, 0);
-     
   };
 
-  const handleSubmit=(e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const payload = checkout
-    payload.amount = getTotal()
-    const  products = cart.map((item)=>{
-      return{
+    const payload = checkout;
+    const {
+      address,
+      pobox,
+      state,
+      country,
+      payment,
+      nameOnCard,
+      cardNumber,
+      exp,
+      paymentMethod,
+      cvv,
+      ...rest
+    } = payload;
+
+    rest.address = address.concat(" ", state, " ", pobox, " ", country);
+    rest.payment =  payment.concat( " ", nameOnCard ," ",cardNumber," ",exp ," ",cvv)
+
+    rest.amount = getTotal();
+    const products = cart.map((item) => {
+      return {
         product: item?.id,
         quantity: item?.quantity,
         price: item?.price,
         amount: Number(item?.quantity) * Number(item?.price),
       };
-    })
-    payload.products = products;
-   
-  }
+    });
+    rest.products = products;
+    
+    dispatch(create(rest));
+  };
 
   const [payment, setPayment] = useState("COD");
   const [showPaymentForm, setShowPaymentForm] = useState(false);
@@ -297,17 +315,11 @@ export default function Checkout() {
                       id="cc-name"
                       placeholder=""
                       required
-                      value={checkout.payment[0].nameOnCard}
+                      value={checkout?.nameOnCard}
                       onChange={(e) =>
-                        setCheckout((prev) => ({
-                          ...prev,
-                          payment: [
-                            {
-                              ...prev.payment[0],
-                              nameOnCard: e.target.value,
-                            },
-                          ],
-                        }))
+                        setCheckout((prev) => {
+                          return { ...prev, nameOnCard: e.target.value };
+                        })
                       }
                     />
                     <small className="text-muted">
@@ -325,17 +337,11 @@ export default function Checkout() {
                       id="cc-number"
                       placeholder=""
                       required
-                      value={checkout.payment[0].cardNumber}
+                      value={checkout?.cardNumber}
                       onChange={(e) =>
-                        setCheckout((prev) => ({
-                          ...prev,
-                          payment: [
-                            {
-                              ...prev.payment[0],
-                              cardNumber: e.target.value,
-                            },
-                          ],
-                        }))
+                        setCheckout((prev) => {
+                          return { ...prev, cardNumber: e.target.value };
+                        })
                       }
                     />
                     <div className="invalid-feedback">
@@ -352,17 +358,11 @@ export default function Checkout() {
                       id="cc-expiration"
                       placeholder=""
                       required
-                      value={checkout.payment[0].exp}
+                      value={checkout?.exp}
                       onChange={(e) =>
-                        setCheckout((prev) => ({
-                          ...prev,
-                          payment: [
-                            {
-                              ...prev.payment[0],
-                              exp: e.target.value,
-                            },
-                          ],
-                        }))
+                        setCheckout((prev) => {
+                          return { ...prev, exp: e.target.value };
+                        })
                       }
                     />
 
@@ -378,17 +378,11 @@ export default function Checkout() {
                       id="cc-cvv"
                       placeholder=""
                       required
-                      value={checkout.payment[0].cvv}
+                      value={checkout?.cvv}
                       onChange={(e) =>
-                        setCheckout((prev) => ({
-                          ...prev,
-                          payment: [
-                            {
-                              ...prev.payment[0],
-                              cvv: e.target.value,
-                            },
-                          ],
-                        }))
+                        setCheckout((prev) => {
+                          return { ...prev, cvv: e.target.value };
+                        })
                       }
                     />
                     <div className="invalid-feedback">
@@ -405,7 +399,7 @@ export default function Checkout() {
             <div className="d-grid gap-2">
               <button
                 className="btn btn-secondary btn-lg btn-block"
-                onClick={(e)=> handleSubmit(e)}
+                onClick={(e) => handleSubmit(e)}
               >
                 Continue to checkout
               </button>

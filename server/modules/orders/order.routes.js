@@ -4,7 +4,7 @@ const secureAPI = require("../../utils/secure");
 
 router.post(
   "/",
-  secureAPI(["admin"]),
+  
 
   async (req, res, next) => {
     try {
