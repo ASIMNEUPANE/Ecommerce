@@ -12,7 +12,7 @@ import Footer from "./layouts/Footer";
 import { PrivateRoute } from "./components/Routes";
 import Checkout from "./pages/Checkout";
 import AdminProducts from "./pages/admin/Product";
-
+// import  {SuccessCheckout}  from "./components/CheckoutStatus";
 const adminRoutes = [
   { path: "/products", component: <AdminProducts />, role: "admin" },
   { path: "/orders", component: <AdminProducts />, role: "admin" },
