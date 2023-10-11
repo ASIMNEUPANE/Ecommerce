@@ -26,7 +26,7 @@ const orderSchema = new Schema({
     type: String,
     enum: ["Pending", "Completed"],
     default: "Pending",
-    required: true,
+    
   },
   ...commonSchema,
 });
