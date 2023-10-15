@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
-
+// import Payment from './payment';
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
@@ -16,6 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <PersistGate loading={null} persistor={newStore} >
 
     <App />
+    {/* <Payment/> */}
     </PersistGate>
     </Provider>
   </React.StrictMode>
