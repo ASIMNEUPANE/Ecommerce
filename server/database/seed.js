@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const productController = require("../modules/products/product.model");
 const userControllor = require("../modules/users/user.model");
+const catControllor = require("../modules/categories/category.model");
 
 mongoose.connect(process.env.DB_URL, { useNewUrlParser: true });
 var setup = {
@@ -54,6 +55,21 @@ var setup = {
 
     ("--------------------------------------------------------------------------------------");
 
+    const catpayload = [
+      {name:"tshirt"},
+      {name:"pants"},
+    ]
+    await catControllor.create(catpayload);
+    
+       
+
+
+
+
+
+
+    ("------------------------------------------------------------------------------------------")
+
     console.log("DB reset");
     console.log("creating T-shirt  ");
     const payload = [
@@ -65,6 +81,7 @@ var setup = {
         price: 2000,
         isRelease: true,
         quantity: 3000,
+        category: catpayload. ,
       },
       {
         name: "zara tshirt",
@@ -73,6 +90,7 @@ var setup = {
         price: 3000,
         isRelease: true,
         quantity: 4000,
+        category:"652711b5fe64cef2bd196656"
       },
     ];
     await productController.create(payload);
@@ -89,6 +107,7 @@ var setup = {
         price: 2500,
         isRelease: true,
         quantity: 4000,
+        category: "652711d2fe64cef2bd19665a"
       },
       {
         name: "gucci pants",
@@ -97,6 +116,7 @@ var setup = {
         price: 5000,
         isRelease: true,
         quantity: 4000,
+        category: "652711d2fe64cef2bd19665a"
       },
     ];
     await productController.create(pantPayload);
