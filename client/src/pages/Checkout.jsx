@@ -2,31 +2,33 @@ import "./Checkout.css";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { create } from "../slices/orderSlice";
+import { SERVER_URL } from "../constant";
+import { API } from "../utils/API";
 
 export default function Checkout() {
-  const navigate = useNavigate()
-  const [checkoutUrl, setCheckoutUrl] = useState("");
+  const [stripeCheckout, setStripeCheckoutUrl] = useState({
+    stripeId: "",
+    url: "",
+  });
+
   const { cart } = useSelector((state) => state.cart);
-  const dispatch = useDispatch();
+
   const [checkout, setCheckout] = useState({
     name: "",
     email: "",
     address: "",
     country: "",
+    paymentMethod: "",
     state: "",
     pobox: "",
     amount: 0,
-    status: "",
-    products: [],
-
-    paymentMethod: "",
   });
 
   const getTotal = () => {
     return cart.reduce((acc, obj) => acc + obj.price * obj.quantity, 0);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = checkout;
     const {
@@ -34,12 +36,7 @@ export default function Checkout() {
       pobox,
       state,
       country,
-      payment,
-      nameOnCard,
-      cardNumber,
-      exp,
-      paymentMethod,
-      cvv,
+
       ...rest
     } = payload;
 
@@ -48,30 +45,18 @@ export default function Checkout() {
     rest.amount = getTotal();
     const products = cart.map((item) => {
       return {
-        product: item?.id,
-        quantity: item?.quantity,
-        price: item?.price,
+        product: item?._id,
+        quantity: Number(item?.quantity),
+        price: Number(item?.price),
         amount: Number(item?.quantity) * Number(item?.price),
       };
     });
     rest.products = products;
-rest.checkoutUrl = checkoutUrl;
+    rest.orderId = stripeCheckout?.stripeId;
     // dispatch(create(rest));
-    window.location.replace(checkoutUrl)
+    window.location.replace(stripeCheckout?.checkouturl);
   };
 
-  const [payment, setPayment] = useState("COD");
-
-  const handlePaymentMethodChange = (e) => {
-    const selectedPaymentMethod = e.target.value;
-    setPayment(selectedPaymentMethod);
-
-    if (selectedPaymentMethod === "CC" || selectedPaymentMethod === "Paypal") {
-      setShowPaymentForm(true);
-    } else {
-      setShowPaymentForm(false);
-    }
-  };
   const createPayments = useCallback(() => {
     return cart.map((item) => {
       return {
@@ -80,40 +65,34 @@ rest.checkoutUrl = checkoutUrl;
           product_data: {
             name: item?.title,
           },
-          unit_amount: item?.price,
+          unit_amount: Number(item?.price),
         },
-        quantity: item?.quantity,
+        quantity: Number(item?.quantity),
       };
     });
   }, [cart]);
 
-  const createPaymentIntent = useCallback(() => {
-    async function createCheckoutSession(data) {
-      try {
-        const response = await fetch(
-          "http://localhost:3333/create-checkout-session",
-          {
-            method: "POST", // or 'PUT'
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          }
-        );
+  const createPaymentIntent = useCallback(async () => {
+    try {
+      const data = createPayments();
+      const response = await API.post(
+        `${SERVER_URL}/create-checkout-session`,
+        data
+      );
 
-        const result = await response.json();
-        setCheckoutUrl(result?.data)
-       
-      } catch (error) {
-        console.error("Error:", error);
-      }
+      const cs = await response.data;
+      setStripeCheckoutUrl((prev) => ({
+        ...prev,
+        stripeId: cs.data.id,
+        url: cs.data.url,
+      }));
+    } catch (error) {
+      console.error("Error:", error);
     }
-
-    createCheckoutSession(createPayments());
   }, [createPayments]);
 
   useEffect(() => {
-    createPaymentIntent()
+    createPaymentIntent();
   }, [createPaymentIntent]);
   return (
     <>
@@ -304,27 +283,33 @@ rest.checkoutUrl = checkoutUrl;
                 type="radio"
                 name="inlineRadioOptions"
                 value="COD"
-                checked={payment === "COD"}
-                onChange={handlePaymentMethodChange}
+                checked={checkout?.paymentMethod === "COD" ? true : false}
+                onChange={() => {
+                  setCheckout((prev) => {
+                    return { ...prev, paymentMethod: "COD" };
+                  });
+                }}
               />
               <label className="form-check-label" htmlFor="inlineRadio0">
                 Cash on delivery
               </label>
             </div>
 
-           
-
             <div className="form-check form-check-inline">
               <input
                 className="form-check-input"
                 type="radio"
                 name="inlineRadioOptions"
-                value="Paypal"
-                checked={payment === "Paypal"}
-                onChange={handlePaymentMethodChange}
+                value="STRIPE"
+                checked={checkout?.paymentMethod === "STRIPE" ? true : false}
+                onChange={() => {
+                  setCheckout((prev) => {
+                    return { ...prev, paymentMethod: "STRIPE" };
+                  });
+                }}
               />
               <label className="form-check-label" htmlFor="inlineRadio3">
-              Stripe
+                Stripe
               </label>
             </div>
 
