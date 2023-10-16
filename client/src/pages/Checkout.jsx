@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { create } from "../slices/orderSlice";
 
 export default function Checkout() {
+  const navigate = useNavigate()
   const [checkoutUrl, setCheckoutUrl] = useState("");
   const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
@@ -17,12 +18,6 @@ export default function Checkout() {
     amount: 0,
     status: "",
     products: [],
-
-    payment: "",
-    nameOnCard: "",
-    cardNumber: "",
-    exp: "",
-    cvv: "",
 
     paymentMethod: "",
   });
@@ -49,16 +44,6 @@ export default function Checkout() {
     } = payload;
 
     rest.address = address.concat(" ", state, " ", pobox, " ", country);
-    rest.payment = payment.concat(
-      " ",
-      nameOnCard,
-      " ",
-      cardNumber,
-      " ",
-      exp,
-      " ",
-      cvv
-    );
 
     rest.amount = getTotal();
     const products = cart.map((item) => {
@@ -70,12 +55,12 @@ export default function Checkout() {
       };
     });
     rest.products = products;
-
-    dispatch(create(rest));
+rest.checkoutUrl = checkoutUrl;
+    // dispatch(create(rest));
+    window.location.replace(checkoutUrl)
   };
 
   const [payment, setPayment] = useState("COD");
-  const [showPaymentForm, setShowPaymentForm] = useState(false);
 
   const handlePaymentMethodChange = (e) => {
     const selectedPaymentMethod = e.target.value;
@@ -88,7 +73,7 @@ export default function Checkout() {
     }
   };
   const createPayments = useCallback(() => {
-return  cart.map((item) => {
+    return cart.map((item) => {
       return {
         price_data: {
           currency: "usd",
@@ -100,7 +85,7 @@ return  cart.map((item) => {
         quantity: item?.quantity,
       };
     });
-  },[cart]);
+  }, [cart]);
 
   const createPaymentIntent = useCallback(() => {
     async function createCheckoutSession(data) {
@@ -116,9 +101,9 @@ return  cart.map((item) => {
           }
         );
 
-        
-       const cs= await response.json()
-       setCheckoutUrl(cs?.data.url)
+        const result = await response.json();
+        setCheckoutUrl(result?.data)
+       
       } catch (error) {
         console.error("Error:", error);
       }
@@ -129,7 +114,7 @@ return  cart.map((item) => {
 
   useEffect(() => {
     createPaymentIntent()
-  },[createPaymentIntent]);
+  }, [createPaymentIntent]);
   return (
     <>
       <div className="row">
@@ -327,19 +312,7 @@ return  cart.map((item) => {
               </label>
             </div>
 
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="inlineRadioOptions"
-                value="CC"
-                checked={payment === "CC"}
-                onChange={handlePaymentMethodChange}
-              />
-              <label className="form-check-label" htmlFor="inlineRadio2">
-                Credit Card / Debit Card
-              </label>
-            </div>
+           
 
             <div className="form-check form-check-inline">
               <input
@@ -351,99 +324,9 @@ return  cart.map((item) => {
                 onChange={handlePaymentMethodChange}
               />
               <label className="form-check-label" htmlFor="inlineRadio3">
-                Paypal
+              Stripe
               </label>
             </div>
-
-            {/* --------------------------------------------------------------------------------------- */}
-            {showPaymentForm && (
-              <div id="cardDetails">
-                <div id="classpaymentForm" className="row ">
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="cc-name">Name on card</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="cc-name"
-                      placeholder=""
-                      required
-                      value={checkout?.nameOnCard}
-                      onChange={(e) =>
-                        setCheckout((prev) => {
-                          return { ...prev, nameOnCard: e.target.value };
-                        })
-                      }
-                    />
-                    <small className="text-muted">
-                      Full name as displayed on card
-                    </small>
-                    <div className="invalid-feedback">
-                      Name on card is required
-                    </div>
-                  </div>
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="cc-number">Credit card number</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      id="cc-number"
-                      placeholder=""
-                      required
-                      value={checkout?.cardNumber}
-                      onChange={(e) =>
-                        setCheckout((prev) => {
-                          return { ...prev, cardNumber: e.target.value };
-                        })
-                      }
-                    />
-                    <div className="invalid-feedback">
-                      Credit card number is required
-                    </div>
-                  </div>
-                </div>
-                <div className="row ">
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="cc-expiration">Expiration</label>
-                    <input
-                      type="date"
-                      className="form-control"
-                      id="cc-expiration"
-                      placeholder=""
-                      required
-                      value={checkout?.exp}
-                      onChange={(e) =>
-                        setCheckout((prev) => {
-                          return { ...prev, exp: e.target.value };
-                        })
-                      }
-                    />
-
-                    <div className="invalid-feedback">
-                      Expiration date required
-                    </div>
-                  </div>
-                  <div className="col-md-3 mb-3">
-                    <label htmlFor="cc-expiration">CVV</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      id="cc-cvv"
-                      placeholder=""
-                      required
-                      value={checkout?.cvv}
-                      onChange={(e) =>
-                        setCheckout((prev) => {
-                          return { ...prev, cvv: e.target.value };
-                        })
-                      }
-                    />
-                    <div className="invalid-feedback">
-                      Security code required
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
 
             {/* --------------------------------------------------------------------- */}
             <hr className="mb-4" />
