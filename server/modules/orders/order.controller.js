@@ -12,7 +12,7 @@ const create = (payload) => {
   //   // find the product
   //   const productInfo = await productModel.findOne({ _id: id });
   //   if (!productInfo) throw new Error("product not found");
-  //   // update the stock    
+  //   // update the stock
   //   // write the new Quantity to product stock
   //   await productModel.findOneAndUpdate(
   //     { _id: id },
@@ -21,7 +21,7 @@ const create = (payload) => {
   //   );
   // });
   // create the order
-  
+
   return model.create(payload);
 };
 
@@ -90,7 +90,9 @@ const getById = (id) => {
   return model.findOne({ id });
 };
 const updateById = (id, payload) => {
-  return model.findOneAndUpdate({ id }, payload, { new: true });
+  // Ignoring the quantity update
+  const { products, ...rest } = payload;
+  return model.findOneAndUpdate({ id }, rest, { new: true });
 };
 const deleteById = (id, payload) => {
   // find the product
@@ -118,5 +120,40 @@ const deleteById = (id, payload) => {
 
   return model.deleteOne({ id });
 };
+const updateBasedonPayment = async (stripePayload) => {
+  const { id, status } = stripePayload;
+  const checkOrder = await model.findOne({ orderId: id });
+  if (!checkOrder) throw new Error("Order is not available");
+  if (status === "complete") {
+    await model.findOneAndUpdate(
+      { orderId: id },
+      { status: "Completed" },
+      { new: true }
+    );
+  }
+  if (status === "expired") {
+    await model.findOneAndUpdate(
+      { orderId: id },
+      { status: "Failed" },
+      { new: true }
+      // update the product quantity accordingly
+    );
+  }
+  if (status === "failed") {
+    await model.findOneAndUpdate(
+      { orderId: id },
+      { status: "Failed" },
+      { new: true }
+      // update the product quantity accordingly
+    );
+  }
+};
 
-module.exports = { create, list, getById, updateById, deleteById };
+module.exports = {
+  create,
+  list,
+  getById,
+  updateById,
+  deleteById,
+  updateBasedonPayment,
+};

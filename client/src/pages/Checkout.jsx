@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { create } from "../slices/orderSlice";
 import { removeAll } from "../slices/cartSlice";
+import { URLS } from "../constants";
+import API from "../utils/API";
 // import { SERVER_URL } from "../constants";
 
 export default function Checkout() {
@@ -35,13 +37,7 @@ export default function Checkout() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = checkout;
-    const {
-      address,
-      pobox,
-      state,
-      country,
-      ...rest
-    } = payload;
+    const { address, pobox, state, country, ...rest } = payload;
 
     rest.address = address.concat(", ", state, ", ", pobox, ", ", country);
     rest.amount = getTotal();
@@ -83,20 +79,12 @@ export default function Checkout() {
 
   const createPaymentIntent = useCallback(async () => {
     try {
-      // const response = await fetch(`${SERVER_URL}/create-checkout-session`, {
-      const response = await fetch(
-        `http://localhost:3333/create-checkout-session`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(createPayments()),
-        }
+      const data = createPayments();
+      const response = await API.post(
+        `${URLS.ORDERS}/create-checkout-session`,
+        data
       );
-
-      const cs = await response.json();
-
+      const cs = response.data;
       setStripeCheckoutUrl((prev) => ({
         ...prev,
         stripeId: cs.data.id,
@@ -297,7 +285,6 @@ export default function Checkout() {
                 type="radio"
                 name="inlineRadioOptions"
                 value="COD"
-                
                 checked={checkout?.paymentMethod === "COD" ? true : false}
                 onChange={() => {
                   setCheckout((prev) => {
