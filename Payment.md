@@ -11,3 +11,14 @@ Steps to use Stripejs for react------
 9. get Checkout session secret from the Checkout Session create api
 10. Bind that sesson url in the checkout component
 11. Redirect to the stripe checkout page
+
+--------------------------------------------
+
+In order to create order in the backend with stripe answer we have to do these steps:-
+
+1-Order form => order create in db using order API.
+2-Stripe check for payment completion
+3-based on stripe answer, update the order status
+
+
+
