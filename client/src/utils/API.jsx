@@ -1,7 +1,7 @@
 import axios from "axios";
-import { SERVER_URL } from "../constant";
+import { SERVER_URL } from "../constants";
 
-export const API = axios.create({
+const API = axios.create({
   baseURL: SERVER_URL,
   headers: {
     "Content-Type": "application/json",
@@ -11,3 +11,4 @@ export const API = axios.create({
   },
 });
 
+export default API;

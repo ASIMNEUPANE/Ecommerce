@@ -10,7 +10,7 @@ const initialState = {
   total: 0,
 };
 
-export const create = createAsyncThunk("orders/create", async (payload) => {
+export const create = createAsyncThunk("/orders/create", async (payload) => {
   const res = await ORDER_API.create(payload);
   return res.data;
 });
@@ -26,16 +26,17 @@ const orderSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(create.fulfilled, (state, action) => {
-        // Add user to the state array
+    // Add order data to the state
         state.loading = false;
-        state.orders = [...action.payload];
+        state.orders.push(action.payload.data);
       })
       .addCase(create.pending, (state) => {
-        // Add user to the state array
+         // Set loading state to true while the request is pending
         state.loading = true;
       })
       .addCase(create.rejected, (state, action) => {
-        // Add user to the state array
+            // Handle rejected action, possibly with an error message
+
         state.loading = false;
         state.error = action.payload.message;
       });

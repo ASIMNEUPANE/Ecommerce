@@ -6,21 +6,22 @@ const create = (payload) => {
   // create unique ID
   payload.id = uuidv4();
   // decrease the product stock after order made
-  const products = payload?.products;
-  products.map(async (product) => {
-    const { product: id, quantity } = product;
-    // find the product
-    const productInfo = await productModel.findOne({ _id: id });
-    if (!productInfo) throw new Error("product not found");
-    // update the stock    
-    // write the new Quantity to product stock
-    await productModel.findOneAndUpdate(
-      { _id: id },
-      { quantity: productInfo?.quantity - quantity },
-      { new: true }
-    );
-  });
+  // const products = payload?.products;
+  // products.map(async (product) => {
+  //   const { product: id, quantity } = product;
+  //   // find the product
+  //   const productInfo = await productModel.findOne({ _id: id });
+  //   if (!productInfo) throw new Error("product not found");
+  //   // update the stock    
+  //   // write the new Quantity to product stock
+  //   await productModel.findOneAndUpdate(
+  //     { _id: id },
+  //     { quantity: productInfo?.quantity - quantity },
+  //     { new: true }
+  //   );
+  // });
   // create the order
+  
   return model.create(payload);
 };
 

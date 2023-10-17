@@ -1,7 +1,7 @@
-import { persistStore, persistReducer } from "redux-persist";
+import { configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer,PAUSE,PERSIST,REGISTER,PURGE,FLUSH,REHYDRATE } from "redux-persist";
 import { autoMergeLevel2 } from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import storage from "redux-persist/lib/storage";
-import { configureStore } from "@reduxjs/toolkit";
 
 import { cartReducer } from "./slices/cartSlice";
 import { productReducer } from "./slices/productSlice";
@@ -21,6 +21,13 @@ export const store = configureStore({
     products: productReducer,
     orders: orderReducer,
   },
+  middleware:(getDefaultMiddleware)=>
+getDefaultMiddleware({
+  serializableCheck:{
+    ignoreActions: [PAUSE,PERSIST,REGISTER,PURGE,FLUSH,REHYDRATE ]
+  }
+})
+  
 });
 
 export const newStore = persistStore(store);

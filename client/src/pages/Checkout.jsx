@@ -1,15 +1,19 @@
 import "./Checkout.css";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { create } from "../slices/orderSlice";
-import { SERVER_URL } from "../constant";
-import { API } from "../utils/API";
+import { removeAll } from "../slices/cartSlice";
+// import { SERVER_URL } from "../constants";
 
 export default function Checkout() {
   const [stripeCheckout, setStripeCheckoutUrl] = useState({
     stripeId: "",
     url: "",
   });
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { cart } = useSelector((state) => state.cart);
 
@@ -18,7 +22,7 @@ export default function Checkout() {
     email: "",
     address: "",
     country: "",
-    paymentMethod: "",
+    paymentMethod: "COD",
     state: "",
     pobox: "",
     amount: 0,
@@ -36,16 +40,14 @@ export default function Checkout() {
       pobox,
       state,
       country,
-
       ...rest
     } = payload;
 
-    rest.address = address.concat(" ", state, " ", pobox, " ", country);
-
+    rest.address = address.concat(", ", state, ", ", pobox, ", ", country);
     rest.amount = getTotal();
     const products = cart.map((item) => {
       return {
-        product: item?._id,
+        product: item?.id,
         quantity: Number(item?.quantity),
         price: Number(item?.price),
         amount: Number(item?.quantity) * Number(item?.price),
@@ -53,8 +55,15 @@ export default function Checkout() {
     });
     rest.products = products;
     rest.orderId = stripeCheckout?.stripeId;
-    // dispatch(create(rest));
-    window.location.replace(stripeCheckout?.checkouturl);
+
+    const data = await dispatch(create(rest));
+    console.log({ data });
+    if (data && data.payload.mssg === "Success") {
+      dispatch(removeAll());
+      window.location.replace(stripeCheckout?.url);
+    } else {
+      navigate("/checkout/failed");
+    }
   };
 
   const createPayments = useCallback(() => {
@@ -65,7 +74,7 @@ export default function Checkout() {
           product_data: {
             name: item?.title,
           },
-          unit_amount: Number(item?.price),
+          unit_amount: Number(item?.price) * 100,
         },
         quantity: Number(item?.quantity),
       };
@@ -74,13 +83,20 @@ export default function Checkout() {
 
   const createPaymentIntent = useCallback(async () => {
     try {
-      const data = createPayments();
-      const response = await API.post(
-        `${SERVER_URL}/create-checkout-session`,
-        data
+      // const response = await fetch(`${SERVER_URL}/create-checkout-session`, {
+      const response = await fetch(
+        `http://localhost:3333/create-checkout-session`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(createPayments()),
+        }
       );
 
-      const cs = await response.data;
+      const cs = await response.json();
+
       setStripeCheckoutUrl((prev) => ({
         ...prev,
         stripeId: cs.data.id,
@@ -275,14 +291,13 @@ export default function Checkout() {
             </div>
             <hr className="mb-4" />
 
-            <h4 className="mb-3">Payment</h4>
-
-            <div className="form-check form-check-inline">
+            <div className="form-check form-check-inline  ">
               <input
                 className="form-check-input"
                 type="radio"
                 name="inlineRadioOptions"
                 value="COD"
+                
                 checked={checkout?.paymentMethod === "COD" ? true : false}
                 onChange={() => {
                   setCheckout((prev) => {
@@ -290,11 +305,10 @@ export default function Checkout() {
                   });
                 }}
               />
-              <label className="form-check-label" htmlFor="inlineRadio0">
+              <label className="form-check-label" htmlFor="inlineRadio1">
                 Cash on delivery
               </label>
             </div>
-
             <div className="form-check form-check-inline">
               <input
                 className="form-check-input"
@@ -308,12 +322,10 @@ export default function Checkout() {
                   });
                 }}
               />
-              <label className="form-check-label" htmlFor="inlineRadio3">
+              <label className="form-check-label" htmlFor="inlineRadio2">
                 Stripe
               </label>
             </div>
-
-            {/* --------------------------------------------------------------------- */}
             <hr className="mb-4" />
 
             <div className="d-grid gap-2">

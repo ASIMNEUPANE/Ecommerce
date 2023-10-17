@@ -81,7 +81,7 @@ var setup = {
         price: 2000,
         isRelease: true,
         quantity: 3000,
-        category: catpayload. ,
+        category:"652711b5fe64cef2bd196656"
       },
       {
         name: "zara tshirt",

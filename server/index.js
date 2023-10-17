@@ -20,15 +20,20 @@ app.use(express.json());
 app.use(express.static("public"));
 
 
-app.post("/create-checkout-session", async (req, res) => {
+app.post("/create-checkout-session", async (req, res,next) => {
+try{
   const session = await stripe.checkout.sessions.create({
-    line_items:req.body,
+    line_items: req.body,
     mode: "payment",
     success_url: `${FRONTEND_URL}/checkout/success`,
     cancel_url: `${FRONTEND_URL}/checkout/failed`,
   });
+  
 
-  res.json({ data: session?.url, mssg: "success" });
+  res.json({data: {id: session.id,url:session.url} ,mssg: "success" });
+}catch(e){
+  next(e)
+}
 });
 
 app.use("/", indexRouter);
@@ -41,3 +46,11 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`app is running on ${PORT}`);
 });
+
+
+
+// Checkoutpagae cleanup
+// Order form => order create in db using order API
+// Stripe check for payment completion
+// based on stripe answer , update the order status
+// seed db reset
