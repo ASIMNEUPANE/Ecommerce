@@ -13,12 +13,13 @@ const persistConfig = {
   stateReconciler: autoMergeLevel2,
 };
 
-const persistedReducer = persistReducer(persistConfig, cartReducer);
+const persistedCartReducer = persistReducer(persistConfig, cartReducer);
+const persistedProductsReducer = persistReducer(persistConfig, productReducer);
 
 export const store = configureStore({
   reducer: {
-    cart: persistedReducer,
-    products: productReducer,
+    cart: persistedCartReducer,
+    products: persistedProductsReducer,
     orders: orderReducer,
   },
   middleware:(getDefaultMiddleware)=>
