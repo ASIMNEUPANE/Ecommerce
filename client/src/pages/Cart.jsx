@@ -14,11 +14,11 @@ import {
 
 const Cart = () => {
   const { cart } = useSelector((state) => state.cart);
+  const { products } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const removeCart = (id) => {
     dispatch(removeItem(id));
   };
-
   const getTotal = () => {
     return cart.reduce(
       (acc, obj) => acc + Number(obj?.quantity) * Number(obj?.price),
@@ -36,6 +36,7 @@ const Cart = () => {
     <>
       {cart.length > 0 ? (
         <FilledCart
+          products={products}
           items={cart}
           removeCart={removeCart}
           getTotal={getTotal}
@@ -49,7 +50,14 @@ const Cart = () => {
   );
 };
 
-const FilledCart = ({ items, removeCart, getTotal, increase, decrease }) => {
+const FilledCart = ({
+  items,
+  products,
+  removeCart,
+  getTotal,
+  increase,
+  decrease,
+}) => {
   return (
     <>
       <>
@@ -70,18 +78,17 @@ const FilledCart = ({ items, removeCart, getTotal, increase, decrease }) => {
               <tbody>
                 {items.map((item, index) => {
                   return (
-                    <tr key={item?.id || index}>
+                    <tr key={item?._id || index}>
                       <td>
-                        {/* {item.title} */}
-                        {item?.title.length > 25
-                          ? item?.title.substring(0, 35).concat("...")
-                          : item?.title}
+                        {item?.name.length > 25
+                          ? item?.name.substring(0, 35).concat("...")
+                          : item?.name}
                       </td>
                       <td>
                         <Image
                           width={40}
                           height={40}
-                          src={item?.image}
+                          src={item?.images}
                           thumbnail
                         />
                       </td>
@@ -93,7 +100,7 @@ const FilledCart = ({ items, removeCart, getTotal, increase, decrease }) => {
                           className="btn btn-primary"
                           style={{ margin: "2px" }}
                           onClick={() => {
-                            decrease(item?.id);
+                            decrease(item?._id);
                           }}
                         >
                           -
@@ -103,7 +110,7 @@ const FilledCart = ({ items, removeCart, getTotal, increase, decrease }) => {
                           className="btn btn-primary"
                           style={{ margin: "2px" }}
                           onClick={() => {
-                            increase(item?.id);
+                            increase({ id: item?._id, products });
                           }}
                         >
                           +
@@ -120,7 +127,7 @@ const FilledCart = ({ items, removeCart, getTotal, increase, decrease }) => {
                           color="red"
                           size={24}
                           onClick={() => {
-                            removeCart(item?.id);
+                            removeCart(item?._id);
                           }}
                         />
                       </td>
@@ -133,7 +140,10 @@ const FilledCart = ({ items, removeCart, getTotal, increase, decrease }) => {
                 </tr>
                 <tr>
                   <td colSpan="5"></td>
-                  <td  > <Link to={'/Checkout'}>Checkout</Link> </td>
+                  <td>
+                    {" "}
+                    <Link to={"/Checkout"}>Checkout</Link>{" "}
+                  </td>
                 </tr>
               </tbody>
             </table>

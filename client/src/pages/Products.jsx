@@ -37,12 +37,19 @@ const Products = () => {
                     <div className="col-6 col-lg-3" key={product?._id || index}>
                       <div className="product-card-10">
                         <div className="product-card-image">
+                          {product?.quantity < 1 && (
+                            <div className="badge-ribbon">
+                              <span className="badge bg-danger">
+                                Out of Stock
+                              </span>
+                            </div>
+                          )}
                           <div className="product-media">
                             <a href="#">
                               <img
                                 className="img-fluid fixed-size  "
                                 src={
-                                  product?.images ||
+                                  product?.images[0] ||
                                   "https://www.bootdey.com/image/380x380/FF00FF/000000"
                                 }
                                 title={product?.name || ""}
@@ -78,9 +85,9 @@ const Products = () => {
                               onClick={() => {
                                 dispatch(addtoCart(product));
                               }}
-                            >
+                              disabled= {product.quantity<1 ? true :false}
+                              >
                               <i className="AiOutlineShoppingCart ">
-                             
                                 <AiOutlineShoppingCart />
                               </i>
                             </button>
