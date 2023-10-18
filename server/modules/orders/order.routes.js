@@ -1,11 +1,9 @@
-const express = require("express");
 const router = require("express").Router();
 
 const controller = require("./order.controller");
 const secureAPI = require("../../utils/secure");
 const FRONTEND_URL = process.env.FRONTEND_URL;
 const stripe = require("stripe")(process.env.SECRET_KEY);
-const endpointSecret=process.env.ENDPOINT_SECRET
 
 router.post("/", async (req, res, next) => {
   try {
@@ -74,48 +72,6 @@ router.post("/create-checkout-session", async (req, res, next) => {
   }
 });
 
-router.post(
-  "/webhook",
-  express.raw({ type: "application/json" }),
-  async (req, res) => {
-    const sig = req.headers["stripe-signature"];
-    
 
-    try {
-      const event = stripe.webhooks.constructEvent(
-        req.body,
-        sig,
-        endpointSecret
-      );
-      switch (event.type) {
-        case "checkout.session.async_payment_failed":
-          const payment_failed = event.data.object;
-          await controller.updateBasedonPayment(payment_failed);
-          break;
-        case "checkout.session.async_payment_succeeded":
-          const payment_succeeded = event.data.object;
-          await controller.updateBasedonPayment(payment_succeeded);
-
-          break;
-        case "checkout.session.async_payment_completed":
-          const payment_completed = event.data.object;
-          await controller.updateBasedonPayment(payment_completed);
-          break;
-        case "checkout.session.async_payment_expired":
-          const payment_expired = event.data.object;
-          await controller.updateBasedonPayment(payment_expired);
-
-          break;
-        default:
-          console.log(`Unhandled event type ${event.type}`);
-      }
-    } catch (err) {
-      res.status(400).send(`Webhook Error: ${err.message}`);
-      return;
-    }
-
-    res.send();
-  }
-);
 
 module.exports = router;
