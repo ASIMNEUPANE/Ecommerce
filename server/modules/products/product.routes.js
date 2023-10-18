@@ -36,7 +36,7 @@ router.post(
   }
 );
 
-router.get("/", secureAPI(["admin", "user"]), async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const { size, page, name } = req.query;
     const search = { name };

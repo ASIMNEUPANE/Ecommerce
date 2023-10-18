@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import * as PRODUCT_API from "../services/products";
+import {list} from "../services/products";
 
 const initialState = {
   currentPage: 1,
@@ -14,7 +14,8 @@ export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async () => {
    
-    const res = await PRODUCT_API.list();
+    const res = await list();
+    
     return res.data;
   }
 );
@@ -32,7 +33,8 @@ const productSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         // Add user to the state array
         state.loading= false;
-        state.products = [...action.payload];
+        console.log(action.payload)
+        state.products =[...action.payload.data.data];
       })
       .addCase(fetchProducts.pending, (state) => {
         // Add user to the state array
