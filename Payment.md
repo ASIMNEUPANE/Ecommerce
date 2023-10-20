@@ -19,6 +19,7 @@ In order to create order in the backend with stripe answer we have to do these s
 1-Order form => order create in db using order API.
 2-Stripe check for payment completion
 3-based on stripe answer, update the order status
+______done_____________
 
 
 
