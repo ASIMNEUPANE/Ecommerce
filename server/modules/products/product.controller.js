@@ -6,11 +6,11 @@ return await productModel.create(payload)
 
 }
 
-const list = async(size,page,search)=>{
+const list = async(limit,page,search)=>{
  
 
 const pageNum = parseInt(page) ||1;
-const limit = parseInt(size )|| 5;
+const limits = parseInt(limit )|| 5;
 const {name}= search;
 const query = {}
 if(name){
@@ -35,9 +35,9 @@ if(name){
                 ], 
                 'data': [
                   {
-                    '$skip': (pageNum -1)* limit
+                    '$skip': (pageNum -1)* limits
                   }, {
-                    '$limit': limit
+                    '$limit': limits
                   }
                 ]
               }
