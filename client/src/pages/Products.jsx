@@ -5,16 +5,23 @@ import { Link } from "react-router-dom";
 import { BsEye } from "react-icons/bs";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { addtoCart } from "../slices/cartSlice";
-import { fetchProducts } from "../slices/productSlice";
+import {
+  fetchProducts,
+  setCurrentPage,
+  setLimit,
+} from "../slices/productSlice";
 import SkeletalLoader from "../components/SkeletalLoader";
+import Paginate from "../components/Paginate";
 
 const Products = () => {
-  const { products, loading } = useSelector((state) => state.products);
+  const { products, loading, limit, total, currentPage } = useSelector(
+    (state) => state.products
+  );
   const dispatch = useDispatch();
 
   const initFetch = useCallback(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    dispatch(fetchProducts({ limit, page: currentPage }));
+  }, [dispatch, limit, currentPage]);
 
   useEffect(() => {
     initFetch();
@@ -85,8 +92,8 @@ const Products = () => {
                               onClick={() => {
                                 dispatch(addtoCart(product));
                               }}
-                              disabled= {product.quantity<1 ? true :false}
-                              >
+                              disabled={product.quantity < 1 ? true : false}
+                            >
                               <i className="AiOutlineShoppingCart ">
                                 <AiOutlineShoppingCart />
                               </i>
@@ -122,6 +129,14 @@ const Products = () => {
                   )}
                 </div>
               )}
+              <Paginate
+                setLimit={setLimit}
+                dispatch={dispatch}
+                total={total}
+                limit={limit}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
             </div>
           </div>
         </section>

@@ -1,4 +1,4 @@
-import Paginate from "../../components/Pagination";
+import Paginate from "../../components/Paginate";
 import Tables from "../../components/Table";
 
 function AdminProducts() {
