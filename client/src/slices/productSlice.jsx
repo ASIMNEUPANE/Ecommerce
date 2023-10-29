@@ -8,13 +8,14 @@ const initialState = {
   products: [],
   product: {},
   total: 0,
+  limit:5,
 };
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
-  async () => {
+  async ({limit,page}) => {
    
-    const res = await list();
+    const res = await list(limit,page);
     
     return res.data;
   }
@@ -27,14 +28,19 @@ const productSlice = createSlice({
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
     },
+    setLimit:(state,action)=>{
+      state.currentPage = 1
+      state.limit = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProducts.fulfilled, (state, action) => {
         // Add user to the state array
         state.loading= false;
-        console.log(action.payload)
-        state.products =[...action.payload.data.data];
+        state.total = action.payload.data.total
+        state.products =action.payload.data.data;
+
       })
       .addCase(fetchProducts.pending, (state) => {
         // Add user to the state array
@@ -48,6 +54,6 @@ const productSlice = createSlice({
   },
 });
 
-export const { setCurrentPage } = productSlice.actions;
+export const { setCurrentPage,setLimit } = productSlice.actions;
 
 export const productReducer = productSlice.reducer;
