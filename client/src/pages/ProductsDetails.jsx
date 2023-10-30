@@ -32,13 +32,14 @@ const ProductsDetails = () => {
     return randproduct;
   };
 
-
   return (
     <section className="">
       <div className="container flex mt-2 d-flex justify-content-center">
         <div className="col-lg-8 border p-2 bg-white">
           <div className="row hedding m-0 pl-3 pt-0 pb-3">
-            Product Detail Design Using Bootstrap 4.0
+            {product?.quantity < 1 && (
+              <div className="text-danger">Out of the stock</div>
+            )}
           </div>
           <div className="row m-0">
             <div className="col-lg-4 left-side-product-box pb-3">
@@ -64,7 +65,9 @@ const ProductsDetails = () => {
               <div className="right-side-pro-detail border p-3 m-0">
                 <div className="row">
                   <div className="col-lg-12">
-                    <span>{product?.alias.toString()}</span>
+                    <span>
+                      {product?.alias?.product ? alias.toString() : ""}
+                    </span>
                     <p className="m-0 p-0"> {product?.name}</p>
                   </div>
                   <div className="col-lg-12">
@@ -84,19 +87,21 @@ const ProductsDetails = () => {
                     </p>
                   </div>
                   <div className="col-lg-12">
-                    <h6>Quantity :</h6>
+                    <h6>Quantity : {product?.quantity}</h6>
                     <input
                       type="number"
                       max={product?.quantity}
                       className="form-control text-center w-100"
                       defaultValue={1}
                       min={1}
+                      disabled={product?.quantity===0}
                     />
                   </div>
                   <div className="col-lg-12 mt-3">
                     <div className="row">
                       <div className="col-lg-6 pb-2">
                         <button
+                          disabled={product?.quantity === 0}
                           onClick={() => dispatch(addtoCart(product))}
                           className="btn btn-danger w-100"
                         >
@@ -104,7 +109,7 @@ const ProductsDetails = () => {
                         </button>
                       </div>
                       <div className="col-lg-6">
-                        <Link to="/checkout" className="btn btn-success w-100">
+                        <Link  to="/checkout" className={`btn btn-success w-100${product?.quantity === 0 ? ' disabled' : ''}`}>
                           Shop Now
                         </Link>
                       </div>
