@@ -1,24 +1,24 @@
 import "./ProductDetail.css";
 import { Link, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getById } from "../slices/productSlice";
-import { addtoCart } from "../slices/cartSlice";
+import { updatetoCart } from "../slices/cartSlice";
 
 const ProductsDetails = () => {
   const { id } = useParams();
   const { product, products } = useSelector((state) => state.products);
+
   const dispatch = useDispatch();
+
+  const [quantity, setQuantity] = useState(1);
+  const [random4Items, setRandom4Items] = useState([]);
 
   const getProduct = useCallback(() => {
     dispatch(getById(id));
   }, [dispatch, id]);
 
-  useEffect(() => {
-    getProduct();
-  }, [getProduct]);
-
-  const getRandomProducts = () => {
+  const getRandomProducts = useCallback(() => {
     const firstRandomeIndex = Math.floor(Math.random() * products.length);
     const secondRandomeIndex = Math.floor(Math.random() * products.length);
     const thirdRandomeIndex = Math.floor(Math.random() * products.length);
@@ -29,8 +29,13 @@ const ProductsDetails = () => {
       products[thirdRandomeIndex],
       products[fourthRandomeIndex],
     ];
-    return randproduct;
-  };
+    setRandom4Items(randproduct);
+  }, [products]);
+
+  useEffect(() => {
+    getProduct();
+    getRandomProducts();
+  }, [getProduct, getRandomProducts]);
 
   return (
     <section className="">
@@ -82,34 +87,42 @@ const ProductsDetails = () => {
                   <div className="col-lg-12">
                     <p className="tag-section">
                       <strong>Tag : </strong>
-                      <a href="">{product?.category}</a>
-                      <a href="">,Man</a>
+                      <a href="">{product?.category_name}</a>
+                  
                     </p>
                   </div>
                   <div className="col-lg-12">
                     <h6>Quantity : {product?.quantity}</h6>
                     <input
+                      onChange={(e) => setQuantity(Number(e.target.value))}
+                      value={quantity}
                       type="number"
                       max={product?.quantity}
                       className="form-control text-center w-100"
-                      defaultValue={1}
                       min={1}
-                      disabled={product?.quantity===0}
+                      disabled={product?.quantity === 0}
                     />
                   </div>
                   <div className="col-lg-12 mt-3">
                     <div className="row">
                       <div className="col-lg-6 pb-2">
                         <button
-                          disabled={product?.quantity === 0}
-                          onClick={() => dispatch(addtoCart(product))}
                           className="btn btn-danger w-100"
+                          onClick={() => {
+                            dispatch(updatetoCart({ product, quantity }));
+                          }}
+                          disabled={product?.quantity === 0}
                         >
                           Add To Cart
                         </button>
                       </div>
                       <div className="col-lg-6">
-                        <Link  to="/checkout" className={`btn btn-success w-100${product?.quantity === 0 ? ' disabled' : ''}`}>
+                        <Link
+                          to="/checkout"
+                          className={`btn btn-success w-100${
+                            product?.quantity === 0 ? " disabled" : ""
+                          }`}
+                        >
                           Shop Now
                         </Link>
                       </div>
@@ -125,11 +138,13 @@ const ProductsDetails = () => {
             </div>
           </div>
           <div className="row mt-3 p-0 text-center pro-box-section">
-            {getRandomProducts().map((item, index) => {
+            {random4Items.map((item, index) => {
               return (
                 <div key={index} className="col-lg-3 pb-2">
                   <div className="pro-box border p-0 m-0">
-                    <img src={item.images[0]} />
+                    <Link to={`/products/${item?._id}`}>
+                      <img src={item.images[0]} />
+                    </Link>
                   </div>
                 </div>
               );
