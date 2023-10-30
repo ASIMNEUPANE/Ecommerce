@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { create } from "../slices/orderSlice";
 import { removeAll } from "../slices/cartSlice";
 import { URLS } from "../constants";
-import API from "../utils/API";
+import API from "../utils/api";
 // import { SERVER_URL } from "../constants";
 
 export default function Checkout() {
@@ -53,7 +53,6 @@ export default function Checkout() {
     rest.orderId = stripeCheckout?.stripeId;
 
     const data = await dispatch(create(rest));
-    console.log({ data });
     if (data && data.payload.mssg === "Success") {
       dispatch(removeAll());
       window.location.replace(stripeCheckout?.url);

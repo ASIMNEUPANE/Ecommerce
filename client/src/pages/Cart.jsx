@@ -76,64 +76,69 @@ const FilledCart = ({
                 </tr>
               </thead>
               <tbody>
-                {items.map((item, index) => {
-                  return (
-                    <tr key={item?._id || index}>
-                      <td>
-                        {item?.name.length > 25
-                          ? item?.name.substring(0, 35).concat("...")
-                          : item?.name}
-                      </td>
-                      <td>
-                        <Image
-                          width={40}
-                          height={40}
-                          src={item?.images}
-                          thumbnail
-                        />
-                      </td>
-                      <td>
-                        {numberFormatter("NPR #,###.##", Number(item?.price))}
-                      </td>
-                      <td>
-                        <span
-                          className="btn btn-primary"
-                          style={{ margin: "2px" }}
-                          onClick={() => {
-                            decrease(item?._id);
-                          }}
-                        >
-                          -
-                        </span>
-                        <span className="btn btn-info">{item?.quantity}</span>
-                        <span
-                          className="btn btn-primary"
-                          style={{ margin: "2px" }}
-                          onClick={() => {
-                            increase({ id: item?._id, products });
-                          }}
-                        >
-                          +
-                        </span>
-                      </td>
-                      <td>
-                        {numberFormatter(
-                          "NPR #,###.##",
-                          Number(item?.price) * Number(item?.quantity)
-                        )}
-                      </td>
-                      <td>
-                        <AiFillCloseCircle
-                          color="red"
-                          size={24}
-                          onClick={() => {
-                            removeCart(item?._id);
-                          }}
-                        />
-                      </td>
-                    </tr>
-                  );
-                })}
+                {items.length > 0 &&
+                  items.map((item, index) => {
+                    // console.log({ item });
+                    return (
+                      <tr key={item?._id || index}>
+                        {console.log(item)}
+                        <td>
+                          {item?.name.length > 25
+                            ? item?.name.substring(0, 35).concat("...")
+                            : item?.name}
+                        </td>
+                        <td>
+                          <Image
+                            width={40}
+                            height={40}
+                            src={item?.images}
+                            thumbnail
+                          />
+                        </td>
+                        <td>
+                          {numberFormatter("NPR #,###.##", Number(item?.price))}
+                        </td>
+                        <td>
+                          <span
+                            className="btn btn-primary"
+                            style={{ margin: "2px" }}
+                            onClick={() => {
+                              decrease(item?._id);
+                            }}
+                          >
+                            -
+                          </span>
+                          <span className="btn btn-info">
+                            {item?.quantity || 0}
+                          </span>
+                          <span
+                            className="btn btn-primary"
+                            style={{ margin: "2px" }}
+                            onClick={() => {
+                              increase({ id: item?._id, products });
+                            }}
+                          >
+                            +
+                          </span>
+                        </td>
+                        <td>
+                          {numberFormatter(
+                            "NPR #,###.##",
+                            Number(item?.price) * Number(item?.quantity)
+                          )}
+                        </td>
+                        <td>
+                          <AiFillCloseCircle
+                            color="red"
+                            size={24}
+                            onClick={() => {
+                              removeCart(item?._id);
+                            }}
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })}
                 <tr>
                   <td colSpan="5">Total Carts</td>
                   <td>{numberFormatter("NPR #,###.##", Number(getTotal()))}</td>
