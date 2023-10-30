@@ -47,7 +47,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", secureAPI(["admin", "user"]), async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const result = await controller.getById(req.params.id);
     res.json({ data: result, mssg: "Success" });
