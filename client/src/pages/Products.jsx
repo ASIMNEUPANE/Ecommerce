@@ -52,7 +52,7 @@ const Products = () => {
                             </div>
                           )}
                           <div className="product-media">
-                            <a href="#">
+                            <Link to = {`/products/${product._id}`} >
                               <img
                                 className="img-fluid fixed-size  "
                                 src={
@@ -62,7 +62,7 @@ const Products = () => {
                                 title={product?.name || ""}
                                 alt={product?.name || ""}
                               />
-                            </a>
+                            </Link>
                           </div>
                         </div>
                         <div className="product-card-info">

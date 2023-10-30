@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 
+import { useSelector, useDispatch } from "react-redux";
+import { loginByEmail } from "../slices/authSlice";
+
 const Login = () => {
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const [key, setKey] = useState("login");
+
   return (
     <div className="container w-50">
       <Tabs
@@ -12,7 +18,7 @@ const Login = () => {
         className="mb-3 "
       >
         <Tab eventKey="login" title="Login">
-          <LoginForm />
+          <LoginForm dispatch={dispatch} login={loginByEmail} />
         </Tab>
         <Tab eventKey="signup" title="Sign Up">
           <SignUpForm />
@@ -23,29 +29,9 @@ const Login = () => {
 };
 
 const SignUpForm = () => {
-  const [validated, setValidated] = useState(false);
-
-  const checkFormValidity = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    console.log({ valid: form.checkValidity() });
-    setValidated(true);
-  };
-
-  const handleSubmit = () => {};
-
   return (
     <>
-      <Form
-        className="d-grid gap-2"
-        noValidate
-        validated={validated}
-        onSubmit={handleSubmit}
-        onChange={checkFormValidity}
-      >
+      <Form className="d-grid gap-2">
         <Form.Group
           as={Col}
           md="12"
@@ -90,21 +76,52 @@ const SignUpForm = () => {
   );
 };
 
-const LoginForm = () => {
+const LoginForm = ({ dispatch, login }) => {
+  const [signIn, setSignIn] = useState({ email: "", password: "" });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    await dispatch(login(signIn));
+  };
   return (
     <Form className="d-grid gap-2">
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" placeholder="Enter email" />
+        <Form.Control
+          type="email"
+          placeholder="Enter email"
+          value={setSignIn.email}
+          onChange={(e) => {
+            setSignIn((prev) => {
+              return { ...prev, email: e.target.value };
+            });
+          }}
+        />
         <Form.Text className="text-muted">
           We&apos;ll never share your email with anyone else.
         </Form.Text>
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" />
+        <Form.Control
+          type="password"
+          placeholder="Password"
+          value={setSignIn.password}
+          onChange={(e) => {
+            setSignIn((prev) => {
+              return { ...prev, password: e.target.value };
+            });
+          }}
+        />
       </Form.Group>
-      <Button variant="primary" type="submit" size="lg">
+      <Button
+        variant="primary"
+        type="submit"
+        size="lg"
+        onClick={(e) => {
+          handleSubmit(e);
+        }}
+      >
         Login
       </Button>
     </Form>
