@@ -43,7 +43,7 @@ var setup = {
         name: faker.commerce.productName({ category: 't-shirts' }),
         alias: [],
         description: faker.commerce.productDescription({ category: 't-shirts' }),
-        quantity: faker.commerce.price({ min: 100, max: 20000, dec: 0 }),
+        quantity: faker.commerce.price({ min: 0, max: 10, dec: 0 }),
         price: faker.commerce.price({ min: 100, max: 2000, dec: 0 }),
         category:
           faker.number.binary({ min: 0, max: 1 }) === 0 ? cat1?._id : cat2?._id,
