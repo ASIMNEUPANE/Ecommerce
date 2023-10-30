@@ -35,6 +35,7 @@ router.post("/regenerate", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
   try {
     const { email, password } = req.body;
+    console.log(email,password)
     if (!email || !password) throw new Error("Email or Password is missing");
     result = await controller.login(email, password);
     res.json({ data: result, msg: "Succes" });

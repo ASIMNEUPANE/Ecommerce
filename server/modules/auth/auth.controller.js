@@ -64,6 +64,7 @@ const regenerateToken = async (email) => {
 // ---Login---
 
 const login = async (email, password) => {
+  
   const user = await userModel.findOne({ email,isArchive:false}).select("+password");
   if (!user) throw new Error("User doesnot exit");
   if (!user.isEmailVerified)
@@ -80,7 +81,7 @@ const login = async (email, password) => {
     roles: user?.roles || [],
   };
   const token = generateJWT(payload);
-  return { token };
+  return { user:{name:user.name, role:user.roles, email:user.email},token };
 };
 
 
