@@ -13,19 +13,22 @@ var setup = {
     console.log("DB reset");
     console.log("Creating Admin user");
     const payload = {
-      name: "Raktim Admin",
-      email: "rakimsth@gmail.com",
+      name: "Asim Admin",
+      email: "asimneupane11@gmail.com",
       password: await bcrypt.hash("12345", +process.env.SALT_ROUND),
       isEmailVerified: true,
+      isActive:true,
       roles: ["admin"],
     };
     await Controller.create(payload);
     console.log("Creating Normal user");
     const userPayload = {
-      name: "Raktim User",
-      email: "raktim@rumsan.com",
+      name: "Asim  User",
+      email: "asim11@gmail.com",
       password: await bcrypt.hash("12345", +process.env.SALT_ROUND),
       isEmailVerified: true,
+      isActive:true,
+
     };
     await Controller.create(userPayload);
     console.log("---------DONE----------");
