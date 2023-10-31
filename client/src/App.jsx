@@ -13,8 +13,10 @@ import { PrivateRoute } from "./components/Routes";
 import Checkout from "./pages/Checkout";
 import AdminProducts from "./pages/admin/Product";
 import { CheckoutPageStatus } from "./components/CheckoutStatus";
+import Dashboard from "./pages/admin/Dashboard";
 const adminRoutes = [
   { path: "/products", component: <AdminProducts />, role: "admin" },
+  { path: "/dashboard", component: <Dashboard />, role: "admin" },
   { path: "/orders", component: <AdminProducts />, role: "admin" },
   { path: "/users", component: <AdminProducts />, role: "admin" },
 ];
