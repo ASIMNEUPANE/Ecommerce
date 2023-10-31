@@ -3,8 +3,10 @@ import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 
 import { useSelector, useDispatch } from "react-redux";
 import { loginByEmail } from "../slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate()
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [key, setKey] = useState("login");
@@ -18,7 +20,7 @@ const Login = () => {
         className="mb-3 "
       >
         <Tab eventKey="login" title="Login">
-          <LoginForm dispatch={dispatch} login={loginByEmail} />
+          <LoginForm dispatch={dispatch} login={loginByEmail} navigate={navigate} />
         </Tab>
         <Tab eventKey="signup" title="Sign Up">
           <SignUpForm />
@@ -76,12 +78,16 @@ const SignUpForm = () => {
   );
 };
 
-const LoginForm = ({ dispatch, login }) => {
+const LoginForm = ({ dispatch, login, navigate }) => {
   const [signIn, setSignIn] = useState({ email: "", password: "" });
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await dispatch(login(signIn));
+  const data =  await dispatch(login(signIn));
+  console.log({data})
+  if(data.payload.msg === 'Succes'){
+    navigate('/admin/dashboard')
+  }
   };
   return (
     <Form className="d-grid gap-2">
