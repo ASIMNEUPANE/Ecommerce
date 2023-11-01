@@ -16,12 +16,13 @@ const persistConfig = {
 
 const persistedCartReducer = persistReducer(persistConfig, cartReducer);
 const persistedProductsReducer = persistReducer(persistConfig, productReducer);
+const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 
 export const store = configureStore({
   reducer: {
     cart: persistedCartReducer,
     products: persistedProductsReducer,
-    auth:authReducer,
+    auth:persistedAuthReducer,
     orders: orderReducer,
 
   },

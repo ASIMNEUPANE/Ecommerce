@@ -9,11 +9,13 @@ import ErrorPage from "./pages/ErrorPage";
 import Login from "./pages/LogIn";
 import Navbar from "./layouts/navbar";
 import Footer from "./layouts/Footer";
-import { PrivateRoute } from "./components/Routes";
+import { PrivateRoute, AdminRoute } from "./components/Routes";
 import Checkout from "./pages/Checkout";
 import AdminProducts from "./pages/admin/Product";
 import { CheckoutPageStatus } from "./components/CheckoutStatus";
 import Dashboard from "./pages/admin/Dashboard";
+import { useSelector } from "react-redux";
+import AdminNavbar from "./layouts/AdminNavbar";
 const adminRoutes = [
   { path: "/products", component: <AdminProducts />, role: "admin" },
   { path: "/dashboard", component: <Dashboard />, role: "admin" },
@@ -22,18 +24,40 @@ const adminRoutes = [
 ];
 
 function App() {
+  const { isLoggedIn,roles, user,error } = useSelector((state) => state.auth);
+  
+
   return (
     <div className="">
       <BrowserRouter>
-        <Navbar />
+        {isLoggedIn ? <AdminNavbar /> : <Navbar />}
         <main className="flex-shrink-0 d-flex flex-column min-vh-100">
           <div className="container mt-2 mb-5">
             <Routes>
               <Route path="/" element=<Home /> />
+              {adminRoutes.length > 0 &&
+                adminRoutes.map((route, index) => (
+                  <Route
+                    key={index}
+                    path={`/admin${route?.path}`}
+                    element={
+                      <AdminRoute role={route?.role}>
+                        {route?.component}
+                      </AdminRoute>
+                    }
+                  />
+                ))}
               <Route path="/about" element=<About /> />
               <Route path="/cart" element=<Cart /> />
               <Route path="/contact" element=<Contact /> />
-              <Route path="/login" element=<Login /> />
+              <Route
+                path="/login"
+                element={
+                  <PrivateRoute>
+                    <Login />
+                  </PrivateRoute>
+                }
+              />
               <Route path="/checkout" element=<Checkout /> />
               <Route path="/checkout/success" element=<CheckoutPageStatus /> />
               <Route
@@ -46,18 +70,6 @@ function App() {
               />
               <Route path="/products" element=<Products /> />
               <Route path="/products/:id" element=<ProductsDetails /> />
-              {adminRoutes.length > 0 &&
-                adminRoutes.map((route, index) => (
-                  <Route
-                    key={index}
-                    path={`/admin${route?.path}`}
-                    element={
-                      <PrivateRoute role={route?.role}>
-                        {route?.component}
-                      </PrivateRoute>
-                    }
-                  />
-                ))}
 
               <Route path="*" element=<ErrorPage /> />
             </Routes>
