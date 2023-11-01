@@ -6,8 +6,9 @@ import { loginByEmail } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { isLoggedIn } = useSelector((state) => state.auth);
+  console.log(isLoggedIn,"login")
   const dispatch = useDispatch();
   const [key, setKey] = useState("login");
 
@@ -20,7 +21,11 @@ const Login = () => {
         className="mb-3 "
       >
         <Tab eventKey="login" title="Login">
-          <LoginForm dispatch={dispatch} login={loginByEmail} navigate={navigate} />
+          <LoginForm
+            dispatch={dispatch}
+            login={loginByEmail}
+            navigate={navigate}
+          />
         </Tab>
         <Tab eventKey="signup" title="Sign Up">
           <SignUpForm />
@@ -80,14 +85,24 @@ const SignUpForm = () => {
 
 const LoginForm = ({ dispatch, login, navigate }) => {
   const [signIn, setSignIn] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-  const data =  await dispatch(login(signIn));
-  console.log({data})
-  if(data.payload.msg === 'Succes'){
-    navigate('/admin/dashboard')
-  }
+    try {
+      const data = await dispatch(login(signIn));
+      console.log({data},"data" )
+      if (data.payload.msg === "Succes") {
+        navigate("/admin/dashboard");
+      } else {
+        setError(data.payload.msg.split("Error:" ));
+      }
+    } catch (e) {
+      return e;
+    }finally{
+      setTimeout(()=>{
+        setError('')
+      },2000)
+    }
   };
   return (
     <Form className="d-grid gap-2">
@@ -120,6 +135,7 @@ const LoginForm = ({ dispatch, login, navigate }) => {
           }}
         />
       </Form.Group>
+    
       <Button
         variant="primary"
         type="submit"
@@ -130,6 +146,7 @@ const LoginForm = ({ dispatch, login, navigate }) => {
       >
         Login
       </Button>
+      {error && <label className=" text-center text-danger">{error}</label>}
     </Form>
   );
 };
