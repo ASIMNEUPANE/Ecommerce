@@ -64,8 +64,9 @@ const regenerateToken = async (email) => {
 // ---Login---
 
 const login = async (email, password) => {
-  
-  const user = await userModel.findOne({ email,isArchive:false}).select("+password");
+  const user = await userModel
+    .findOne({ email, isArchive: false })
+    .select("+password");
   if (!user) throw new Error("User doesnot exit");
   if (!user.isEmailVerified)
     throw new Error("Email not verify.Verify email to get started..");
@@ -81,33 +82,46 @@ const login = async (email, password) => {
     roles: user?.roles || [],
   };
   const token = generateJWT(payload);
-  return { user:{name:user.name, role:user.roles, email:user.email},token };
+  return {
+    user: { name: user.name, role: user.roles, email: user.email },
+    token,
+  };
 };
 
+const generateFPToken = async (email) => {
+  const user = await userModel.findOne({
+    email,
+    isActive: true,
+    isArchive: false,
+  });
+  if (!user) throw new Error("user not found");
+  const token = generateOTP();
+  await authModel.create({ email, token });
+  await mailer(email, token);
+  return true;
+};
 
-const generateFPToken=async(email)=>{
-const user = await userModel.findOne({ email,isActive:true,isArchive:false})
-if(!user) throw new Error ("user not found");
-const token = generateOTP()
-await authModel.create({email,token})
-await mailer(email,token)
-return true;
-}
+const forgetPassword = async (email, token, password) => {
+  const user = await authModel.findOne({
+    email,
+  });
+  if (!user) throw new Error("user doesnot exit");
+  const isValidToken = await verifyOTP(token);
+  if (isValidToken) throw new Error("Token expire");
+  await userModel.findOneAndUpdate(
+    { email },
+    { password: await bcrypt.hash(password, +process.env.SALT_ROUND) },
 
-const forgetPassword = async (email,token,password)=>{
-const user = await authModel.findOne({
-  email,
-})
-if (!user) throw new Error('user doesnot exit')
-const isValidToken = await verifyOTP(token);
-if(isValidToken) throw new Error ('Token expire')
-await userModel.findOneAndUpdate(
-  { email},
-  { password: await bcrypt.hash(password,+process.env.SALT_ROUND ) },
+    { new: true }
+  );
+  await authModel.deleteOne({ email });
+};
 
-  { new: true }
-);
-await authModel.deleteOne({email});
-}
-
-module.exports = { login, register, verifyEmail,forgetPassword, regenerateToken ,generateFPToken};
+module.exports = {
+  login,
+  register,
+  verifyEmail,
+  forgetPassword,
+  regenerateToken,
+  generateFPToken,
+};
