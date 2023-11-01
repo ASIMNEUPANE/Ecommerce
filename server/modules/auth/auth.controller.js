@@ -21,6 +21,7 @@ const register = async (payload) => {
 // ---Verify email && Token--
 
 const verifyEmail = async (email, token) => {
+  console.log(token)
   // email exists check
   const auth = await authModel.findOne({ email });
   if (!auth) throw new Error("user not found");

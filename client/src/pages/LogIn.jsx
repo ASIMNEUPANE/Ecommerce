@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginByEmail } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
-
+import useSignUp from "../hooks/useSignup";
 const Login = () => {
   const navigate = useNavigate();
-  const { isLoggedIn } = useSelector((state) => state.auth);
-  console.log(isLoggedIn,"login")
   const dispatch = useDispatch();
   const [key, setKey] = useState("login");
 
@@ -28,7 +26,7 @@ const Login = () => {
           />
         </Tab>
         <Tab eventKey="signup" title="Sign Up">
-          <SignUpForm />
+          <SignUpForm dispatch={dispatch} />
         </Tab>
       </Tabs>
     </div>
@@ -36,49 +34,115 @@ const Login = () => {
 };
 
 const SignUpForm = () => {
+  const { email, register, successfullRegistration } = useSignUp();
+  const [payload, setPayload] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const [validated, setValidated] = useState(false);
+
+  const checkFormValidity = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await register({ payload });
+  };
+
   return (
     <>
-      <Form className="d-grid gap-2">
-        <Form.Group
-          as={Col}
-          md="12"
-          className="mb-3"
-          controlId="validationCustom01"
+      {email && successfullRegistration && <>
+      < Verify email={email}/>
+      </>}
+
+      { !successfullRegistration && (
+        <Form
+          className="d-grid gap-2"
+          noValidate
+          validated={validated}
+          onSubmit={(e) => handleSubmit(e)}
+          onChange={checkFormValidity}
         >
-          <Form.Label>Full name</Form.Label>
-          <Form.Control required type="text" placeholder="Full name" />
-          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group
-          as={Col}
-          md="12"
-          className="mb-3"
-          controlId="validationCustom02"
-        >
-          <Form.Label>Email</Form.Label>
-          <Form.Control required type="email" placeholder="Your Valid Email" />
-          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-        </Form.Group>
-        <Row className="mb-3">
-          <Form.Group as={Col} md="6" controlId="validationCustom03">
-            <Form.Label>Password</Form.Label>
-            <Form.Control required type="password" placeholder="Password" />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group as={Col} md="6" controlId="validationCustom04">
-            <Form.Label>Confirm Password</Form.Label>
+          <Form.Group
+            as={Col}
+            md="12"
+            className="mb-3"
+            controlId="validationCustom01"
+          >
+            <Form.Label>Full name</Form.Label>
             <Form.Control
               required
-              type="password"
-              placeholder="Confirm Password"
+              type="text"
+              placeholder="Full name"
+              value={payload.name}
+              onChange={(e) => {
+                setPayload((prev) => {
+                  return { ...prev, name: e.target.value };
+                });
+              }}
             />
             <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
-        </Row>
-        <Button type="submit" size="lg">
-          Register
-        </Button>
-      </Form>
+          <Form.Group
+            as={Col}
+            md="12"
+            className="mb-3"
+            controlId="validationCustom02"
+          >
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              required
+              type="email"
+              placeholder="Your Valid Email"
+              value={payload.email}
+              onChange={(e) => {
+                setPayload((prev) => {
+                  return { ...prev, email: e.target.value };
+                });
+              }}
+            />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+          </Form.Group>
+          <Row className="mb-3">
+            <Form.Group as={Col} md="6" controlId="validationCustom03">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                required
+                type="password"
+                placeholder="Password"
+                value={payload.password}
+                onChange={(e) => {
+                  setPayload((prev) => {
+                    return { ...prev, password: e.target.value };
+                  });
+                }}
+              />
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group as={Col} md="6" controlId="validationCustom04">
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
+                required
+                type="password"
+                placeholder="Confirm Password"
+              />
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+          <Button type="submit" size="lg" disabled={email?true:false}>
+            Register
+          </Button>
+        </Form>
+      )}
     </>
   );
 };
@@ -90,18 +154,18 @@ const LoginForm = ({ dispatch, login, navigate }) => {
     e.preventDefault();
     try {
       const data = await dispatch(login(signIn));
-      console.log({data},"data" )
+      console.log({ data }, "data");
       if (data.payload.msg === "Succes") {
         navigate("/admin/dashboard");
       } else {
-        setError(data.payload.msg.split("Error:" ));
+        setError(data.payload.msg.split("Error:"));
       }
     } catch (e) {
       return e;
-    }finally{
-      setTimeout(()=>{
-        setError('')
-      },2000)
+    } finally {
+      setTimeout(() => {
+        setError("");
+      }, 2000);
     }
   };
   return (
@@ -135,7 +199,7 @@ const LoginForm = ({ dispatch, login, navigate }) => {
           }}
         />
       </Form.Group>
-    
+
       <Button
         variant="primary"
         type="submit"
@@ -150,5 +214,57 @@ const LoginForm = ({ dispatch, login, navigate }) => {
     </Form>
   );
 };
+
+const Verify = ({email})=>{
+  const {verify,isVerified} =useSignUp()
+  const [verification , setVerification]= useState({email:email,token:""})
+  const handleTokenSubmit=async(e)=>{
+    e.preventDefault();
+  const verify=  await verify({payload:verification})
+  console.log({isVerified})
+    
+  }
+  return <>
+   <Form className="d-grid gap-2">
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control
+          type="email"
+          placeholder="Enter email"
+          readOnly={true}
+          value={email}
+          
+        />
+       
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Token</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="token"
+          value={verification?.token}
+          onChange={(e) => {
+            setVerification((prev) => {
+              return { ...prev, token: e.target.value };
+            });
+          }}
+        />
+          <Form.Text className="text-muted">
+          Check your email for Token.
+        </Form.Text>
+      </Form.Group>
+
+      <Button
+        variant="primary"
+        type="submit"
+        size="lg"
+        onClick={(e)=>{handleTokenSubmit(e)}}
+       
+      >
+        Login
+      </Button>
+    </Form>
+  </>
+}
 
 export default Login;
