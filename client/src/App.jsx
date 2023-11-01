@@ -21,10 +21,11 @@ const adminRoutes = [
   { path: "/dashboard", component: <Dashboard />, role: "admin" },
   { path: "/orders", component: <AdminProducts />, role: "admin" },
   { path: "/users", component: <AdminProducts />, role: "admin" },
+  { path: "/categories", component: <AdminProducts />, role: "admin" },
 ];
 
 function App() {
-  const { isLoggedIn,roles, user,error } = useSelector((state) => state.auth);
+  const { isLoggedIn } = useSelector((state) => state.auth);
   
 
   return (

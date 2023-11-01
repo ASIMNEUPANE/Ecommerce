@@ -1,14 +1,20 @@
 import { Link } from "react-router-dom";
-import { FiLogIn, FiShoppingCart } from "react-icons/fi";
-import { Badge, Button } from "react-bootstrap";
+import { CiLogout } from "react-icons/ci";
+import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import { removeToken } from "../utils/session";
+import { setLogOut } from "../slices/authSlice";
 function AdminNavbar() {
-  const { quantity } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    removeToken();
+    dispatch(setLogOut());
+  };
   return (
     <Navbar fixed="top" expand="lg" className="bg-body-tertiary">
       <Container fluid>
@@ -24,23 +30,29 @@ function AdminNavbar() {
         <Navbar.Collapse id="navbarScroll">
           <Nav className="me-auto">
             <Link
-              to="/products"
+              to="/admin/products"
               className="text-decoration-none text-dark nav-link"
             >
               Product
             </Link>
 
             <Link
-              to="/contact"
+              to="/admin/orders"
               className="text-decoration-none text-dark nav-link"
             >
-              Contact
+              Orders
             </Link>
             <Link
-              to="/about"
+              to="/admin/categories"
               className="text-decoration-none text-dark nav-link"
             >
-              About me
+              Categories
+            </Link>
+            <Link
+              to="/admin/users"
+              className="text-decoration-none text-dark nav-link"
+            >
+              Users
             </Link>
           </Nav>
           <Form className="d-flex">
@@ -52,14 +64,10 @@ function AdminNavbar() {
             />
             <Button variant="outline-success">Search</Button>
           </Form>
-          <Link className="btn btn-light" to="/cart">
-            <FiShoppingCart />
-            &nbsp;
-            <Badge bg="secondary">{quantity ?? 0}</Badge>
-          </Link>
-          <Link className="btn btn-light" to="/Login">
-            <FiLogIn />
-          </Link>
+
+          <button className="btn btn-light bold" onClick={handleLogout}>
+            {user?.name} <CiLogout />
+          </button>
         </Navbar.Collapse>
       </Container>
     </Navbar>
