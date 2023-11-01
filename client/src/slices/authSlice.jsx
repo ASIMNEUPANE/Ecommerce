@@ -33,14 +33,18 @@ const authSlice = createSlice({
     setIsloggedIn: (state, action) => {
       state.isLoggedIn = action.payload;
     },
-   
+    setLogOut: (state) => {
+      state.user = {};
+      state.roles = [];
+      state.isLoggedIn = false;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(loginByEmail.fulfilled, (state, action) => {
         // Add user to the state array
-        console.log(action, "action")
-        
+        console.log(action, "action");
+
         state.loading = false;
         state.isLoggedIn = true;
         state.user = action.payload.data.user;
@@ -59,6 +63,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setIsloggedIn} = authSlice.actions;
+export const { setIsloggedIn, setLogOut } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
