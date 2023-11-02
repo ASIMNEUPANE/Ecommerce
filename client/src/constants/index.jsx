@@ -4,5 +4,6 @@ const version = "/api/v1";
 export const URLS = {
   AUTH: version + "/auth",
   ORDERS: version + "/orders",
+  CATEGORIES: version + "/categories",
   PRODUCTS: version + "/products",
 };
