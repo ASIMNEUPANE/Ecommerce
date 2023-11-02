@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { loginByEmail } from "../slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import useSignUp from "../hooks/useSignup";
+import e from "cors";
+
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -60,11 +62,13 @@ const SignUpForm = () => {
 
   return (
     <>
-      {email && successfullRegistration && <>
-      < Verify email={email}/>
-      </>}
+      {email && successfullRegistration && (
+        <>
+          <Verify email={email} />
+        </>
+      )}
 
-      { !successfullRegistration && (
+      {!successfullRegistration && (
         <Form
           className="d-grid gap-2"
           noValidate
@@ -138,7 +142,8 @@ const SignUpForm = () => {
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
           </Row>
-          <Button type="submit" size="lg" disabled={email?true:false}>
+
+          <Button type="submit" size="lg" disabled={email ? true : false}>
             Register
           </Button>
         </Form>
@@ -215,56 +220,83 @@ const LoginForm = ({ dispatch, login, navigate }) => {
   );
 };
 
-const Verify = ({email})=>{
-  const {verify,isVerified} =useSignUp()
-  const [verification , setVerification]= useState({email:email,token:""})
-  const handleTokenSubmit=async(e)=>{
-    e.preventDefault();
-  const verify=  await verify({payload:verification})
-  console.log({isVerified})
-    
-  }
-  return <>
-   <Form className="d-grid gap-2">
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control
-          type="email"
-          placeholder="Enter email"
-          readOnly={true}
-          value={email}
-          
-        />
-       
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Token</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="token"
-          value={verification?.token}
-          onChange={(e) => {
-            setVerification((prev) => {
-              return { ...prev, token: e.target.value };
-            });
-          }}
-        />
-          <Form.Text className="text-muted">
-          Check your email for Token.
-        </Form.Text>
-      </Form.Group>
+const Verify = ({ email }) => {
+  const { verify,regenerate } = useSignUp();
+  const [msg, setMsg] = useState("");
+  const [verification, setVerification] = useState({ email: email, token: "" });
 
-      <Button
-        variant="primary"
-        type="submit"
-        size="lg"
-        onClick={(e)=>{handleTokenSubmit(e)}}
-       
-      >
-        Login
-      </Button>
-    </Form>
-  </>
-}
+  const handleTokenSubmit = async (e) => {
+    
+      e.preventDefault();
+      const data = await verify({ payload: verification });
+      if (data.data.msg === "Succes") {setMsg("Email verified")}
+
+      else {
+        setMsg("Something went Wrong");
+      }
+   
+  };
+
+  const reSendToken = async(e)=>{
+   
+   e.preventDefault();
+   const data = await regenerate({payload:{email}})
+   if (data.data.msg === "Succes") {setMsg("Email has been sent. Check again!")}
+
+   else {
+     setMsg("Something went Wrong");
+   }
+  }
+
+  return (
+    <>
+      <Form className="d-grid gap-2">
+        {msg && <label className=" text-center text-success">{msg}</label>}
+
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            readOnly={true}
+            value={email}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Token</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="token"
+            value={verification?.token}
+            onChange={(e) => {
+              setVerification((prev) => {
+                return { ...prev, token: e.target.value };
+              });
+            }}
+          />
+          <div className="flex d-flex justify-content-between ">
+          <Form.Text className="text-muted">
+            Check your email for Token.
+          </Form.Text>
+          <Form.Text className="text-muted  ">
+           <button className="btn btn-link" onClick={(e)=>{reSendToken(e)} }> Regenerate Token</button> 
+          </Form.Text>
+          </div>
+        </Form.Group>
+
+        <Button
+          variant="primary"
+          type="submit"
+          size="lg"
+          onClick={(e) => {
+            handleTokenSubmit(e);
+          }}
+        >
+          Login
+        </Button>
+      </Form>
+    </>
+  );
+};
 
 export default Login;

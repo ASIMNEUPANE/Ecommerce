@@ -5,7 +5,6 @@ import axios from "axios";
 export default function useSignUp() {
   const [email, setEmail] = useState("");
   const [successfullRegistration, setSuccessfullRegistration] = useState(false);
-  const [isVerified, setisVerified] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -31,7 +30,7 @@ export default function useSignUp() {
     try {
       setLoading(true);
      const verify =  await axios.post(SERVER_URL +URLS.AUTH + "/verify", payload)
-     setisVerified(verify);
+    return verify;
     }
    
     catch (e) {
@@ -44,8 +43,9 @@ export default function useSignUp() {
   const regenerate = async ({ payload }) => {
     try {
       setLoading(true);
-      await axios.post(SERVER_URL +URLS.AUTH + "/regenerate", payload);
-      setEmail(payload.email);
+     const regen = await axios.post(SERVER_URL +URLS.AUTH + "/regenerate", payload);
+     return regen;
+      
     } catch (e) {
       const msg = e ? e.message : "Create API Failed";
       setError(msg);
@@ -59,8 +59,7 @@ export default function useSignUp() {
     error,
     loading,
     successfullRegistration,
-    isVerified,
-    register,
+     register,
     verify,
     regenerate,
   };
