@@ -43,7 +43,6 @@ const authSlice = createSlice({
     builder
       .addCase(loginByEmail.fulfilled, (state, action) => {
         // Add user to the state array
-        console.log(action, "action");
 
         state.loading = false;
         state.isLoggedIn = true;
