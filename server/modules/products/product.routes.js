@@ -28,6 +28,7 @@ router.post(
         );
       }
       req.body.created_by = req.currentUser;
+      
       const result = await controller.create(req.body);
       res.json({ data: result, mssg: "Success" });
     } catch (e) {

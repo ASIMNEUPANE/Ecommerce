@@ -3,7 +3,6 @@ const controller = require("./auth.controller");
 
 router.post("/register", async (req, res, next) => {
   try {
-    console.log(req.body)
     const result = await controller.register(req.body);
     res.json({ data: result, msg: "Succes" });
   } catch (e) {
