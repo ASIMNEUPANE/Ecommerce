@@ -21,10 +21,17 @@ router.post(
   upload.array("images", 4),
   async (req, res, next) => {
     try {
-      if (req.files) {
+      if (req.files ) {
         req.body.images = [];
         req.files.map((file) =>
           req.body.images.push("products/".concat(file.filename))
+        );
+      }
+      if (req.body.images && req.body.images.length>0 ) {
+        req.files = req.body.images
+        req.body.images=[]
+        req.files.map((file) =>
+          req.body.images.push(file)
         );
       }
       req.body.created_by = req.currentUser;
@@ -83,7 +90,7 @@ router.delete("/:id", secureAPI(["admin"]), async (req, res, next) => {
   try {
     req.body.updated_by = req.currentUser;
     const result = await controller.deleteById(req.params.id, req.body);
-    res.json({ data: result, mssg: "succes" });
+    res.json({ data: result, mssg: "success" });
   } catch (e) {
     next(e);
   }

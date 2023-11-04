@@ -3,12 +3,15 @@ import {  useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect } from "react";
 import {fetchProducts} from "../../slices/productSlice";
 import { Link } from "react-router-dom";
+import useApi from "../../hooks/useApi";
+import { URLS } from "../../constants";
 // import AddProduct from "./AddProduct";
 function AdminProducts() {
   const { products, loading, limit, total,page, currentPage } = useSelector(
     (state) => state.products
   );
   const dispatch = useDispatch();
+  const {msg,deleteById}= useApi()
   const initFetch = useCallback(() => {
     dispatch(fetchProducts({limit,page,currentPage}))
   }, [dispatch,currentPage,limit]);
@@ -17,7 +20,7 @@ function AdminProducts() {
 
    useEffect(()=>{
     initFetch()
-  },[initFetch])
+  },[initFetch,products])
   return (
     <>
     <div className=" mb-2 flex d-flex justify-content-end">
@@ -26,7 +29,8 @@ function AdminProducts() {
 
     </div>
     {/* <AddProduct/> */}
-      <Tables data={products} headers={headers} />
+      <Tables data={products} headers={headers} remove={deleteById}  msg={msg} url={URLS.PRODUCTS}  />
+      
     </>
   );
 }

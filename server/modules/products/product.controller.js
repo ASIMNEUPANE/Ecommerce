@@ -15,8 +15,8 @@ const create = async (payload) => {
 
 const list = async (limit, page, search) => {
   const pageNum = parseInt(page) || 1;
-  const limits = parseInt(limit) || 5;
-  const { name } = search;
+  const limits = parseInt(limit) || 20;
+  const { name, isArchive } = search;
   const query = {};
   if (name) {
     query.name = new RegExp(name, "gi");
@@ -24,7 +24,9 @@ const list = async (limit, page, search) => {
   const response = await productModel
     .aggregate([
       {
-        $match: query,
+        $match: {
+          isArchive : Boolean(isArchive) || false,
+        },
       },
       {
         $sort: {
