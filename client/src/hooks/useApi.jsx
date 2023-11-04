@@ -16,7 +16,7 @@ const useApi = () => {
         data: { isArchive: true },
       });
       if ((data.mssg = "success")) {
-        dispatch(fetchProducts())
+        dispatch(fetchProducts({}))
         setMsg("Data deleted successfully");
       }
     } catch (e) {

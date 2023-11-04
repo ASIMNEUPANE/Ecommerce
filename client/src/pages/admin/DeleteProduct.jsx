@@ -1,22 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
-import { useDispatch ,useSelector} from "react-redux";
-import { fetchProducts } from "../../slices/productSlice";
+import { useState } from "react";
+
 
 export default function AddProduct() {
   const [selectedOption, setSelectedOption] = useState("All");
 
-  const { products, loading, limit, total, page, currentPage } = useSelector(
-    (state) => state.products
-  );
-  const dispatch = useDispatch();
-  const initFetch = useCallback(() => {
-    dispatch(fetchProducts({ limit, page, currentPage }));
-  }, [dispatch, currentPage, limit]);
 
-  useEffect(() => {
-    initFetch();
-  }, [initFetch]);
-
+  
   const handleRadioChange = (e) => {
     setSelectedOption(e.target.value);
   };

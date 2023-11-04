@@ -1,69 +1,59 @@
+import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import { Table } from "react-bootstrap";
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
-import Swal from "sweetalert2"
+import Swal from "sweetalert2";
 
-
-export default function Tables({ headers, data,remove,msg,url }) {
-
-  const handleDelete=async(id)=>{
-  const swalRes = await  Swal.fire({
-      title: 'Are you sure?',
+export default function Tables({ headers, data, remove, msg, url }) {
+  const navigate = useNavigate();
+  const handleDelete = async (id) => {
+    const swalRes = await Swal.fire({
+      title: "Are you sure?",
       text: "You won't be able to revert this!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    })
-      if (swalRes.isConfirmed) {
-        // delete hook
-      await remove(url,id)
-        Swal.fire(
-          'Deleted!',
-          msg,
-          'success'
-        )
-      }
-    
-    console.log("delete",id)
-
-
-  }
-
-  const handleEdit=async(id)=>{
-console.log("edit",id)
-
-  }
-
-  
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+    if (swalRes.isConfirmed) {
+      // Delete Hook
+      await remove(url, id);
+      Swal.fire("Deleted!", msg, "success");
+    }
+  };
+  const handleEdit = async (id) => {
+    navigate(`/admin/products/${id}`);
+  };
   return (
     <div>
       <Table striped bordered hover>
         <thead>
           <tr>
-            {headers?.length > 0
-              ? headers.map((title, index) => {
-                  return <th key={index}>{title}</th>;
+            {headers.length > 0
+              ? headers.map((d, idx) => {
+                  return <th key={idx}>{d}</th>;
                 })
               : null}
-            <th>actions</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {data?.length > 0
-            ? data.map((product, index) => {
+          {data.length > 0
+            ? data.map((d, idx) => {
                 return (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{product?.name}</td>
-                    <td>{product?.quantity}</td>
-                    <td>{product?.price}</td>
+                  <tr key={idx}>
+                    <td>{idx + 1}</td>
+                    <td>{d?.name}</td>
+                    <td>{d?.quantity}</td>
+                    <td>{d?.price}</td>
                     <td>
-                      <div  className="flex d-flex justify-content-around">
-                      <AiOutlineDelete className="text-danger"  onClick={()=>handleDelete(product?._id)}/>
-                      <AiOutlineEdit className="text-success" onClick={()=>handleEdit(product?._id)} />
+                      <div className="flex d-flex justify-content-evenly">
+                        <BsFillTrashFill
+                          color="red"
+                          onClick={() => handleDelete(d?._id)}
+                        />
+                        <BsFillPencilFill onClick={() => handleEdit(d?._id)} />
                       </div>
-                   
                     </td>
                   </tr>
                 );

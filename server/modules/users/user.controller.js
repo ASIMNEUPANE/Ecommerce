@@ -1,9 +1,7 @@
 const Model = require("./user.model");
 const bcrypt = require("bcrypt");
 
-// const list = async () => {
-//   return await Model.find();
-// };
+
 
 const create = async (payload) => {
   return await Model.create(payload);
