@@ -8,12 +8,16 @@ import Navbar from "react-bootstrap/Navbar";
 import { useSelector, useDispatch } from "react-redux";
 import { removeToken } from "../utils/session";
 import { setLogOut } from "../slices/authSlice";
+import { useNavigate } from "react-router-dom";
 function AdminNavbar() {
+  const navigate = useNavigate()
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const handleLogout = () => {
     removeToken();
     dispatch(setLogOut());
+    navigate('/login')
+    
   };
   return (
     <Navbar fixed="top" expand="lg" className="bg-body-tertiary">

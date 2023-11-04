@@ -27,7 +27,7 @@ const useApi = () => {
     }
   };
 
-  const updateById = async ({ url, id, payload }) => {
+  const updateById = async (url, id, payload ) => {
     try {
       setLoading(true);
       const { data } = await API.delete(`${url}/${id}`, payload);

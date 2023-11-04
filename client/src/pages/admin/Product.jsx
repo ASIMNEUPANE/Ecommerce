@@ -24,7 +24,7 @@ function AdminProducts() {
 
   useEffect(() => {
     initFetch();
-  }, [initFetch]);
+  }, [initFetch,products]);
 
   return (
     <>

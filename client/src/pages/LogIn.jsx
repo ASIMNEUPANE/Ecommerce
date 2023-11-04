@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
-
+import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { loginByEmail } from "../slices/authSlice";
-import { useNavigate } from "react-router-dom";
 import useSignUp from "../hooks/useSignup";
-import e from "cors";
+
 
 const Login = () => {
-  const navigate = useNavigate();
+  const navigate= useNavigate()
   const dispatch = useDispatch();
   const [key, setKey] = useState("login");
 
@@ -28,7 +27,7 @@ const Login = () => {
           />
         </Tab>
         <Tab eventKey="signup" title="Sign Up">
-          <SignUpForm dispatch={dispatch} />
+          <SignUpForm dispatch={dispatch} navigate={navigate} />
         </Tab>
       </Tabs>
     </div>
@@ -58,6 +57,8 @@ const SignUpForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await register({ payload });
+   
+   
   };
 
   return (

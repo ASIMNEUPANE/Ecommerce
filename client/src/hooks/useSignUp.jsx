@@ -3,6 +3,7 @@ import { SERVER_URL, URLS } from "../constants";
 import axios from "axios";
 
 export default function useSignUp() {
+  
   const [email, setEmail] = useState("");
   const [successfullRegistration, setSuccessfullRegistration] = useState(false);
   const [error, setError] = useState(null);
@@ -17,7 +18,9 @@ export default function useSignUp() {
         payload
       );
       setEmail(payload.email);
-      if (data.msg === "Succes") setSuccessfullRegistration(true);
+      if (data.msg === "Succes"){
+      
+        setSuccessfullRegistration(true)};
     } catch (e) {
       const msg = e ? e.message : "Create API Failed";
       setError(msg);
