@@ -37,7 +37,7 @@ router.post(
       req.body.created_by = req.currentUser;
       
       const result = await controller.create(req.body);
-      res.json({ data: result, mssg: "Success" });
+      res.json({ data: result, msg: "success" });
     } catch (e) {
       next(e);
     }
@@ -79,7 +79,7 @@ router.put(
 
       req.body.updated_by = req.currentUser;
       const result = await controller.updateById(req.params.id, req.body);
-      res.json({ data: result, mssg: "Success" });
+      res.json({ data: result, mssg: "success" });
     } catch (e) {
       next(e);
     }

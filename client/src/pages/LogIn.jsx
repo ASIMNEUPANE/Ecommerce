@@ -161,7 +161,7 @@ const LoginForm = ({ dispatch, login, navigate }) => {
     try {
       const data = await dispatch(login(signIn));
       console.log({ data }, "data");
-      if (data.payload.msg === "Succes") {
+      if (data.payload.msg === "success") {
         navigate("/admin/dashboard");
       } else {
         setError(data.payload.msg.split("Error:"));
@@ -230,7 +230,7 @@ const Verify = ({ email }) => {
     
       e.preventDefault();
       const data = await verify({ payload: verification });
-      if (data.data.msg === "Succes") {setMsg("Email verified")}
+      if (data.data.msg === "success") {setMsg("Email verified")}
 
       else {
         setMsg("Something went Wrong");
@@ -242,7 +242,7 @@ const Verify = ({ email }) => {
    
    e.preventDefault();
    const data = await regenerate({payload:{email}})
-   if (data.data.msg === "Succes") {setMsg("Email has been sent. Check again!")}
+   if (data.data.msg === "success") {setMsg("Email has been sent. Check again!")}
 
    else {
      setMsg("Something went Wrong");

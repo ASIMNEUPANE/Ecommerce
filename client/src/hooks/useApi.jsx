@@ -15,7 +15,7 @@ const useApi = () => {
       const { data } = await API.delete(`${url}/${id}`, {
         data: { isArchive: true },
       });
-      if ((data.mssg = "success")) {
+      if (data.mssg = "success") {
         dispatch(fetchProducts({}))
         setMsg("Data deleted successfully");
       }
@@ -31,7 +31,7 @@ const useApi = () => {
     try {
       setLoading(true);
       const { data } = await API.delete(`${url}/${id}`, payload);
-      if ((data.mssg = "Success")) {
+      if ((data.msg = "success")) {
         setData(data.data);
         setMsg("Data updated successfully");
       }

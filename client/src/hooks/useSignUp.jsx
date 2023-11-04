@@ -11,14 +11,14 @@ export default function useSignUp() {
 
   const register = async ({ payload }) => {
     try {
-      console.log(payload, "hooks");
+    
       setLoading(true);
       const { data } = await axios.post(
         SERVER_URL + URLS.AUTH + "/register",
         payload
       );
       setEmail(payload.email);
-      if (data.msg === "Succes"){
+      if (data.msg === "success"){
       
         setSuccessfullRegistration(true)};
     } catch (e) {
