@@ -17,11 +17,14 @@ import Dashboard from "./pages/admin/Dashboard";
 import { useSelector } from "react-redux";
 import AddProduct from "./pages/admin/AddProduct"
 import AdminNavbar from "./layouts/AdminNavbar";
+import EditProducts from "./pages/admin/EditProducts";
+
 const adminRoutes = [
   { path: "/categories", component: <AdminProducts />, role: "admin" },
   { path: "/dashboard", component: <Dashboard />, role: "admin" },
   { path: "/products", component: <AdminProducts />, role: "admin" },
   { path: "/products/add", component: <AddProduct />, role: "admin" },
+  { path: "/products/:id", component: <EditProducts />, role: "admin" },
   { path: "/orders", component: <AdminProducts />, role: "admin" },
   { path: "/users", component: <AdminProducts />, role: "admin" },
 ];
