@@ -1,11 +1,20 @@
 import { Navigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { getToken } from "../utils/session";
+import moment from "moment";
 
 console.log(jwt_decode);
 export const AdminRoute = ({ children, role }) => {
   return (
-    <>{isLoggedIn() && isAdmin(role) ? children : <Navigate to={"/login"} />}</>
+    <>
+      {isLoggedIn() && isAdmin(role) ? (
+        children
+      ) : isLoggedIn() && !isAdmin(role) ? (
+        <Navigate replace to={"/admin/dashboard"} />
+      ) : (
+        <Navigate replace to={"/login"} />
+      )}
+    </>
   );
 };
 
@@ -14,6 +23,7 @@ export const PrivateRoute = ({ children }) => {
 };
 
 const isAdmin = (role) => {
+  if(!role) return true
   // CHECK JWT TOKEN (Private)
   const token = getToken();
   if (!token) return false;
@@ -30,6 +40,6 @@ const isLoggedIn = () => {
   // check for access token duration
   const { exp } = jwt_decode(token);
   const now = new Date().valueOf();
-  const isValid = new Date(now).getTime() > new Date(exp).getTime();
+  const isValid =  moment.unix(exp) > moment(now) ;
   return isValid;
 };
