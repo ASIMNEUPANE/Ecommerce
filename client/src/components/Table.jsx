@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 
 export default function Tables({ headers, data, remove, msg, url }) {
   const navigate = useNavigate();
+  
   const handleDelete = async (id) => {
     const swalRes = await Swal.fire({
       title: "Are you sure?",
