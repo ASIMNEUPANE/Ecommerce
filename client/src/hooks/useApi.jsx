@@ -1,23 +1,39 @@
-import { useState } from "react";
-import API from "../utils/API";
-import { fetchProducts } from "../slices/productSlice";
+import { useCallback, useState } from "react";
+import API from "../utils/api";
+
 import { useDispatch } from "react-redux";
+import { fetchProducts } from "../slices/productSlice";
+
 const useApi = () => {
-    const dispatch = useDispatch()
-  const [data, setData] = useState(false);
+  const dispatch = useDispatch();
+  const [data, setData] = useState(null);
   const [msg, setMsg] = useState("");
-  const [loading, setLoading] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const deleteById = async (url, id ) => {
+  const getById = useCallback(async (url, id) => {
+    try {
+      setLoading(true);
+      const { data } = await API.get(`${url}/${id}`);
+      setData(data.data);
+      return data.data;
+    } catch (e) {
+      const errMsg = e?.response?.data?.msg || "Something went wrong...";
+      setError(errMsg);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const deleteById = async (url, id) => {
     try {
       setLoading(true);
       const { data } = await API.delete(`${url}/${id}`, {
-        data: { isArchive: true },
+        data: { isArchive : true },
       });
-      if (data.mssg = "success") {
-        dispatch(fetchProducts({}))
-        setMsg("Data deleted successfully");
+      if (data.msg === "success") {
+        dispatch(fetchProducts({}));
+        setMsg("Data deleted Successfully");
       }
     } catch (e) {
       const errMsg = e.message || "Something went wrong";
@@ -27,14 +43,19 @@ const useApi = () => {
     }
   };
 
-  const updateById = async (url, id, payload ) => {
+  const updateById = async (url, id, payload) => {
     try {
       setLoading(true);
-      const { data } = await API.delete(`${url}/${id}`, payload);
-      if ((data.msg = "success")) {
+      const { data } = await API.put(`${url}/${id}`, payload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (data.msg === "success") {
         setData(data.data);
-        setMsg("Data updated successfully");
+        setMsg("Data Updated Successfully");
       }
+      return data;
     } catch (e) {
       const errMsg = e.message || "Something went wrong";
       setError(errMsg);
@@ -42,7 +63,8 @@ const useApi = () => {
       setLoading(false);
     }
   };
-  return { msg, data, loading, error , deleteById, updateById,};
+
+  return { data, msg, loading, error, deleteById, getById, updateById };
 };
 
 export default useApi;

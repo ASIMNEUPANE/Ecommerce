@@ -49,7 +49,7 @@ router.get("/", async (req, res, next) => {
     const { limit, page, name } = req.query;
     const search = { name };
     const result = await controller.list(limit, page, search);
-    res.json({ data: result, mssg: "Success" });
+    res.json({ data: result, msg: "success" });
   } catch (e) {
     next(e);
   }
@@ -58,7 +58,7 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const result = await controller.getById(req.params.id);
-    res.json({ data: result, mssg: "Success" });
+    res.json({ data: result, msg: "success" });
   } catch (e) {
     next(e);
   }
@@ -79,7 +79,7 @@ router.put(
 
       req.body.updated_by = req.currentUser;
       const result = await controller.updateById(req.params.id, req.body);
-      res.json({ data: result, mssg: "success" });
+      res.json({ data: result, msg: "success" });
     } catch (e) {
       next(e);
     }
@@ -90,7 +90,7 @@ router.delete("/:id", secureAPI(["admin"]), async (req, res, next) => {
   try {
     req.body.updated_by = req.currentUser;
     const result = await controller.deleteById(req.params.id, req.body);
-    res.json({ data: result, mssg: "success" });
+    res.json({ data: result, msg: "success" });
   } catch (e) {
     next(e);
   }

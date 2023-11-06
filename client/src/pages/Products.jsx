@@ -12,6 +12,7 @@ import {
 } from "../slices/productSlice";
 import SkeletalLoader from "../components/SkeletalLoader";
 import Paginate from "../components/Paginate";
+import { SERVER_URL } from "../constants";
 
 const Products = () => {
   const { products, loading, limit, total, currentPage } = useSelector(
@@ -52,12 +53,15 @@ const Products = () => {
                             </div>
                           )}
                           <div className="product-media">
-                            <Link to = {`/products/${product._id}`} >
+                            <Link to={`/products/${product._id}`}>
                               <img
                                 className="img-fluid fixed-size  "
                                 src={
-                                  product?.images[0] ||
-                                  "https://www.bootdey.com/image/380x380/FF00FF/000000"
+                                  product?.images[0] &&
+                                  product.includes("https: ")
+                                    ? product?.images[0]
+                                    : SERVER_URL + "/" + product?.images[0] ||
+                                      "https://www.bootdey.com/image/380x380/FF00FF/000000"
                                 }
                                 title={product?.name || ""}
                                 alt={product?.name || ""}

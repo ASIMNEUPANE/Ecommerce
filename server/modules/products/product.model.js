@@ -7,6 +7,7 @@ const productSchema = new Schema({
   alias: [{ type: String  }],
   description: { type: String },
   quantity: { type: Number, required: true },
+  brand:{type: String},
   price: { type: Number, required: true },
   category: { type: ObjectId, ref: "Category", required: true },
   images: [{ type: String }],
