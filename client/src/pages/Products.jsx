@@ -55,10 +55,10 @@ const Products = () => {
                           <div className="product-media">
                             <Link to={`/products/${product._id}`}>
                               <img
-                                className="img-fluid fixed-size  "
+                                className="img-fluid   "
                                 src={
                                   product?.images[0] &&
-                                  product.includes("https: ")
+                                  product?.images[0].includes("https:")
                                     ? product?.images[0]
                                     : SERVER_URL + "/" + product?.images[0] ||
                                       "https://www.bootdey.com/image/380x380/FF00FF/000000"

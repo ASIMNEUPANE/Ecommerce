@@ -5,7 +5,7 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { BsArrowLeftSquare } from "react-icons/bs";
 import numberFormatter from "number-formatter";
 import { useDispatch, useSelector } from "react-redux";
-
+import { SERVER_URL } from "../constants";
 import {
   decreaseQuantity,
   increaseQuantity,
@@ -91,7 +91,12 @@ const FilledCart = ({
                           <Image
                             width={40}
                             height={40}
-                            src={item?.images}
+                            src={
+                              item?.images[0] && item?.images[0].includes("https:")
+                                ? item?.images[0]
+                                : SERVER_URL + "/" + item?.images[0] ||
+                                  "https://www.bootdey.com/image/380x380/FF00FF/000000"
+                            }
                             thumbnail
                           />
                         </td>
