@@ -7,81 +7,112 @@ import Products from "./pages/Products";
 import ProductsDetails from "./pages/ProductsDetails";
 import ErrorPage from "./pages/ErrorPage";
 import Login from "./pages/LogIn";
-import Navbar from "./layouts/navbar";
-import Footer from "./layouts/Footer";
 import { PrivateRoute, AdminRoute } from "./components/Routes";
 import Checkout from "./pages/Checkout";
 import AdminProducts from "./pages/admin/Product";
 import { CheckoutPageStatus } from "./components/CheckoutStatus";
 import Dashboard from "./pages/admin/Dashboard";
-import { useSelector } from "react-redux";
-import AddProduct from "./pages/admin/AddProduct"
-import AdminNavbar from "./layouts/AdminNavbar";
+import AddProduct from "./pages/admin/AddProduct";
 import EditProducts from "./pages/admin/EditProducts";
-
-const adminRoutes = [
-  { path: "/categories", component: <AdminProducts />, role: "admin" },
-  { path: "/dashboard", component: <Dashboard />, role: "admin" },
-  { path: "/products", component: <AdminProducts />, role: "admin" },
-  { path: "/products/add", component: <AddProduct />, role: "admin" },
-  { path: "/products/:id", component: <EditProducts />, role: "admin" },
-  { path: "/orders", component: <AdminProducts />, role: "admin" },
-  { path: "/users", component: <AdminProducts />, role: "admin" },
-];
+import Layout from "./layouts/layout";
+import AdminLayout from "./layouts/AdminLayout";
 
 function App() {
-  const { isLoggedIn } = useSelector((state) => state.auth);
-  
-
   return (
-    <div className="">
+    <div>
       <BrowserRouter>
-        {isLoggedIn ? <AdminNavbar /> : <Navbar />}
-        <main className="flex-shrink-0 d-flex flex-column min-vh-100">
-          <div className="container mt-2 mb-5">
-            <Routes>
-              <Route path="/" element=<Home /> />
-              {adminRoutes.length > 0 &&
-                adminRoutes.map((route, index) => (
-                  <Route
-                    key={index}
-                    path={`/admin${route?.path}`}
-                    element={
-                      <AdminRoute role={route?.role}>
-                        {route?.component}
-                      </AdminRoute>
-                    }
-                  />
-                ))}
-              <Route path="/about" element=<About /> />
-              <Route path="/cart" element=<Cart /> />
-              <Route path="/contact" element=<Contact /> />
-              <Route
-                path="/login"
-                element={
-                  <PrivateRoute>
-                    <Login />
-                  </PrivateRoute>
-                }
-              />
-              <Route path="/checkout" element=<Checkout /> />
-              <Route path="/checkout/success" element=<CheckoutPageStatus /> />
-              <Route
-                path="/checkout/failed"
-                element=<CheckoutPageStatus
+        <Routes>
+          {/* Routes for normal users */}
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route
+              path="/login"
+              element={
+                <PrivateRoute>
+                  <Login />
+                </PrivateRoute>
+              }
+            />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/checkout/success" element={<CheckoutPageStatus />} />
+            <Route
+              path="/checkout/failed"
+              element={
+                <CheckoutPageStatus
                   type="failure"
                   msg="Something went wrong. Try Again"
                   msgHeader="Transaction Failed"
                 />
-              />
-              <Route path="/products" element=<Products /> />
-              <Route path="/products/:id" element=<ProductsDetails /> />
+              }
+            />
+            <Route path="/products" element={<Products />} />
+            <Route path="/products/:id" element={<ProductsDetails />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Route>
 
-              <Route path="*" element=<ErrorPage /> />
-            </Routes>
-          </div>
-        </main>
-        <Footer />
+          {/* Routes for Admin  */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route
+              path="/admin/dashboard"
+              element={
+                <AdminRoute role="admin">
+                  <Dashboard />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/products"
+              element={
+                <AdminRoute role="admin">
+                  <AdminProducts />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/products/add"
+              element={
+                <AdminRoute role="admin">
+                  <AddProduct />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/products/:id"
+              element={
+                <AdminRoute role="admin">
+                  <EditProducts />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/categories"
+              element={
+                <AdminRoute role="admin">
+                  <AddProduct />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/users"
+              element={
+                <AdminRoute role="admin">
+                  <AddProduct />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/orders"
+              element={
+                <AdminRoute role="admin">
+                  <AddProduct />
+                </AdminRoute>
+              }
+            />
+          </Route>
+        </Routes>
       </BrowserRouter>
     </div>
   );
