@@ -1,15 +1,15 @@
-import Tables from "../../components/Table";
+import Tables from "../../../components/Table";
 
 import { Link } from "react-router-dom";
 import { useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchProducts } from "../../slices/productSlice";
+import { fetchProducts } from "../../../slices/productSlice";
 
-import useApi from "../../hooks/useApi";
-import { URLS } from "../../constants";
+import useApi from "../../../hooks/useApi";
+import { URLS } from "../../../constants";
 
 function AdminProducts() {
-  const { products, loading, limit, total, currentPage } = useSelector(
+  const { products, limit, currentPage } = useSelector(
     (state) => state.products
   );
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ function AdminProducts() {
 
   useEffect(() => {
     initFetch();
-  }, [initFetch,products]);
+  }, [initFetch, products]);
 
   return (
     <>
