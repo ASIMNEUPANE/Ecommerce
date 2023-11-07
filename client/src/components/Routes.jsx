@@ -3,7 +3,7 @@ import jwt_decode from "jwt-decode";
 import { getToken } from "../utils/session";
 import moment from "moment";
 
-console.log(jwt_decode);
+
 export const AdminRoute = ({ children, role }) => {
   return (
     <>
