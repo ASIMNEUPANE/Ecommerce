@@ -8,8 +8,9 @@ const Home = () => {
         <div id="myCarousel" className="carousel slide" data-bs-ride="carousel">
           <Carousel>
             <Carousel.Item interval={1000}>
-              <CarouselImage text="First slide" />
+              <CarouselImage  text="First slide" />
               <Carousel.Caption>
+                {/* <img src="" alt="" /> */}
                 <h3>First slide label</h3>
                 <p>
                   Nulla vitae elit libero, a pharetra augue mollis interdum.
