@@ -6,7 +6,7 @@ import { create } from "../slices/orderSlice";
 import { removeAll } from "../slices/cartSlice";
 import { URLS } from "../constants";
 import API from "../utils/api";
-// import { SERVER_URL } from "../constants";
+
 
 export default function Checkout() {
   const [stripeCheckout, setStripeCheckoutUrl] = useState({
@@ -124,8 +124,8 @@ export default function Checkout() {
                           : item?.name}
                       </h6>
                       <small className="text-muted">
-                        {" "}
-                        {item?.description.length > 30
+                       
+                        {item?.description && item?.description.length > 30
                           ? item?.description.substring(0, 50).concat("...")
                           : item?.description}
                       </small>
