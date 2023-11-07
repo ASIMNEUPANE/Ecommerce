@@ -1,13 +1,14 @@
-import { useEffect, useState, useCallback } from "react";
-import { Link, useNavigate,useParams } from "react-router-dom";
+import React, { useEffect, useState, useCallback } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useCategories } from "../../../hooks/useCategories";
+
 
 export default function Edit() {
   const { id } = useParams();
   const navigate = useNavigate();
-
   const { getById, updateById } = useCategories();
+
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
 
@@ -15,18 +16,17 @@ export default function Edit() {
     try {
       e.preventDefault();
       await updateById(id, { name: name });
+      toast("Wow so easy!");
       navigate("/admin/categories");
     } catch (e) {
-      alert(e)
+      alert(e);
     }
   };
 
   const fetchDetails = useCallback(async () => {
     const result = await getById(id);
-
     setName(result?.name);
     setSlug(result?.slug);
-    setName({ result });
   }, [id, getById]);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function Edit() {
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Name</Form.Label>
               <Form.Control
-                type="name"
+                type="text" 
                 placeholder="Enter Category name"
                 value={name}
                 onChange={(e) => {
@@ -52,7 +52,7 @@ export default function Edit() {
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Slug</Form.Label>
               <Form.Control
-                type="name"
+                type="text" 
                 placeholder="slug"
                 value={slug}
                 disabled
@@ -64,13 +64,14 @@ export default function Edit() {
             </Button>
             <Link
               to="/admin/categories"
-              className="btn text-white  m-2 btn-danger "
+              className="btn text-white m-2 btn-danger"
             >
               Go Back
             </Link>
           </Form>
         </Col>
       </Row>
+ 
     </Container>
   );
 }
