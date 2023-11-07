@@ -1,14 +1,6 @@
 
 const productModel = require("./product.model");
 const {ObjectId} = require("mongoose").Types;
-
-
-
-
-
-
-
-
 const create = async (payload) => {
   return await productModel.create(payload);
 };
