@@ -1,36 +1,33 @@
+  
 const { Schema, model } = require("mongoose");
-const commonSchema = require("../../utils/commonSchema");
-const {ObjectId} = Schema.Types
+const { ObjectId } = Schema.Types;
+const { commonSchema } = require("../../utils/commonSchema");
 
 const orderSchema = new Schema({
-  id: { type: String, required: true, index: {unique: true }},
-  name: { type: String, required: true },
-  email: { type: String },
-  
-  address: { type: String },
+  id: { type: String, required: true, index: { unique: true } },
   amount: { type: Number, required: true },
   products: [
     {
-      product: { type: ObjectId,ref:"Product", required: true },
       quantity: { type: Number, required: true },
       price: { type: Number, required: true },
       amount: { type: Number, required: true },
+      product: { type: ObjectId, ref: "Product", required: true },
     },
   ],
   paymentMethod: {
     type: String,
     enum: ["COD", "STRIPE"],
     default: "COD",
-    
+    required: true,
   },
-  orderId:{type:String}
-  ,
-  payment: { type: String, default: "COD" },
+  orderId: { type: String },
+  address: { type: String },
+  email: { type: String },
+  name: { type: String, required: true },
   status: {
     type: String,
-    enum: ["Pending", "Completed", "Expired"],
-    default: "Pending",
-    
+    enum: ["pending", "completed", "failed"],
+    default: "pending",
   },
   ...commonSchema,
 });

@@ -73,27 +73,27 @@ const list = async (limit, page, search) => {
           total: 1,
         },
       },
-      {
-        $project: {
-          "data.password": 0,
-        },
-      },
+      
     ])
     .allowDiskUse(true);
   const newData = response[0];
   let { data, total } = newData;
   total = total || 0;
-  return { data, total, limit, pageNum };
+  return { data, total, limit,page: pageNum };
 };
 
 const getById = (id) => {
-  return model.findOne({ id });
+  return model.findOne({ _id:id });
+
 };
-const updateById = (id, payload) => {
+const updateById = async(id, payload) => {
   // Ignoring the quantity update
+ 
   const { products, ...rest } = payload;
-  return model.findOneAndUpdate({ id }, rest, { new: true });
+
+  return await model.findOneAndUpdate({ _id:id }, rest, { new: true });
 };
+
 const deleteById = (id, payload) => {
   // find the product
   const order = model.findOne(id);
@@ -120,6 +120,11 @@ const deleteById = (id, payload) => {
 
   return model.deleteOne({ id });
 };
+
+const approve = (id, payload) => {
+  return model.findOneAndUpdate({ id }, payload, { new: true });
+};
+
 const updateBasedonPayment = async (stripePayload) => {
   const { id, status } = stripePayload;
   const checkOrder = await model.findOne({ orderId: id });
@@ -176,6 +181,7 @@ const updateBasedonPayment = async (stripePayload) => {
 };
 
 module.exports = {
+  approve,
   create,
   list,
   getById,
