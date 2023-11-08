@@ -4,10 +4,11 @@ import { URLS } from "../constants";
 
 export const useCategories = () => {
   const [data, setData] = useState([]);
-  const [category,setCategory]= useState({})
+  const [categories,setCategories]= useState()
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
+
 
   const create = async (payload) => {
     try {
@@ -43,7 +44,7 @@ export const useCategories = () => {
     try {
       setLoading(true);
       const { data } = await API.get(`${URLS.CATEGORIES}/${id}`);
-      setCategory(data?.data);
+      setCategories(data?.data);
       setMsg("Categories fetch Successfully");
       return data.data;
     } catch (e) {
@@ -88,7 +89,7 @@ export const useCategories = () => {
     msg,
     error,
     loading,
-    category,
+    categories,
     list,
     create,
     getById,
