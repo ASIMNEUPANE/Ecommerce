@@ -1,4 +1,3 @@
-  
 const { Schema, model } = require("mongoose");
 const { ObjectId } = Schema.Types;
 const { commonSchema } = require("../../utils/commonSchema");
