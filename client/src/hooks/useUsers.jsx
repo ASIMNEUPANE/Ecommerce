@@ -8,7 +8,7 @@ export const useUsers = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
-  console.log(data, "ajahia");
+ 
 
   const create = async (payload) => {
     try {
@@ -70,7 +70,7 @@ export const useUsers = () => {
   };
   const deleteById = async (id,payload) => {
     try {
-        console.log({payload})
+      
       setLoading(true);
       const result = await API.delete(`${URLS.USERS}/${id}`,{data:payload});
 
@@ -104,7 +104,6 @@ export const useUsers = () => {
     msg,
     error,
     loading,
-    
     blockUser,
     list,
     create,
