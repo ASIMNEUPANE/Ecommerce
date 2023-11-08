@@ -27,6 +27,7 @@ router.get("/", secureAPI(["admin", "user"]), async (req, res, next) => {
 
 router.patch("/status/:id", secureAPI(["admin"]), async (req, res, next) => {
   try {
+    
     req.body.updated_by = req.currentUser;
     req.body.updated_at = new Date();
     const result = await controller.approve(req.params.id, req.body);
@@ -60,10 +61,9 @@ router.put("/:id", secureAPI(["admin"]), async (req, res, next) => {
 
 router.delete("/:id", secureAPI(["admin"]), async (req, res, next) => {
   try {
-    req.body.updated_by = req.currentUser;
-    req.body.updated_at = new Date();
+    const payload = {  updated_by: req.currentUser };
 
-    const result = await controller.deleteById(req.params.id, req.body);
+    const result = await controller.deleteById(req.params.id, payload);
     res.json({ data: result, mssg: "succes" });
   } catch (e) {
     next(e);

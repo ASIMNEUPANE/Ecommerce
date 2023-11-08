@@ -95,8 +95,9 @@ const updateById = async(id, payload) => {
 };
 
 const deleteById = (id, payload) => {
+  
   // find the product
-  const order = model.findOne(id);
+  const order = model.findOne({id});
   if (!order) throw new Error("order not found");
   //   increase the stock of product
   const products = order.products;
@@ -105,14 +106,14 @@ const deleteById = (id, payload) => {
     // update the stock
     const productInfo = await productModel.findOne({ _id: id });
     if (!productInfo) throw new Error("product is not valid");
-    const newQuantity = productInfo?.quantity + quantity;
+    
     // write the new quantity to product stocks
     await productModel.findOneAndUpdate(
       { _id: id },
       {
-        quantity: newQuantity,
-        updated_by: payload?.updated_by,
-        updated_at: payload?.updated_at,
+        quantity:productInfo?.quantity + quantity,
+        updated_by: payload.updated_by,
+        updated_at: new Date(),
       },
       { new: true }
     );
@@ -122,7 +123,7 @@ const deleteById = (id, payload) => {
 };
 
 const approve = (id, payload) => {
-  return model.findOneAndUpdate({ id }, payload, { new: true });
+  return model.findOneAndUpdate({ _id:id }, payload, { new: true });
 };
 
 const updateBasedonPayment = async (stripePayload) => {

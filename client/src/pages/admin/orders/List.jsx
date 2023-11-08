@@ -1,13 +1,14 @@
 import { useCallback, useEffect } from "react";
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
+import { FcApproval } from "react-icons/fc";
 import { Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-import { useOrder} from "../../../hooks/useOrder";
+import { useOrder } from "../../../hooks/useOrder";
 
 export default function List() {
-  const { data,  list, deleteById } = useOrder();
+  const { data, list, deleteById, approve } = useOrder();
   const navigate = useNavigate();
 
   const fetchOrders = useCallback(async () => {
@@ -34,7 +35,38 @@ export default function List() {
             text: "Delete Successful.",
             icon: "success",
           });
-         await list();
+          await list();
+        }
+      }
+    } catch (err) {
+      alert(err || "Something went wrong");
+    }
+  };
+  const handleApprove = async (event, id, status) => {
+    event.preventDefault();
+    try {
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Approve it!",
+      });
+      if (result.isConfirmed) {
+        const payload =
+          status === "pending"
+            ? { status: "completed" }
+            : { status: "pending" };
+        const resp = await approve(id, payload);
+        if (resp) {
+          Swal.fire({
+            title: "Approve!",
+            text: "Approve Successful.",
+            icon: "success",
+          });
+          await list();
         }
       }
     } catch (err) {
@@ -60,7 +92,7 @@ export default function List() {
             <th scope="col">Order#</th>
             <th scope="col">Buyer Email</th>
             <th scope="col">Amount</th>
-            
+
             <th scope="col">Status</th>
             <th scope="col">Action</th>
           </tr>
@@ -73,17 +105,20 @@ export default function List() {
                   <th width="25%">{item?.id}</th>
                   <td>{item?.email}</td>
                   <td>{item?.amount}</td>
-                
+
                   <td>{item?.status}</td>
                   <td width="10%">
                     <div className="flex d-flex justify-content-evenly">
                       <BsFillTrashFill
                         color="red"
-                        onClick={(e) => handleDelete(e, item?._id)}
+                        onClick={(e) => handleDelete(e, item?.id)}
                       />
                       <BsFillPencilFill
-                        onClick={() =>
-                          navigate(`/admin/orders/${item?._id}`)
+                        onClick={() => navigate(`/admin/orders/${item?._id}`)}
+                      />
+                      <FcApproval
+                        onClick={(e) =>
+                          handleApprove(e, item?._id, item?.status)
                         }
                       />
                     </div>

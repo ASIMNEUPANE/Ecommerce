@@ -67,6 +67,19 @@ export const useOrder = () => {
       const result = await API.delete(`${URLS.ORDERS}/${id}`);
       return result;
     } catch (e) {
+      console.log(e,"e")
+      const errMsg = e.response ? e.response?.data.msg : "Something went wrong";
+      setError(errMsg);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const approve = async (id,payload) => {
+    try {
+      const result = await API.patch(`${URLS.ORDERS}/status/${id}`,payload);
+      return result;
+    } catch (e) {
+     
       const errMsg = e.response ? e.response?.data.msg : "Something went wrong";
       setError(errMsg);
     } finally {
@@ -74,5 +87,5 @@ export const useOrder = () => {
     }
   };
 
-  return { data, order, create, list, getById, updateById, deleteById };
+  return { data, order,approve, create, list, getById, updateById, deleteById };
 };
