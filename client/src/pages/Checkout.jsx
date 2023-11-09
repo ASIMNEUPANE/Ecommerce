@@ -24,7 +24,7 @@ export default function Checkout() {
     email: "",
     address: "",
     country: "",
-    paymentMethod: "COD",
+    paymentMethod: "STRIPE",
     state: "",
     pobox: "",
     amount: 0,
@@ -35,7 +35,9 @@ export default function Checkout() {
   };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
+    
     const payload = checkout;
     const { address, pobox, state, country, ...rest } = payload;
 
@@ -53,12 +55,13 @@ export default function Checkout() {
     rest.orderId = stripeCheckout?.stripeId;
 
     const data = await dispatch(create(rest));
-    if (data && data.payload.mssg === "Success") {
+    if (data && data.payload.msg === "success") {
       dispatch(removeAll());
       window.location.replace(stripeCheckout?.url);
     } else {
       navigate("/checkout/failed");
     }
+    
   };
 
   const createPayments = useCallback(() => {
