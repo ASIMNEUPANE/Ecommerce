@@ -27,62 +27,59 @@ const create = (payload) => {
   return model.create(payload);
 };
 
-const list = async (limit, page, search) => {
-  const pageNum = parseInt(page) || 1;
-  const size = parseInt(limit) || 5;
-  const { name, role } = search;
-  const query = {};
-  if (search?.id) {
-    query = { id: new RegExp(name, "gi") };
-  }
-  const response = await model
-    .aggregate([
-      {
-        $match: query,
-      },
-      {
-        $sort: {
-          created_at: -1,
-        },
-      },
-      {
-        $facet: {
-          metadata: [
-            {
-              $count: "total",
-            },
-          ],
-          data: [
-            {
-              $skip: (pageNum - 1) * size,
-            },
-            {
-              $limit: size,
-            },
-          ],
-        },
-      },
-      {
-        $addFields: {
-          total: {
-            $arrayElemAt: ["$metadata.total", 0],
-          },
-        },
-      },
-      {
-        $project: {
-          data: 1,
-          total: 1,
-        },
-      },
-      
-    ])
-    .allowDiskUse(true);
-  const newData = response[0];
-  let { data, total } = newData;
-  total = total || 0;
-  return { data, total, limit,page: pageNum };
+const list =async (size,page,search)=>{
+  const pageNum = parseInt(page|| 1)
+  const limit = parseInt(size || 20)
+const query = {
+
 };
+
+
+const response = await model.aggregate(
+    [
+      {
+        '$match': query
+        
+      }, {
+        '$sort': {
+          'created_at': -1
+        }
+      }, {
+        '$facet': {
+          'metadata': [
+            {
+              '$count': 'total'
+            }
+          ], 
+          'data': [
+            {
+              '$skip': (pageNum -1 )* limit
+            }, {
+              '$limit': limit
+            }
+          ]
+        }
+      }, {
+        '$addFields': {
+          'total': {
+            '$arrayElemAt': [
+              '$metadata.total', 0
+            ]
+          }
+        }
+      }, {
+        '$project': {
+          'data': 1, 
+          'total': 1
+        }
+      }
+    ]
+  ).allowDiskUse(true);
+  const newData= response[0]
+  const {data,total}= newData;
+  return{data,total,limit,pageNum}
+
+  }
 
 const getById = (id) => {
   return model.findOne({ _id:id });

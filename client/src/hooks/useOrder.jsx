@@ -30,9 +30,10 @@ export const useOrder = () => {
   const list = useCallback(async ({page,limit}) => {
     try {
       setLoading(true);
-      const { data } = await API.get(`${URLS.ORDERS}?page=${page}&limit=${limit}`);
+      const { data } = await API.get(`${URLS.ORDERS}?page=${page}&size=${limit}`);
       
       setData(data.data?.data);
+      return data.data;
     } catch (e) {
       const errMsg = e.response ? e.response?.data.msg : "Something went wrong";
       setError(errMsg);
