@@ -1,4 +1,17 @@
 import "./Home.css";
+
+// rounded img
+import airtag from "./photos/airtag.jpg";
+import rings2 from "./photos/rings2.jpg";
+import speaker from "./photos/speaker.jpg";
+
+import keyboard from "./photos/keyboard.jpg";
+import mouse from "./photos/mouse.jpg";
+import watch from "./photos/watch.jpg";
+import earbuds from "./photos/earbuds.jpg";
+import controller from "./photos/controller.jpg";
+import watch2 from "./photos/watch2.jpg";
+
 import Carousel from "react-bootstrap/Carousel";
 import CarouselImage from "../components/CarouselImage";
 const Home = () => {
@@ -8,7 +21,7 @@ const Home = () => {
         <div id="myCarousel" className="carousel slide" data-bs-ride="carousel">
           <Carousel>
             <Carousel.Item interval={1000}>
-              <CarouselImage  text="First slide" />
+              <CarouselImage text="First slide" />
               <Carousel.Caption>
                 {/* <img src="" alt="" /> */}
                 <h3>First slide label</h3>
@@ -27,10 +40,12 @@ const Home = () => {
             <Carousel.Item>
               <CarouselImage text="Third slide" />
               <Carousel.Caption>
-                <h3>Third slide label</h3>
+                <h3>Nike+ FuelBand</h3>
                 <p>
-                  Praesent commodo cursus magna, vel scelerisque nisl
-                  consectetur.
+                  Elevate your style and stay connected effortlessly. It's not
+                  just a ring; it's your gateway to a smarter, more connected
+                  lifestyle. Embrace innovation with every gesture—wear the
+                  future on your finger.
                 </p>
               </Carousel.Caption>
             </Carousel.Item>
@@ -39,27 +54,19 @@ const Home = () => {
         <div className="container marketing">
           <div className="row">
             <div className="col-lg-4">
-              <svg
-                className="bd-placeholder-img rounded-circle"
+              <img
                 width="140"
                 height="140"
-                xmlns="http://www.w3.org/2000/svg"
-                role="img"
-                aria-label="Placeholder: 140x140"
-                preserveAspectRatio="xMidYMid slice"
-                focusable="false"
-              >
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#777" />
-                <text x="50%" y="50%" fill="#777" dy=".3em">
-                  140x140
-                </text>
-              </svg>
+                className="bd-placeholder-img rounded-circle"
+                src={rings2}
+                alt="Image"
+              />
 
-              <h2>Heading</h2>
+              <h2>Nike+ FuelBand</h2>
               <p>
-                Some representative placeholder content for the three columns of
-                text below the carousel. This is the first column.
+                It's not just a ring; it's your gateway to a smarter, more
+                connected lifestyle. Embrace innovation with every gesture—wear
+                the future on your finger.
               </p>
               <p>
                 <a className="btn btn-secondary" href="#">
@@ -68,27 +75,19 @@ const Home = () => {
               </p>
             </div>
             <div className="col-lg-4">
-              <svg
-                className="bd-placeholder-img rounded-circle"
+              <img
                 width="140"
                 height="140"
-                xmlns="http://www.w3.org/2000/svg"
-                role="img"
-                aria-label="Placeholder: 140x140"
-                preserveAspectRatio="xMidYMid slice"
-                focusable="false"
-              >
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#777" />
-                <text x="50%" y="50%" fill="#777" dy=".3em">
-                  140x140
-                </text>
-              </svg>
+                className="bd-placeholder-img rounded-circle"
+                src={airtag}
+                alt="Image"
+              />
 
-              <h2>Heading</h2>
+              <h2>Apple AirTag </h2>
               <p>
-                Another exciting bit of representative placeholder content. This
-                time, we have moved on to the second column.
+                Say goodbye to the stress of misplaced items with the Apple
+                AirTag. This compact tracking device ensures that your valuables
+                are always within reach.
               </p>
               <p>
                 <a className="btn btn-secondary" href="#">
@@ -97,27 +96,18 @@ const Home = () => {
               </p>
             </div>
             <div className="col-lg-4">
-              <svg
-                className="bd-placeholder-img rounded-circle"
+              <img
                 width="140"
                 height="140"
-                xmlns="http://www.w3.org/2000/svg"
-                role="img"
-                aria-label="Placeholder: 140x140"
-                preserveAspectRatio="xMidYMid slice"
-                focusable="false"
-              >
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#777" />
-                <text x="50%" y="50%" fill="#777" dy=".3em">
-                  140x140
-                </text>
-              </svg>
+                className="bd-placeholder-img rounded-circle"
+                src={speaker}
+                alt="Image"
+              />
 
-              <h2>Heading</h2>
+              <h2>Sound On-The-Go</h2>
               <p>
-                And lastly this, the third column of representative placeholder
-                content. Please check to see it. You may find this interesting.
+                Carry the beat in your pocket! Our Mini Speaker is the ultimate
+                companion for those who crave premium sound on-the-go
               </p>
               <p>
                 <a className="btn btn-secondary" href="#">
@@ -131,31 +121,23 @@ const Home = () => {
           <div className="row featurette">
             <div className="col-md-7">
               <h2 className="featurette-heading">
-                First featurette heading.{" "}
-                <span className="text-muted">It’ll blow your mind.</span>
+                Immerse in Sound Freedom with
+                <span className="text-muted">
+                  {" "}
+                  our TWS Bluetooth Earphones!
+                </span>
               </h2>
               <p className="lead">
-                Some great placeholder content for the first featurette here.
-                Imagine some exciting prose here.
+                Dive into a world of crystal-clear sound, seamless connectivity,
+                and unparalleled comfort. Whether you're on the go, hitting the
+                gym, or just unwinding, these earphones are your perfect
+                companion
               </p>
             </div>
             <div className="col-md-5">
-              <svg
-                className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-                width="500"
-                height="500"
-                xmlns="http://www.w3.org/2000/svg"
-                role="img"
-                aria-label="Placeholder: 500x500"
-                preserveAspectRatio="xMidYMid slice"
-                focusable="false"
-              >
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#eee" />
-                <text x="50%" y="50%" fill="#aaa" dy=".3em">
-                  500x500
-                </text>
-              </svg>
+              <div className="col-md-5 order-md-1">
+                <img src={earbuds} className="img-fluid" alt="Image" />
+              </div>
             </div>
           </div>
 
@@ -164,32 +146,20 @@ const Home = () => {
           <div className="row featurette">
             <div className="col-md-7 order-md-2">
               <h2 className="featurette-heading">
-                Oh yeah, it’s that good.{" "}
-                <span className="text-muted">See for yourself.</span>
+                Elevate Your Workspace: <br />
+                <span className="text-muted">
+                  {" "}
+                  Discover the Artistry of Mechanical Keyboards!
+                </span>
               </h2>
               <p className="lead">
-                Another featurette? Of course. More placeholder content here to
-                give you an idea of how this layout would work with some actual
-                real-world content in place.
+                Unleash your typing potential with our state-of-the-art
+                Mechanical Keyboards. Engineered for precision and performance,
+                each keystroke is a symphony of tactile satisfaction.
               </p>
             </div>
             <div className="col-md-5 order-md-1">
-              <svg
-                className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-                width="500"
-                height="500"
-                xmlns="http://www.w3.org/2000/svg"
-                role="img"
-                aria-label="Placeholder: 500x500"
-                preserveAspectRatio="xMidYMid slice"
-                focusable="false"
-              >
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#eee" />
-                <text x="50%" y="50%" fill="#aaa" dy=".3em">
-                  500x500
-                </text>
-              </svg>
+              <img src={keyboard} className="img-fluid" alt="Image" />
             </div>
           </div>
 
@@ -198,33 +168,29 @@ const Home = () => {
           <div className="row featurette">
             <div className="col-md-7">
               <h2 className="featurette-heading">
-                And lastly, this one.{" "}
-                <span className="text-muted">Checkmate.</span>
+                Level Up Your Gaming:
+                <span className="text-muted">
+                  {" "}
+                  Unleash the Power of our PlayStation Controllers!.
+                </span>
               </h2>
               <p className="lead">
-                And yes, this is the last block of representative placeholder
-                content. Again, not really intended to be actually read, simply
-                here to give you a better view of what this would look like with
-                some actual content. Your content.
+                Designed for ultimate control and precision, these controllers
+                redefine the way you play.Immerse yourself in the game with
+                responsive buttons, ergonomic design, and intuitive features
+                that enhance your gaming experience.
               </p>
             </div>
             <div className="col-md-5">
-              <svg
-                className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-                width="500"
-                height="500"
-                xmlns="http://www.w3.org/2000/svg"
-                role="img"
-                aria-label="Placeholder: 500x500"
-                preserveAspectRatio="xMidYMid slice"
-                focusable="false"
-              >
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#eee" />
-                <text x="50%" y="50%" fill="#aaa" dy=".3em">
-                  500x500
-                </text>
-              </svg>
+              <div className="col-md-5 order-md-1">
+                <img
+                  className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                  width="600"
+                  height="600"
+                  src={controller}
+                  alt="Image"
+                />
+              </div>
             </div>
           </div>
         </div>
