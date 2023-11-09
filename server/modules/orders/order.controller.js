@@ -6,8 +6,10 @@ const create = (payload) => {
   // create unique ID
   payload.id = uuidv4();
   // decrease the product stock after order made
+
   const products = payload?.products;
   products.map(async (product) => {
+    
     const { product: id, quantity } = product;
     // find the product
     const productInfo = await productModel.findOne({ _id: id });
@@ -94,19 +96,23 @@ const updateById = async(id, payload) => {
   return await model.findOneAndUpdate({ _id:id }, rest, { new: true });
 };
 
-const deleteById = (id, payload) => {
+const deleteById = async(id, payload) => {
   
   // find the product
-  const order = model.findOne({id});
+  
+  const order = await model.findOne({id});
   if (!order) throw new Error("order not found");
   //   increase the stock of product
+  
   const products = order.products;
   products.map(async (product) => {
     const { product: id, quantity } = product;
     // update the stock
+   
+
     const productInfo = await productModel.findOne({ _id: id });
     if (!productInfo) throw new Error("product is not valid");
-    
+
     // write the new quantity to product stocks
     await productModel.findOneAndUpdate(
       { _id: id },

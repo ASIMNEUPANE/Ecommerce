@@ -11,6 +11,7 @@ const initialState = {
 };
 
 export const create = createAsyncThunk("/orders/create", async (payload) => {
+
   const res = await ORDER_API.create(payload);
   return res.data;
 });

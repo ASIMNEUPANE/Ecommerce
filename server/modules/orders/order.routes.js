@@ -19,7 +19,7 @@ router.get("/", secureAPI(["admin", "user"]), async (req, res, next) => {
     const { limit, page, id } = req.query;
     const search = { id };
     const result = await controller.list(limit, page, search);
-    res.json({ data: result, mssg: "Success" });
+    res.json({ data: result, msg: "success" });
   } catch (e) {
     next(e);
   }
