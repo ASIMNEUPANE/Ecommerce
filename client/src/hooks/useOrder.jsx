@@ -9,11 +9,19 @@ export const useOrder = () => {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
 
-  const create = () => {
+  const create = async (payload) => {
     try {
+      setLoading(true);
+      const { data } = await API.post(URLS.ORDERS, payload);
+      setData(data?.data);
+      setMsg("Orders Added Successfully");
+      return data;
     } catch (e) {
-      const errMsg = e.response ? e.response?.data.msg : "Something went wrong";
+      const errMsg = e.response
+        ? e.response.data.msg
+        : "Something went wrong...";
       setError(errMsg);
+      throw errMsg;
     } finally {
       setLoading(false);
     }

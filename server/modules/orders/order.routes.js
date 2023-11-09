@@ -8,7 +8,7 @@ const stripe = require("stripe")(process.env.SECRET_KEY);
 router.post("/", async (req, res, next) => {
   try {
     const result = await controller.create(req.body);
-    res.json({ data: result, mssg: "Success" });
+    res.json({ data: result, msg: "success" });
   } catch (e) {
     next(e);
   }
