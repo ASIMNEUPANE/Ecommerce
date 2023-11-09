@@ -46,8 +46,8 @@ router.post(
 
 router.get("/", async (req, res, next) => {
   try {
-    const { limit, page, name } = req.query;
-    const search = { name };
+    const { limit, page, name, isArchived } = req.query;
+    const search = { name, isArchived };
     const result = await controller.list(limit, page, search);
     res.json({ data: result, msg: "success" });
   } catch (e) {

@@ -1,19 +1,25 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect,useState } from "react";
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import { FcApproval } from "react-icons/fc";
 import { Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
+import Hookpagination from '../../../components/Hookpagination'
 import { useOrder } from "../../../hooks/useOrder";
 
 export default function List() {
   const { data, list, deleteById, approve } = useOrder();
+  const [limit, setLimit] = useState(4);
+  const [total, setTotal] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
 
   const fetchOrders = useCallback(async () => {
-    list();
-  }, [list]);
+    const result = await list({ page: currentPage, limit: limit });
+    setLimit(result.limit)
+    setCurrentPage(result.pageNum)
+    setTotal(result.total)
+  }, [list, currentPage, limit]);
 
   const handleDelete = async (event, id) => {
     event.preventDefault();
@@ -35,7 +41,7 @@ export default function List() {
             text: "Delete Successful.",
             icon: "success",
           });
-          await list();
+          await list({ page: currentPage, limit: limit });
         }
       }
     } catch (err) {
@@ -66,7 +72,7 @@ export default function List() {
             text: "Approve Successful.",
             icon: "success",
           });
-          await list();
+          await list({ page: currentPage, limit: limit });
         }
       }
     } catch (err) {
@@ -135,6 +141,13 @@ export default function List() {
           )}
         </tbody>
       </Table>
+      <Hookpagination
+        total={total}
+        limit={limit}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        setLimit={setLimit}
+      />
     </div>
   );
 }

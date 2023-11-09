@@ -1,13 +1,16 @@
 
 const productModel = require("./product.model");
 const {ObjectId} = require("mongoose").Types;
+
+
+
 const create = async (payload) => {
   return await productModel.create(payload);
 };
 
 const list = async (limit, page, search) => {
-  const pageNum = parseInt(page) || 1;
-  const limits = parseInt(limit) || 20;
+  const pageNum = parseInt(page) || 2;
+  const limits = parseInt(limit) || 5;
   const { name, isArchive } = search;
   const query = {};
   if (name) {
