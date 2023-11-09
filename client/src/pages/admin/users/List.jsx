@@ -1,20 +1,31 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import {BiBlock} from "react-icons/bi"
 import {TiTickOutline} from "react-icons/ti"
 import { Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
+import Hookpagination from "../../../components/HookPagination";
 import { useUsers } from "../../../hooks/useUsers";
 
 export default function List() {
-  const { data,  list, deleteById ,blockUser} = useUsers();
   const navigate = useNavigate();
+  const { data,  list, deleteById ,blockUser} = useUsers();
+
+const [limit,setLimit]= useState(3)
+const [total,setTotal]= useState(6)
+const [currentPage,setCurrentPage]= useState(1)
+
 
   const fetchUsers = useCallback(async () => {
-    list();
-  }, [list]);
+    const result = await list({page:currentPage,limit:limit });
+    if(result){
+      setLimit(result.limit)
+      setCurrentPage(result.pageNum)
+      setTotal(result.total)
+    }
+  }, [list,currentPage,limit]);
+
 
  
 
@@ -91,7 +102,10 @@ export default function List() {
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Mail</th>
-            <th scope="col">status</th>
+            <th scope="col">Roles</th>
+            <th scope="col">IsActive</th>
+            <th scope="col">IsArchive</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -102,6 +116,11 @@ export default function List() {
                   <th width="5%">{index + 1}</th>
                   <td>{item?.name}</td>
                   <td>{item?.email}&nbsp; {item?.isEmailVerified ? <TiTickOutline color= "green" /> : null} </td>
+                  <td>{item?.roles}</td>
+
+                  <td>{item?.isActive ? "Yes": "No"}</td>
+                  <td>{item?.isArchive ? "Yes" : "No"}</td>
+
                   <td width="10%">
                     <div className="flex d-flex justify-content-evenly">
                       <BsFillTrashFill
@@ -119,13 +138,27 @@ export default function List() {
                 </tr>
               );
             })
+           
+       
           ) : (
             <tr>
-              <td colSpan={4}>No Data</td>
-            </tr>
-          )}
+            <td className="text-center" colSpan={7}>
+              No Users
+            </td>
+          </tr>
+        )}
+      
         </tbody>
+        
       </Table>
+      <Hookpagination
+              
+              total={total}
+              limit={limit}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              setLimit={setLimit}
+              />
     </div>
   );
 }

@@ -128,7 +128,9 @@ export default function List() {
             })
           ) : (
             <tr>
-              <td colSpan={4}>No Data</td>
+              <td colSpan={5} className="text-center">
+                No Orders
+              </td>
             </tr>
           )}
         </tbody>

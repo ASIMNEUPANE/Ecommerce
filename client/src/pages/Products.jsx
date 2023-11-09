@@ -134,8 +134,8 @@ const Products = () => {
                 </div>
               )}
               <Paginate
-                setLimit={setLimit}
                 dispatch={dispatch}
+                setLimit={setLimit}
                 total={total}
                 limit={limit}
                 currentPage={currentPage}
