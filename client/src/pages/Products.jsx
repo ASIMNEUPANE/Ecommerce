@@ -15,6 +15,7 @@ import Paginate from "../components/Paginate";
 import { SERVER_URL } from "../constants";
 
 const Products = () => {
+  
   const { products, loading, limit, total, currentPage } = useSelector(
     (state) => state.products
   );
@@ -55,7 +56,7 @@ const Products = () => {
                           <div className="product-media">
                             <Link to={`/products/${product._id}`}>
                               <img
-                                className="img-fluid   "
+                                className="img-fluid"
                                 src={
                                   product?.images[0] &&
                                   product?.images[0].includes("https:")
