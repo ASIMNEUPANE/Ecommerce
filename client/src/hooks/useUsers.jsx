@@ -12,11 +12,14 @@ export const useUsers = () => {
 
   const create = async (payload) => {
     try {
+      console.log(payload)
+
       setLoading(true);
       const { data } = await API.post(URLS.USERS, payload);
-      setData(data?.data?.data);
-
+      setData(data?.data);
       setMsg("Users added Successfully");
+         return data
+
     } catch (e) {
       const setErr = e.response ? e.response.data.msg : "Something went wrong";
       setError(setErr);
@@ -26,12 +29,12 @@ export const useUsers = () => {
     }
   };
 
-  const list = useCallback(async () => {
+  const list = useCallback(async ({page,limit}) => {
     try {
       setLoading(true);
-      const { data } = await API.get(URLS.USERS);
-      setMsg("Users fetch Successfully");
+      const { data } = await API.get(`${URLS.USERS}?page=${page}&size=${limit}`);
       setData(data?.data?.data);
+      setMsg("Users fetch Successfully");
       return data.data;
     } catch (e) {
       const setErr = e.response ? e.response.data.msg : "Something went wrong";
@@ -59,8 +62,9 @@ export const useUsers = () => {
   const updateById = async (id, payload) => {
     try {
       setLoading(true);
-      const result = await API.put(`${URLS.USERS}/${id}`, payload);
-      return result;
+
+      const {data} = await API.put(`${URLS.USERS}/profile`, payload);
+      return data;
     } catch (e) {
       const setErr = e.response ? e.response.data.msg : "Something went wrong";
       setError(setErr);

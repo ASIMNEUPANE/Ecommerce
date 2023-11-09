@@ -59,7 +59,13 @@ export default function Tables({ headers, data, remove, msg, url }) {
                   </tr>
                 );
               })
-            : null}
+            : (
+              <tr>
+                <td className="text-center" colSpan={5}>
+                  No Products
+                </td>
+              </tr>
+            )}
         </tbody>
       </Table>
     </div>

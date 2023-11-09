@@ -1,8 +1,7 @@
 import Pagination from "react-bootstrap/Pagination";
 import { usePagination, DOTS } from "../hooks/usePagination";
 
-export default function Paginate({
-  dispatch,
+export default function Paginate({ dispatch,
   total,
   limit,
   currentPage,

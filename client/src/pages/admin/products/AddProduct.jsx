@@ -65,10 +65,7 @@ export default function AddProduct() {
         }, 3000);
       }
     } catch (e) {
-      const errMsg = e.response
-        ? JSON.stringify(e.response)
-        : "Something went wrong";
-      setError(errMsg);
+      setError("Something went wrong");
     } finally {
       setTimeout(() => {
         setError("");

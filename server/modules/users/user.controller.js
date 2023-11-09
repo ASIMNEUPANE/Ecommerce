@@ -4,12 +4,18 @@ const bcrypt = require("bcrypt");
 
 
 const create = async (payload) => {
-  return await Model.create(payload);
+  const {password,roles ,...rest}= payload;
+  rest.password = await bcrypt.hash(password,+process.env.SALT_ROUND)
+  rest.roles=[roles]
+  rest.isEmailVerified = true
+  rest.isActive = true
+  return await Model.create(rest);
 };
+
 
 const list =async (size,page,search)=>{
   const pageNum = parseInt(page|| 1)
-  const limit = parseInt(size || 5)
+  const limit = parseInt(size || 20)
 const query = {
 
 };
@@ -22,7 +28,7 @@ const response = await Model.aggregate(
         
       }, {
         '$sort': {
-          'created_at': 1
+          'created_at': -1
         }
       }, {
         '$facet': {
