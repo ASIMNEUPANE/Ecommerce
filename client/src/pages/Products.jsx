@@ -53,10 +53,11 @@ const Products = () => {
                               </span>
                             </div>
                           )}
-                          <div className="product-media">
+                          <div className="product-media  ">
                             <Link to={`/products/${product._id}`}>
                               <img
-                                className="img-fluid"
+                            
+                                className="img-fluid  "
                                 src={
                                   product?.images[0] &&
                                   product?.images[0].includes("https:")

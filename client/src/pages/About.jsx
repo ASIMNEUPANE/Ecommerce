@@ -1,6 +1,7 @@
 import first from './about.png'
 import second from './bg_1.png'
 import third from './last.png'
+import "./about.css"
 const About = () => {
     return (
       <>
@@ -13,7 +14,7 @@ const About = () => {
                     <div className="card work-desk rounded border-0 shadow-lg overflow-hidden">
                       <img
                         src={first}
-                        className="img-fluid"
+                        className="image"
                         alt="Image"
                       />
                       <div className="img-overlay bg-dark"></div>
@@ -28,7 +29,7 @@ const About = () => {
                     <div className="card work-desk rounded border-0 shadow-lg overflow-hidden">
                       <img
                         src={second}
-                        className="img-fluid"
+                        className="image"
                         alt="Image"
                       />
                       <div className="img-overlay bg-dark"></div>
@@ -39,7 +40,7 @@ const About = () => {
                     <div className="card work-desk rounded border-0 shadow-lg overflow-hidden">
                       <img
                         src={third}
-                        className="img-fluid"
+                        className="image"
                         alt="Image"
                       />
                       <div className="img-overlay bg-dark"></div>
