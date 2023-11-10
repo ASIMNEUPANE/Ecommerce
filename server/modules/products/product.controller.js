@@ -1,8 +1,5 @@
-
 const productModel = require("./product.model");
-const {ObjectId} = require("mongoose").Types;
-
-
+const { ObjectId } = require("mongoose").Types;
 
 const create = async (payload) => {
   return await productModel.create(payload);
@@ -10,86 +7,90 @@ const create = async (payload) => {
 
 const list = async (limit, page, search) => {
   const pageNum = parseInt(page) || 1;
-  const size = parseInt(limit) || 20;
+  const size = parseInt(limit) || 5;
   const { name } = search;
   const query = {};
   if (name) {
     query.name = new RegExp(name, "gi");
   }
-  const response = await productModel.aggregate([
-    {
-      $match: query,
-    },
-    {
-      $sort: {
-        created_at: -1,
+  const response = await productModel
+    .aggregate([
+      {
+        $match: query,
       },
-    },
-    {
-      $facet: {
-        metadata: [
-          {
-            $count: "total",
-          },
-        ],
-        data: [
-          {
-            $skip: (pageNum - 1) * size,
-          },
-          {
-            $limit: size,
-          },
-        ],
-      },
-    },
-    {
-      $addFields: {
-        total: {
-          $arrayElemAt: ["$metadata.total", 0],
+      {
+        $sort: {
+          created_at: -1,
         },
       },
-    },
-    {
-      $project: {
-        data: 1,
-        total: 1,
+      {
+        $facet: {
+          metadata: [
+            {
+              $count: "total",
+            },
+          ],
+          data: [
+            {
+              $skip: (pageNum - 1) * size,
+            },
+            {
+              $limit: size,
+            },
+          ],
+        },
       },
-    },
-  ]).allowDiskUse(true);
+      {
+        $addFields: {
+          total: {
+            $arrayElemAt: ["$metadata.total", 0],
+          },
+        },
+      },
+      {
+        $project: {
+          data: 1,
+          total: 1,
+        },
+      },
+    ])
+    .allowDiskUse(true);
   const newData = response[0];
   let { data, total } = newData;
   total = total || 0;
-  return { data, total, limit:size, page:pageNum };
+  return { data, total, limit: size, page: pageNum };
 };
 
 const getById = async (id) => {
-  const result = await productModel.aggregate([
-    {
-      $match: {
-        _id: new ObjectId(id),
+  const result = await productModel
+    .aggregate([
+      {
+        $match: {
+          _id: new ObjectId(id),
+        },
       },
-    },
-    {
-      $lookup: {
-        from: "categories",
-        localField: "category",
-        foreignField: "_id",
-        as: "category_name",
+      {
+        $lookup: {
+          from: "categories",
+          localField: "category",
+          foreignField: "_id",
+          as: "category_name",
+        },
       },
-    },
-    {
-      $unwind: {
-        path: "$category_name",
-        preserveNullAndEmptyArrays: false,
+      {
+        $unwind: {
+          path: "$category_name",
+          preserveNullAndEmptyArrays: false,
+        },
       },
-    },
-    {
-      $addFields: {
-        category_name: "$category_name.name",
+      {
+        $addFields: {
+          category_name: "$category_name.name",
+        },
       },
-    },
-  ]).allowDiskUse(true);
-  if(result.length ===0)return{}
+    ])
+    .allowDiskUse(true);
+  if (result.length === 0) return {};
   return result[0];
 };
 

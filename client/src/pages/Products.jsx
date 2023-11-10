@@ -9,6 +9,7 @@ import {
   fetchProducts,
   setCurrentPage,
   setLimit,
+  
 } from "../slices/productSlice";
 import SkeletalLoader from "../components/SkeletalLoader";
 import Paginate from "../components/Paginate";
