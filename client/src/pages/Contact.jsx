@@ -80,9 +80,9 @@ const Contact = () => {
                     </div>
                   </form>
                   <div id="form-message-warning mt-4"></div>
-                  <div id="form-message-success">
+                  {/* <div  id="form-message-success">
                     Your message was sent, thank you!
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
