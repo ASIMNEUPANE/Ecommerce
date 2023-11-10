@@ -9,60 +9,57 @@ const create = async (payload) => {
 };
 
 const list = async (limit, page, search) => {
-  const pageNum = parseInt(page) || 2;
-  const limits = parseInt(limit) || 5;
-  const { name, isArchive } = search;
+  const pageNum = parseInt(page) || 1;
+  const size = parseInt(limit) || 20;
+  const { name } = search;
   const query = {};
   if (name) {
     query.name = new RegExp(name, "gi");
   }
-  const response = await productModel
-    .aggregate([
-      {
-        $match: {
-          isArchive : Boolean(isArchive) || false,
-        },
+  const response = await productModel.aggregate([
+    {
+      $match: query,
+    },
+    {
+      $sort: {
+        created_at: -1,
       },
-      {
-        $sort: {
-          created_at: -1,
-        },
-      },
-      {
-        $facet: {
-          metadata: [
-            {
-              $count: "total",
-            },
-          ],
-          data: [
-            {
-              $skip: (pageNum - 1) * limits,
-            },
-            {
-              $limit: limits,
-            },
-          ],
-        },
-      },
-      {
-        $addFields: {
-          total: {
-            $arrayElemAt: ["$metadata.total", 0],
+    },
+    {
+      $facet: {
+        metadata: [
+          {
+            $count: "total",
           },
+        ],
+        data: [
+          {
+            $skip: (pageNum - 1) * size,
+          },
+          {
+            $limit: size,
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        total: {
+          $arrayElemAt: ["$metadata.total", 0],
         },
       },
-      {
-        $project: {
-          data: 1,
-          total: 1,
-        },
+    },
+    {
+      $project: {
+        data: 1,
+        total: 1,
       },
-    ])
-    .allowDiskUse(true);
+    },
+  ]).allowDiskUse(true);
   const newData = response[0];
-  const { data, total } = newData;
-  return { data, total, limit, pageNum };
+  let { data, total } = newData;
+  total = total || 0;
+  return { data, total, limit:size, page:pageNum };
 };
 
 const getById = async (id) => {
