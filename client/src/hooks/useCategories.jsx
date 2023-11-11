@@ -26,12 +26,13 @@ export const useCategories = () => {
     }
   };
 
-  const list = useCallback(async () => {
+  const list = useCallback(async ({page,limit}) => {
     try {
       setLoading(true);
-      const { data } = await API.get(URLS.CATEGORIES);
+      const { data } = await API.get(`${URLS.CATEGORIES}?page=${page}&limit=${limit}`);
       setData(data?.data?.data);
       setMsg("Categories fetch Successfully");
+      return data.data
     } catch (e) {
       const setErr = e.response ? e.response.data.msg : "Something went wrong";
       setError(setErr);
