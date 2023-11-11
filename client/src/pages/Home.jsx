@@ -6,11 +6,11 @@ import rings2 from "./photos/rings2.jpg";
 import speaker from "./photos/speaker.jpg";
 
 import keyboard from "./photos/keyboard.jpg";
-import mouse from "./photos/mouse.jpg";
-import watch from "./photos/watch.jpg";
+import three from "./photos/three.jpg";
+import one from "./photos/one.jpg";
+import two from "./photos/two.jpg";
 import earbuds from "./photos/earbuds.jpg";
 import controller from "./photos/controller.jpg";
-import watch2 from "./photos/watch2.jpg";
 
 import Carousel from "react-bootstrap/Carousel";
 import CarouselImage from "../components/CarouselImage";
@@ -20,33 +20,39 @@ const Home = () => {
     <>
       <div>
         <div id="myCarousel" className="carousel slide" data-bs-ride="carousel">
-          <Carousel>
+          <Carousel className="slides">
             <Carousel.Item interval={1000}>
               <CarouselImage text="First slide" />
+              <img src={three} alt="" />
               <Carousel.Caption>
-                {/* <img src="" alt="" /> */}
-                <h3>First slide label</h3>
+                <h3>Gear Up for Greatness</h3>
                 <p>
-                  Nulla vitae elit libero, a pharetra augue mollis interdum.
+                  Unleash the power of technology with our latest gadgets and
+                  gizmos. Elevate your digital experience today!{" "}
                 </p>
               </Carousel.Caption>
             </Carousel.Item>
+
             <Carousel.Item interval={500}>
               <CarouselImage text="Second slide" />
+              <img src={two} alt="" />
               <Carousel.Caption>
-                <h3>Second slide label</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h3>Innovate Your Lifestyle</h3>
+                <p>
+                  Explore cutting-edge tech essentials that seamlessly blend
+                  style and functionality. Stay ahead in the digital era.
+                </p>
               </Carousel.Caption>
             </Carousel.Item>
+
             <Carousel.Item>
               <CarouselImage text="Third slide" />
+              <img src={one} alt="" />
               <Carousel.Caption>
-                <h3>Nike+ FuelBand</h3>
+                <h3>Tech Marvels Await You</h3>
                 <p>
-                  Elevate your style and stay connected effortlessly. It's not
-                  just a ring; it's your gateway to a smarter, more connected
-                  lifestyle. Embrace innovation with every gesture—wear the
-                  future on your finger.
+                  Discover a world of possibilities with our curated selection
+                  of top-notch tech items. Elevate your everyday with innovation
                 </p>
               </Carousel.Caption>
             </Carousel.Item>
@@ -70,10 +76,8 @@ const Home = () => {
                 the future on your finger.
               </p>
               <p>
-              <Link  to={`/products/654d058db06ffb5eeb196af6`}>
-                <a className="btn btn-secondary" >
-                  View details &raquo;
-                </a>
+                <Link to={`/products/654d058db06ffb5eeb196af6`}>
+                  <a className="btn btn-secondary">View details &raquo;</a>
                 </Link>
               </p>
             </div>
@@ -93,12 +97,9 @@ const Home = () => {
                 are always within reach.
               </p>
               <p>
-                <Link  to={`/products/654d1456f0fa229bf110f3f4`}>
-                <a className="btn btn-secondary" >
-                  View details &raquo;
-                </a>
+                <Link to={`/products/654d1456f0fa229bf110f3f4`}>
+                  <a className="btn btn-secondary">View details &raquo;</a>
                 </Link>
-               
               </p>
             </div>
             <div className="col-lg-4">
@@ -116,10 +117,8 @@ const Home = () => {
                 companion for those who crave premium sound on-the-go
               </p>
               <p>
-              <Link  to={`/products/654d1337f0fa229bf110edc1`}>
-                <a className="btn btn-secondary" >
-                  View details &raquo;
-                </a>
+                <Link to={`/products/654d1337f0fa229bf110edc1`}>
+                  <a className="btn btn-secondary">View details &raquo;</a>
                 </Link>
               </p>
             </div>

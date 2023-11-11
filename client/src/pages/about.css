@@ -7,3 +7,19 @@
     margin-right: auto; 
    
   }
+
+
+  /* about.css */
+
+
+
+.card.work-desk:hover img.image {
+  transform: scale(1.1);
+}
+
+
+  .section-title {
+    margin-left: 0;
+    text-align: center;
+  }
+

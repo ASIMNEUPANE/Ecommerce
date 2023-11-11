@@ -12,8 +12,8 @@ export default function List() {
   const navigate = useNavigate();
   const { data,  list, deleteById ,blockUser} = useUsers();
 
-const [limit,setLimit]= useState(3)
-const [total,setTotal]= useState(6)
+const [limit,setLimit]= useState(4)
+const [total,setTotal]= useState(0)
 const [currentPage,setCurrentPage]= useState(1)
 
 
@@ -21,7 +21,7 @@ const [currentPage,setCurrentPage]= useState(1)
     const result = await list({page:currentPage,limit:limit });
     if(result){
       setLimit(result.limit)
-      setCurrentPage(result.pageNum)
+      setCurrentPage(result.page)
       setTotal(result.total)
     }
   }, [list,currentPage,limit]);

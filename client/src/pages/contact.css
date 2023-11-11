@@ -1,0 +1,68 @@
+/* Add the following styles to your existing CSS file or create a new one */
+
+.contact-body {
+    background-color: #f8f9fa;
+    padding: 60px 0;
+  }
+  
+  .content {
+    max-width: 12000px;
+    margin: 0 auto;
+    
+  }
+  
+  .form {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+  }
+  
+  .form h3 {
+    color: #333;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+  }
+  
+  .form label {
+    color: #495057;
+    font-size: 16px;
+  }
+  
+  .form input,
+  .form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+  }
+  
+  .form textarea {
+    resize: none;
+  }
+  
+  .form input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .form input[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+  .form-message {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #dc3545;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 767px) {
+    .form {
+      padding: 20px;
+    }
+  }
+  

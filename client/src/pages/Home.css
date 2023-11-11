@@ -12,8 +12,12 @@ body {
       -------------------------------------------------- */
   
   /* Carousel base class */
+ 
   .carousel {
-    margin-bottom: 4rem;
+  
+   
+    margin-bottom: 5rem;
+
   }
   /* Since positioning the image, we need to help out the caption */
   .carousel-caption {
@@ -30,7 +34,7 @@ body {
     top: 0;
     left: 0;
     min-width: 100%;
-    height: 32rem;
+    height: 40rem;
   }
   
   /* MARKETING CONTENT

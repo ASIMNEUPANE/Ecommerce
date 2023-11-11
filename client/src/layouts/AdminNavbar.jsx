@@ -5,6 +5,11 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+
+import icon4 from './icon4.png'
+
+
+
 import { useSelector, useDispatch } from "react-redux";
 import { removeToken } from "../utils/session";
 import { setLogOut } from "../slices/authSlice";
@@ -27,7 +32,7 @@ function AdminNavbar() {
             to="/admin/dashboard"
             className="text-decoration-none text-dark"
           >
-            Fashion Fusion Admin
+            <img width="40px" src={icon4} alt="icon" /> Admin
           </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />

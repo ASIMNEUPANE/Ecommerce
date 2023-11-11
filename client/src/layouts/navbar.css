@@ -1,0 +1,25 @@
+.nav-link {
+  color: #333;
+  background-color: #f5f5f5;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+  color: wheat;
+
+  border-radius: 15px;
+  transform: scale(1.1); 
+}
+
+.right-side{
+  
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+
+}
+.right-side:hover{
+  
+  transform: scale(1.1)
+}
