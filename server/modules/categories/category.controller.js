@@ -11,7 +11,7 @@ const create = async (payload) => {
   return Model.create(payload);
 };
 
-const list = async (limit, page, search) => {
+const list = async ( limit,page, search) => {
   const pageNum = parseInt(page) || 1;
   const size = parseInt(limit) || 20;
   const { name, role } = search;
@@ -67,7 +67,7 @@ const list = async (limit, page, search) => {
   const newData = response[0];
   let { data, total } = newData;
   total = total || 0;
-  return { data, total, limit:size, page:pageNum };
+  return { data, total, limit: size, page: pageNum };
 };
 
 const getById = (id) => {
