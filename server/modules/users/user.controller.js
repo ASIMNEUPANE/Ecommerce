@@ -112,7 +112,6 @@ const block = async (id, payload) => {
 };
 
 const archive = async (id,payload)=>{
-  console.log(payload, "archive")
   const user = await Model.find({ _id: id });
   if (!user) throw new Error("User not found");
   return await Model.findOneAndUpdate({ _id:id}, payload, {new: true})
