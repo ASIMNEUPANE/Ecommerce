@@ -3,13 +3,13 @@ import Tables from "../../../components/Table";
 import { Link } from "react-router-dom";
 import { useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchProducts } from "../../../slices/productSlice";
-
+import { fetchProducts, setCurrentPage,setLimit } from "../../../slices/productSlice";
+import Paginate from "../../../components/Paginate";
 import useApi from "../../../hooks/useApi";
 import { URLS } from "../../../constants";
 
 function AdminProducts() {
-  const { products, limit, currentPage } = useSelector(
+  const { products, limit,total, currentPage } = useSelector(
     (state) => state.products
   );
   const dispatch = useDispatch();
@@ -18,13 +18,13 @@ function AdminProducts() {
 
   const initFetch = useCallback(() => {
     dispatch(fetchProducts({ limit, page: currentPage }));
-  }, [dispatch, currentPage, limit]);
+  }, [dispatch,limit, currentPage]);
 
   const headers = ["ID", "Name", "Quantity", "Price"];
 
   useEffect(() => {
     initFetch();
-  }, [initFetch, products]);
+  }, [initFetch]);
 
   return (
     <>
@@ -40,6 +40,14 @@ function AdminProducts() {
         msg={msg}
         url={URLS.PRODUCTS}
       />
+            <Paginate
+                dispatch={dispatch}
+                setLimit={setLimit}
+                total={total}
+                limit={limit}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
     </>
   );
 }

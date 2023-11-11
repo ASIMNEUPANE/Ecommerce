@@ -7,7 +7,7 @@ const initialState = {
   loading: false,
   products: [],
   product: {},
-  limit: 5,
+  limit: 4,
   total: 0,
 };
 
