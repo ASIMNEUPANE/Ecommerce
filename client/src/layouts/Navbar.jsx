@@ -22,15 +22,15 @@ function ENavbar() {
         <Navbar.Collapse id="navbarScroll">
           <Nav className="me-auto ">
           
-              <Link to="/products" className="text-decoration-none  text-dark nav-link" style={{   fontSize: '1.5rem' }}>
+              <Link to="/products" className="text-decoration-none  text-dark nav-link" style={{   fontSize: '1.4rem' }}>
                 Product
               </Link>
           
           
-              <Link to="/contact" className="text-decoration-none text-dark nav-link" style={{ fontSize: '1.5rem' }}>
+              <Link to="/contact" className="text-decoration-none text-dark nav-link" style={{ fontSize: '1.4rem' }}>
                 Contact
               </Link>
-              <Link to="/about" className="text-decoration-none text-dark nav-link" style={{ fontSize: '1.5rem',  }}>
+              <Link to="/about" className="text-decoration-none text-dark nav-link" style={{ fontSize: '1.4rem',  }}>
                 About me
               </Link>
           

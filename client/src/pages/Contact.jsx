@@ -1,5 +1,10 @@
 import './contact.css'
+import { useNavigate } from "react-router-dom";
 const Contact = () => {
+  const navigate = useNavigate()
+  const handleSubmit =()=>{
+    navigate('/')
+  }
     return (
       <div className="contact-body">
         <div className="content">
@@ -70,14 +75,7 @@ const Contact = () => {
                       </div>
                     </div>
                     <div className="row justify-content-center">
-                      <div className="col-md-5 form-group text-center">
-                        <input
-                          type="submit"
-                          value="Send Message"
-                          className="btn btn-block btn-primary rounded-0 py-2 px-4"
-                        />
-                        <span className="submitting"></span>
-                      </div>
+                      <button className='btn btn-primary' onClick={handleSubmit}>submit</button>
                     </div>
                   </form>
                   <div id="form-message-warning mt-4"></div>

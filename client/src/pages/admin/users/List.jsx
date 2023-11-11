@@ -127,7 +127,7 @@ const [currentPage,setCurrentPage]= useState(1)
                         color="red"
                         onClick={(e) => handleDelete(e, item?._id, item?.isArchive)}
                       />
-                      <BsFillPencilFill
+                      <BsFillPencilFill 
                         onClick={() =>
                           navigate(`/admin/users/${item?._id}`)
                         }

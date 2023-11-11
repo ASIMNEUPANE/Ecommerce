@@ -36,8 +36,7 @@ export default function Add() {
   return (
     <Container>
       <Row>
-        <h2>Add new User</h2>
-        <Col md={{ span: 4, offset: 4 }}>
+      <h2 className="flex d-flex justify-content-center">Add new User</h2>        <Col md={{ span: 4, offset: 4 }}>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Name</Form.Label>

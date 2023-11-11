@@ -40,42 +40,31 @@ function AdminNavbar() {
           <Nav className="me-auto">
             <Link
               to="/admin/products"
-              className="text-decoration-none text-dark nav-link"
+              className="text-decoration-none  text-dark nav-link" style={{   fontSize: '1.4rem' }}
             >
               Product
             </Link>
 
             <Link
               to="/admin/orders"
-              className="text-decoration-none text-dark nav-link"
-            >
+              className="text-decoration-none  text-dark nav-link" style={{   fontSize: '1.4rem' }}            >
               Orders
             </Link>
             <Link
               to="/admin/categories"
-              className="text-decoration-none text-dark nav-link"
-            >
+              className="text-decoration-none  text-dark nav-link" style={{   fontSize: '1.4rem' }}            >
               Categories
             </Link>
             <Link
               to="/admin/users"
-              className="text-decoration-none text-dark nav-link"
-            >
+              className="text-decoration-none  text-dark nav-link" style={{   fontSize: '1.4rem' }}            >
               Users
             </Link>
           </Nav>
-          <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form>
+        
 
-          <button className="btn btn-light bold" onClick={handleLogout}>
-            {user?.name} <CiLogout />
+          <button className="btn btn-light bold  text-dark nav-link" onClick={handleLogout}>
+        <b>{user?.name} </b>    <CiLogout />
           </button>
         </Navbar.Collapse>
       </Container>
