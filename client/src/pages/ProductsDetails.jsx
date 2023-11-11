@@ -22,19 +22,30 @@ const ProductDetails = () => {
     dispatch(fetchProducts({ limit: 40, page: 1 }));
   }, [dispatch]);
 
+
+
   const getRandomProducts = useCallback(() => {
-    const firstRandomIndex = Math.floor(Math.random() * products.length);
-    const secRandomIndex = Math.floor(Math.random() * products.length);
-    const thirdRandomIndex = Math.floor(Math.random() * products.length);
-    const fourthRandomIndex = Math.floor(Math.random() * products.length);
-    const randProduct = [
-      products[firstRandomIndex],
-      products[secRandomIndex],
-      products[thirdRandomIndex],
-      products[fourthRandomIndex],
-    ];
+    // Ensure at least 4 products are available
+    if (products.length < 4) {
+      null
+      return;
+    }
+  
+    // Generate four unique random indices
+    const randomIndices = [];
+    while (randomIndices.length < 4) {
+      const randomIndex = Math.floor(Math.random() * products.length);
+      if (!randomIndices.includes(randomIndex)) {
+        randomIndices.push(randomIndex);
+      }
+    }
+  
+    // Use the unique indices to get the corresponding products
+    const randProduct = randomIndices.map((index) => products[index]);
+  
     setRandom4Items(randProduct);
   }, [products]);
+  
 
   useEffect(() => {
     getProduct();
