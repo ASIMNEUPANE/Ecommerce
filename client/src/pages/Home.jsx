@@ -14,6 +14,7 @@ import watch2 from "./photos/watch2.jpg";
 
 import Carousel from "react-bootstrap/Carousel";
 import CarouselImage from "../components/CarouselImage";
+import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <>
@@ -69,9 +70,11 @@ const Home = () => {
                 the future on your finger.
               </p>
               <p>
-                <a className="btn btn-secondary" href="#">
+              <Link  to={`/products/654d058db06ffb5eeb196af6`}>
+                <a className="btn btn-secondary" >
                   View details &raquo;
                 </a>
+                </Link>
               </p>
             </div>
             <div className="col-lg-4">
@@ -90,9 +93,12 @@ const Home = () => {
                 are always within reach.
               </p>
               <p>
-                <a className="btn btn-secondary" href="#">
+                <Link  to={`/products/654d1456f0fa229bf110f3f4`}>
+                <a className="btn btn-secondary" >
                   View details &raquo;
                 </a>
+                </Link>
+               
               </p>
             </div>
             <div className="col-lg-4">
@@ -110,9 +116,11 @@ const Home = () => {
                 companion for those who crave premium sound on-the-go
               </p>
               <p>
-                <a className="btn btn-secondary" href="#">
+              <Link  to={`/products/654d1337f0fa229bf110edc1`}>
+                <a className="btn btn-secondary" >
                   View details &raquo;
                 </a>
+                </Link>
               </p>
             </div>
           </div>
