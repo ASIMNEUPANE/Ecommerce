@@ -4,6 +4,32 @@
 
 GadgetHub is an Ecommerce store built using the MERN Stack (MongoDB, Express, React.js, Node.js). It features user management and allows users to buy products using Cash on Delivery (COD) or online methods like Stripe.
 
+## Installation and Setup
+
+1. Clone the repository: `git clone https://github.com/yourusername/yourrepository.git`
+2. Navigate into the directory: `cd yourrepository`
+3. Install the dependencies: `npm install`
+4. Start the MongoDB service: `service mongod start` (This may vary depending on your operating system)
+5. Create a `.env` file in the root directory and fill it with necessary environment variables (e.g., `DB_CONNECTION_STRING`, `JWT_SECRET`).
+6. Start the server: `npm start`
+
+
+## Test User Credentials
+
+For testing purposes, you can use the following user credentials:
+
+- Username: testuser@gmail.com
+- Password: 12345
+
+## Demo Payment Card Details
+
+For testing the payment process, you can use the following demo card details:
+
+- Card Number: 4242 4242 4242 4242
+- Expiry Date: 04/24
+- CVV: 242
+- ZIP: 42424
+
 ## Features
 
 **User Management**: Enables user registration, login, and profile management.
@@ -26,16 +52,6 @@ GadgetHub is an Ecommerce store built using the MERN Stack (MongoDB, Express, Re
 
 **Payment**: Supports Cash on Delivery (COD) and Stripe for online payments.
 
-
-## Installation and Setup
-
-1. Clone the repository: `git clone https://github.com/yourusername/yourrepository.git`
-2. Navigate into the directory: `cd yourrepository`
-3. Install the dependencies: `npm install`
-4. Start the MongoDB service: `service mongod start` (This may vary depending on your operating system)
-5. Create a `.env` file in the root directory and fill it with necessary environment variables (e.g., `DB_CONNECTION_STRING`, `JWT_SECRET`).
-6. Start the server: `npm start`
-
 ## Usage
 
 1. Open your browser and navigate to `http://localhost:3000` (or whatever port you've set your server to run on).
@@ -53,5 +69,6 @@ We welcome contributions from everyone. Here are some ways you can contribute:
 
 Before contributing, please make sure to read and follow our Code of Conduct.
 
-Thank you for your interest in contributing to Fashion Fusion!
+Thank you for your interest in contributing to GadgetHub !
+!
 
