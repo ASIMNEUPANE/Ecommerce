@@ -68,7 +68,7 @@ const About = () => {
                   <div className="media align-items-center rounded shadow p-3">
                     <i className="fa fa-play h4 mb-0 text-custom"></i>
                     <h6 className="ml-3 mb-0">
-                      <a href="javascript:void(0)" className="text-dark">
+                      <a href="javascript:void(0)" className="text-dark point">
                         Responsive
                       </a>
                     </h6>
@@ -78,7 +78,7 @@ const About = () => {
                   <div className="media align-items-center rounded shadow p-3">
                     <i className="fa fa-file-download h4 mb-0 text-custom"></i>
                     <h6 className="ml-3 mb-0">
-                      <a href="javascript:void(0)" className="text-dark">
+                      <a href="javascript:void(0)" className="text-dark ">
                         Open Source
                       </a>
                     </h6>
@@ -88,7 +88,7 @@ const About = () => {
                   <div className="media align-items-center rounded shadow p-3">
                     <i className="fa fa-user h4 mb-0 text-custom"></i>
                     <h6 className="ml-3 mb-0">
-                      <a href="javascript:void(0)" className="text-dark">
+                      <a href="javascript:void(0)" className="text-dark ">
                         asimneupane11@gmail.com
                       </a>
                     </h6>
@@ -98,7 +98,7 @@ const About = () => {
                   <div className="media align-items-center rounded shadow p-3">
                     <i className="fa fa-image h4 mb-0 text-custom"></i>
                     <h6 className="ml-3 mb-0">
-                      <a href="javascript:void(0)" className="text-dark">
+                      <a href="javascript:void(0)" className="text-dark ">
                         Full Stact Developer
                       </a>
                     </h6>

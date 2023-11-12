@@ -16,7 +16,7 @@ router.post("/", async (req, res, next) => {
 
 router.get("/", secureAPI(["admin", "user"]), async (req, res, next) => {
   try {
-    const { size, page,  } = req.query;
+    const { size, page  } = req.query;
     
     const result = await controller.list(size, page);
     res.json({ data: result, msg: "success" });

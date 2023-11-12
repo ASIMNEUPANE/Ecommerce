@@ -28,11 +28,13 @@ const create = (payload) => {
 };
 
 const list =async (size,page,search)=>{
-  const pageNum = parseInt(page|| 1)
-  const limit = parseInt(size || 20)
-const query = {
+  const pageNum = parseInt(page)|| 1
+  const limit = parseInt(size) || 20
+const query = {};
 
-};
+if (search) {
+  query['fieldName'] = { $regex: new RegExp(search, 'i') };
+}
 
 
 const response = await model.aggregate(
