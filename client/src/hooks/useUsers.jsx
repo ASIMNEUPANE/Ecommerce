@@ -8,18 +8,14 @@ export const useUsers = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
- 
 
   const create = async (payload) => {
     try {
-      console.log(payload)
-
       setLoading(true);
       const { data } = await API.post(URLS.USERS, payload);
       setData(data?.data);
       setMsg("Users added Successfully");
-         return data
-
+      return data;
     } catch (e) {
       const setErr = e.response ? e.response.data.msg : "Something went wrong";
       setError(setErr);
@@ -29,15 +25,16 @@ export const useUsers = () => {
     }
   };
 
-  const list = useCallback(async ({page,limit}) => {
+  const list = useCallback(async ({ page, limit }) => {
     try {
       setLoading(true);
-      const {data} = await API.get(`${URLS.USERS}?page=${page}&size=${limit}`);
+      const { data } = await API.get(
+        `${URLS.USERS}?page=${page}&size=${limit}`
+      );
       setData(data?.data?.data);
       setMsg("Users fetch Successfully");
       return data.data;
     } catch (e) {
-      console.log(e)
       const setErr = e.response ? e.response.data.msg : "Something went wrong";
       setError(setErr);
     } finally {
@@ -64,7 +61,7 @@ export const useUsers = () => {
     try {
       setLoading(true);
 
-      const {data} = await API.put(`${URLS.USERS}/profile`, payload);
+      const { data } = await API.put(`${URLS.USERS}/profile`, payload);
       return data;
     } catch (e) {
       const setErr = e.response ? e.response.data.msg : "Something went wrong";
@@ -73,11 +70,10 @@ export const useUsers = () => {
       setLoading(false);
     }
   };
-  const deleteById = async (id,payload) => {
+  const deleteById = async (id, payload) => {
     try {
-      
       setLoading(true);
-      const result = await API.delete(`${URLS.USERS}/${id}`,{data:payload});
+      const result = await API.delete(`${URLS.USERS}/${id}`, { data: payload });
 
       return result;
     } catch (e) {

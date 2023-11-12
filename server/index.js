@@ -75,8 +75,4 @@ app.listen(PORT, () => {
   console.log(`app is running on ${PORT}`);
 });
 
-// Checkoutpagae cleanup
-// Order form => order create in db using order API
-// Stripe check for payment completion
-// based on stripe answer , update the order status
-// seed db reset
+

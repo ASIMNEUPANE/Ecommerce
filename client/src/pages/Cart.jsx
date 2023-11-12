@@ -78,10 +78,8 @@ const FilledCart = ({
               <tbody>
                 {items.length > 0 &&
                   items.map((item, index) => {
-                    // console.log({ item });
                     return (
                       <tr key={item?._id || index}>
-                        {console.log(item)}
                         <td>
                           {item?.name.length > 25
                             ? item?.name.substring(0, 35).concat("...")

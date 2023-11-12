@@ -5,9 +5,8 @@ import { useDispatch } from "react-redux";
 import { loginByEmail } from "../slices/authSlice";
 import useSignUp from "../hooks/useSignup";
 
-
 const Login = () => {
-  const navigate= useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [key, setKey] = useState("login");
 
@@ -57,8 +56,6 @@ const SignUpForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await register({ payload });
-   
-   
   };
 
   return (
@@ -160,7 +157,6 @@ const LoginForm = ({ dispatch, login, navigate }) => {
     e.preventDefault();
     try {
       const data = await dispatch(login(signIn));
-      console.log({ data }, "data");
       if (data.payload.msg === "success") {
         navigate("/admin/dashboard");
       } else {
@@ -222,32 +218,29 @@ const LoginForm = ({ dispatch, login, navigate }) => {
 };
 
 const Verify = ({ email }) => {
-  const { verify,regenerate } = useSignUp();
+  const { verify, regenerate } = useSignUp();
   const [msg, setMsg] = useState("");
   const [verification, setVerification] = useState({ email: email, token: "" });
 
   const handleTokenSubmit = async (e) => {
-    
-      e.preventDefault();
-      const data = await verify({ payload: verification });
-      if (data.data.msg === "success") {setMsg("Email verified")}
-
-      else {
-        setMsg("Something went Wrong");
-      }
-   
+    e.preventDefault();
+    const data = await verify({ payload: verification });
+    if (data.data.msg === "success") {
+      setMsg("Email verified");
+    } else {
+      setMsg("Something went Wrong");
+    }
   };
 
-  const reSendToken = async(e)=>{
-   
-   e.preventDefault();
-   const data = await regenerate({payload:{email}})
-   if (data.data.msg === "success") {setMsg("Email has been sent. Check again!")}
-
-   else {
-     setMsg("Something went Wrong");
-   }
-  }
+  const reSendToken = async (e) => {
+    e.preventDefault();
+    const data = await regenerate({ payload: { email } });
+    if (data.data.msg === "success") {
+      setMsg("Email has been sent. Check again!");
+    } else {
+      setMsg("Something went Wrong");
+    }
+  };
 
   return (
     <>
@@ -276,12 +269,20 @@ const Verify = ({ email }) => {
             }}
           />
           <div className="flex d-flex justify-content-between ">
-          <Form.Text className="text-muted">
-            Check your email for Token.
-          </Form.Text>
-          <Form.Text className="text-muted  ">
-           <button className="btn btn-link" onClick={(e)=>{reSendToken(e)} }> Regenerate Token</button> 
-          </Form.Text>
+            <Form.Text className="text-muted">
+              Check your email for Token.
+            </Form.Text>
+            <Form.Text className="text-muted  ">
+              <button
+                className="btn btn-link"
+                onClick={(e) => {
+                  reSendToken(e);
+                }}
+              >
+                {" "}
+                Regenerate Token
+              </button>
+            </Form.Text>
           </div>
         </Form.Group>
 

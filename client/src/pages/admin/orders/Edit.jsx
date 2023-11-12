@@ -14,12 +14,8 @@ export default function Edit() {
     try {
       e.preventDefault();
       const orderInfo = order;
-      const {created_at,updated_at,isArchive,...payload} = orderInfo
-    console.log({payload},"jhasdj")
-    const resp =  await updateById(id, payload);
-    console.log(resp, "edit")
-      
-      
+      const { created_at, updated_at, isArchive, ...payload } = orderInfo;
+      await updateById(id, payload);
       navigate("/admin/orders");
     } catch (e) {
       alert(e);
@@ -34,14 +30,13 @@ export default function Edit() {
   useEffect(() => {
     fetchDetails();
   }, [fetchDetails]);
-  console.log(order)
 
   return (
     <Container>
       <Row>
         <h3 className="text-center ">Order Number# {order?.id}</h3>
 
-        <Col >
+        <Col>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
               <Form.Label>Name</Form.Label>
@@ -126,10 +121,7 @@ export default function Edit() {
             <Button variant="primary" type="submit">
               Update
             </Button>
-            <Link
-              to="/admin/orders"
-              className="btn text-white m-2 btn-danger"
-            >
+            <Link to="/admin/orders" className="btn text-white m-2 btn-danger">
               Go Back
             </Link>
           </Form>
@@ -137,10 +129,10 @@ export default function Edit() {
         <Col>
           <h5>Products Details</h5>
 
-          <Table striped bordered hover >
-            <thead >
-              <tr >
-                <th  scope="col">#</th>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Price (Rs)</th>
@@ -149,11 +141,11 @@ export default function Edit() {
             </thead>
             <tbody>
               {order && order.products && order?.products.length > 0 ? (
-                order?.products.map((item,index) => {
+                order?.products.map((item, index) => {
                   return (
-                    <tr  key={item?._id}>
-                      <td>{index +1}</td>
-                      <td >{item?.product}</td>
+                    <tr key={item?._id}>
+                      <td>{index + 1}</td>
+                      <td>{item?.product}</td>
                       <td>{item?.quantity}</td>
                       <td>{item?.price}</td>
                       <td>{item?.amount}</td>
@@ -167,9 +159,8 @@ export default function Edit() {
               )}
             </tbody>
           </Table>
-          </Col>
+        </Col>
       </Row>
-      
     </Container>
   );
 }

@@ -4,57 +4,53 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useUsers } from "../../../hooks/useUsers";
 
 export default function Edit() {
-  const {id} = useParams()
+  const { id } = useParams();
   const navigate = useNavigate();
-  const { updateById,getById } = useUsers();
+  const { updateById, getById } = useUsers();
   const [payload, setPayload] = useState({
     name: "",
     email: "",
     password: "",
     roles: "",
   });
-  
 
   const handleSubmit = async (e) => {
     try {
-      
       e.preventDefault();
       payload.id = id;
-    const result =  await updateById(id,payload);
-    console.log(result)
-    if (result.msg === "success") {
-      alert("User has been updated successfully");
-      navigate("/admin/users");
-    }
+      const result = await updateById(id, payload);
+      if (result.msg === "success") {
+        alert("User has been updated successfully");
+        navigate("/admin/users");
+      }
       navigate("/admin/users");
     } catch (e) {
       alert(e);
     }
   };
-  const fetchDetails =useCallback(async()=>{
-const result = await getById(id)
-const {
-  isArchive,
-  isActive,
-  created_at,
-  updated_at,
-  category_name,
-  isEmailVerified,
-  created_by,
-  updated_by,
-  _id,
-  __v,
+  const fetchDetails = useCallback(async () => {
+    const result = await getById(id);
+    const {
+      isArchive,
+      isActive,
+      created_at,
+      updated_at,
+      category_name,
+      isEmailVerified,
+      created_by,
+      updated_by,
+      _id,
+      __v,
 
-  ...rest
-} = result;
+      ...rest
+    } = result;
 
-setPayload(rest)
+    setPayload(rest);
+  }, [id, getById]);
 
-  },[id,getById])
-
-  useEffect(()=>{
-    fetchDetails()
-  },[fetchDetails])
+  useEffect(() => {
+    fetchDetails();
+  }, [fetchDetails]);
 
   return (
     <Container>

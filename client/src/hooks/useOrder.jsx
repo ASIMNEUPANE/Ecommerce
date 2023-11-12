@@ -60,7 +60,6 @@ export const useOrder = () => {
     try {
       setLoading(true);
       const result = await API.put(`${URLS.ORDERS}/${id}`, payload);
-      console.log({result},"apii")
       return result;
 
       
@@ -76,7 +75,6 @@ export const useOrder = () => {
       const result = await API.delete(`${URLS.ORDERS}/${id}`);
       return result;
     } catch (e) {
-      console.log(e,"e")
       const errMsg = e.response ? e.response?.data.msg : "Something went wrong";
       setError(errMsg);
     } finally {

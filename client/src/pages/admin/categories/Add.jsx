@@ -14,7 +14,7 @@ export default function Add() {
       await create({ name: name });
       navigate("/admin/categories");
     } catch (e) {
-    console.log(e)
+    alert(e)
     }
   };
 
