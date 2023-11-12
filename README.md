@@ -16,7 +16,7 @@ GadgetHub is an Ecommerce store built using the MERN Stack (MongoDB, Express, Re
 
 **Admin Dashboard**: Allows administrators to perform CRUD operations on products, orders, categories, and users.
 
-**Login/Registration**: Allows new users to create an account in order to access the application's features.
+**Pagination**: Facilitates navigation through the product,users,categories,orders catalog page by page.
 
 **Product Catalog**: Displays all available products.
 
@@ -28,7 +28,6 @@ GadgetHub is an Ecommerce store built using the MERN Stack (MongoDB, Express, Re
 
 **Payment**: Supports Cash on Delivery (COD) and Stripe for online payments.
 
-**Pagination**: Facilitates navigation through the product catalog page by page.
 
 ## Installation and Setup
 
