@@ -2,7 +2,9 @@
 
 ## Introduction
 
-GadgetHub is an Ecommerce store built using the MERN Stack (MongoDB, Express, React.js, Node.js). It features user management and allows users to buy and sell products using Cash on Delivery (COD) or by online method like Stripe .
+## Introduction
+
+GadgetHub is an Ecommerce store built using the MERN Stack (MongoDB, Express, React.js, Node.js). It features user management and allows users to buy products using Cash on Delivery (COD) or online methods like Stripe.
 
 ## Features
 
