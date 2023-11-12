@@ -1,8 +1,6 @@
 const Model = require("./user.model");
 const bcrypt = require("bcrypt");
 
-
-
 const create = async (payload) => {
   const {password,roles ,...rest}= payload;
   rest.password = await bcrypt.hash(password,+process.env.SALT_ROUND)
@@ -12,60 +10,71 @@ const create = async (payload) => {
   return await Model.create(rest);
 };
 
-
-const list =async (size,page,search)=>{
-  const pageNum = parseInt(page|| 1)
-  const limit = parseInt(size || 20)
-const query = {
-
-};
-
-
-const response = await Model.aggregate(
-    [
-      {
-        '$match': query
-        
-      }, {
-        '$sort': {
-          'created_at': -1
-        }
-      }, {
-        '$facet': {
-          'metadata': [
-            {
-              '$count': 'total'
-            }
-          ], 
-          'data': [
-            {
-              '$skip': (pageNum -1 )* limit
-            }, {
-              '$limit': limit
-            }
-          ]
-        }
-      }, {
-        '$addFields': {
-          'total': {
-            '$arrayElemAt': [
-              '$metadata.total', 0
-            ]
-          }
-        }
-      }, {
-        '$project': {
-          'data': 1, 
-          'total': 1
-        }
-      }
-    ]
-  ).allowDiskUse(true);
-  const newData= response[0]
-  const {data,total}= newData;
-  return{data,total,limit,pageNum}
-
+const list = async (size, page, search) => {
+  /*
+  Basic pagination Implementation
+  return Model.find().skip().limit();
+   */
+  const pageNum = parseInt(page) || 1;
+  const limit = parseInt(size) || 3;
+  const { name, role } = search;
+  const query = {};
+  if (name) {
+    query.name = new RegExp(name, "gi");
   }
+  if (role) {
+    query.roles = [role];
+  }
+  const response = await Model.aggregate([
+    {
+      $match: query,
+    },
+    {
+      $sort: {
+        created_at: -1,
+      },
+    },
+    {
+      $facet: {
+        metadata: [
+          {
+            $count: "total",
+          },
+        ],
+        data: [
+          {
+            $skip: (pageNum - 1) * limit,
+          },
+          {
+            $limit: limit,
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        total: {
+          $arrayElemAt: ["$metadata.total", 0],
+        },
+      },
+    },
+    {
+      $project: {
+        data: 1,
+        total: 1,
+      },
+    },
+    {
+      $project: {
+        "data.password": 0,
+      },
+    },
+  ]).allowDiskUse(true);
+  const newData = response[0];
+  let { data, total } = newData;
+  total = total || 0;
+  return { data, total, limit, pageNum };
+};
 
 const getById = async (id) => {
   return await Model.findOne({ _id: id });

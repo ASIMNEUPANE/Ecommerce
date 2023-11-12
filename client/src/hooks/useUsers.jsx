@@ -32,11 +32,12 @@ export const useUsers = () => {
   const list = useCallback(async ({page,limit}) => {
     try {
       setLoading(true);
-      const { data } = await API.get(`${URLS.USERS}?page=${page}&size=${limit}`);
+      const {data} = await API.get(`${URLS.USERS}?page=${page}&size=${limit}`);
       setData(data?.data?.data);
       setMsg("Users fetch Successfully");
       return data.data;
     } catch (e) {
+      console.log(e)
       const setErr = e.response ? e.response.data.msg : "Something went wrong";
       setError(setErr);
     } finally {

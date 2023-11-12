@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
-import {BiBlock} from "react-icons/bi"
-import {TiTickOutline} from "react-icons/ti"
+import { BiBlock } from "react-icons/bi";
+import { TiTickOutline } from "react-icons/ti";
 import { Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -10,26 +10,23 @@ import { useUsers } from "../../../hooks/useUsers";
 
 export default function List() {
   const navigate = useNavigate();
-  const { data,  list, deleteById ,blockUser} = useUsers();
+  const { data, list, deleteById, blockUser } = useUsers();
 
-const [limit,setLimit]= useState(4)
-const [total,setTotal]= useState(0)
-const [currentPage,setCurrentPage]= useState(1)
-
+  const [limit, setLimit] = useState(4);
+  const [total, setTotal] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchUsers = useCallback(async () => {
-    const result = await list({page:currentPage,limit:limit });
-    if(result){
-      setLimit(result.limit)
-      setCurrentPage(result.page)
-      setTotal(result.total)
+    const result = await list({ page: currentPage, limit: limit });
+   
+    if (result) {
+      // setLimit(result.limit);
+      setCurrentPage(result.pageNum);
+      setTotal(result.total);
     }
-  }, [list,currentPage,limit]);
+  }, [list, currentPage, limit]);
 
-
- 
-
-  const handleBlock = async (event, id,status) => {
+  const handleBlock = async (event, id, status) => {
     event.preventDefault();
     try {
       const result = await Swal.fire({
@@ -39,24 +36,24 @@ const [currentPage,setCurrentPage]= useState(1)
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: `Yes,${status? "Block" : "Unblock"} it!`,
+        confirmButtonText: `Yes,${status ? "Block" : "Unblock"} it!`,
       });
       if (result.isConfirmed) {
-        const resp = await blockUser(id,{isActive : !status} );
+        const resp = await blockUser(id, { isActive: !status });
         if (resp) {
           Swal.fire({
-            title: `${status? "Block" : "Unblock"}!`,
-            text: `User has been ${status? "Block" : "Unblock"} !`,
+            title: `${status ? "Block" : "Unblock"}!`,
+            text: `User has been ${status ? "Block" : "Unblock"} !`,
             icon: "success",
           });
-         await list();
+          await list({ page: currentPage, limit: limit });
         }
       }
     } catch (err) {
       alert(err || "Something went wrong");
     }
   };
-  const handleDelete = async (event, id,status) => {
+  const handleDelete = async (event, id, status) => {
     event.preventDefault();
     try {
       const result = await Swal.fire({
@@ -66,17 +63,17 @@ const [currentPage,setCurrentPage]= useState(1)
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: `Yes,${!status? "Archive" : "unArchive"} it!`,
+        confirmButtonText: `Yes,${!status ? "Archive" : "unArchive"} it!`,
       });
       if (result.isConfirmed) {
-        const resp = await deleteById(id, {isArchive : !status});
+        const resp = await deleteById(id, { isArchive: !status });
         if (resp) {
           Swal.fire({
-            title: `${!status? "Archive" : "UnArchive"}!`,
-            text: `User has been ${!status? "Archive" : "UnArchive"} !`,
+            title: `${!status ? "Archive" : "UnArchive"}!`,
+            text: `User has been ${!status ? "Archive" : "UnArchive"} !`,
             icon: "success",
           });
-         await list();
+          await list({ page: currentPage, limit: limit });
         }
       }
     } catch (err) {
@@ -115,50 +112,54 @@ const [currentPage,setCurrentPage]= useState(1)
                 <tr key={item?._id}>
                   <th width="5%">{index + 1}</th>
                   <td>{item?.name}</td>
-                  <td>{item?.email}&nbsp; {item?.isEmailVerified ? <TiTickOutline color= "green" /> : null} </td>
+                  <td>
+                    {item?.email}&nbsp;{" "}
+                    {item?.isEmailVerified ? (
+                      <TiTickOutline color="green" />
+                    ) : null}{" "}
+                  </td>
                   <td>{item?.roles}</td>
 
-                  <td>{item?.isActive ? "Yes": "No"}</td>
+                  <td>{item?.isActive ? "Yes" : "No"}</td>
                   <td>{item?.isArchive ? "Yes" : "No"}</td>
 
                   <td width="10%">
                     <div className="flex d-flex justify-content-evenly">
                       <BsFillTrashFill
                         color="red"
-                        onClick={(e) => handleDelete(e, item?._id, item?.isArchive)}
-                      />
-                      <BsFillPencilFill 
-                        onClick={() =>
-                          navigate(`/admin/users/${item?._id}`)
+                        onClick={(e) =>
+                          handleDelete(e, item?._id, item?.isArchive)
                         }
                       />
-                      <BiBlock onClick={(e)=>handleBlock(e,item?._id, item?.isActive)}/>
+                      <BsFillPencilFill
+                        onClick={() => navigate(`/admin/users/${item?._id}`)}
+                      />
+                      <BiBlock
+                        onClick={(e) =>
+                          handleBlock(e, item?._id, item?.isActive)
+                        }
+                      />
                     </div>
                   </td>
                 </tr>
               );
             })
-           
-       
           ) : (
             <tr>
-            <td className="text-center" colSpan={7}>
-              No Users
-            </td>
-          </tr>
-        )}
-      
+              <td className="text-center" colSpan={7}>
+                No Users
+              </td>
+            </tr>
+          )}
         </tbody>
-        
       </Table>
       <Hookpagination
-              
-              total={total}
-              limit={limit}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              setLimit={setLimit}
-              />
+        total={total}
+        limit={limit}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        setLimit={setLimit}
+      />
     </div>
   );
 }

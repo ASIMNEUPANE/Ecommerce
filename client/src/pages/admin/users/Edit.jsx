@@ -4,9 +4,9 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useUsers } from "../../../hooks/useUsers";
 
 export default function Edit() {
-  const { updateById,getById } = useUsers();
   const {id} = useParams()
   const navigate = useNavigate();
+  const { updateById,getById } = useUsers();
   const [payload, setPayload] = useState({
     name: "",
     email: "",
@@ -47,7 +47,7 @@ const {
 
   ...rest
 } = result;
-console.log(rest)
+
 setPayload(rest)
 
   },[id,getById])
@@ -55,7 +55,7 @@ setPayload(rest)
   useEffect(()=>{
     fetchDetails()
   },[fetchDetails])
-console.log(payload,"pay")
+
   return (
     <Container>
       <Row>
