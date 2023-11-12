@@ -19,7 +19,9 @@ export default function Tables({ headers, data, remove, msg, url }) {
     if (swalRes.isConfirmed) {
       // Delete Hook
       await remove(url, id);
+      
       Swal.fire("Deleted!", msg, "success");
+ 
     }
   };
   const handleEdit = async (id) => {

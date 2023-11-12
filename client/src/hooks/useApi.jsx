@@ -29,10 +29,13 @@ const useApi = () => {
     try {
       setLoading(true);
       const { data } = await API.delete(`${url}/${id}`, {
+       
         data: { isArchive : true },
       });
+      console.log(data)
       if (data.msg === "success") {
         dispatch(fetchProducts({}));
+        
         setMsg("Data deleted Successfully");
       }
     } catch (e) {

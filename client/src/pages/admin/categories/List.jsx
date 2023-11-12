@@ -42,7 +42,7 @@ export default function List() {
             text: "Delete Successful.",
             icon: "success",
           });
-          await list();
+          await list({ page: currentPage, limit: limit });
         }
       }
     } catch (err) {

@@ -16,7 +16,7 @@ export default function Edit() {
     try {
       e.preventDefault();
       await updateById(id, { name: name });
-      toast("Wow so easy!");
+    
       navigate("/admin/categories");
     } catch (e) {
       alert(e);
