@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Fashion Fusion is an Ecommerce store built using the MERN Stack (MongoDB, Express, React.js, Node.js). It features user management and allows users to buy and sell products using Cash on Delivery (COD) or by online method like Stripe 
+GadgetHub is an Ecommerce store built using the MERN Stack (MongoDB, Express, React.js, Node.js). It features user management and allows users to buy and sell products using Cash on Delivery (COD) or by online method like Stripe .
 
 ## Features
 
@@ -13,6 +13,8 @@ Fashion Fusion is an Ecommerce store built using the MERN Stack (MongoDB, Expres
 **Secure Routes**: Ensures only authenticated users can access certain application areas.
 
 **Admin Dashboard**: Allows administrators to perform CRUD operations on products, orders, categories, and users.
+
+**Login/Registration**: Allows new users to create an account in order to access the application's features.
 
 **Product Catalog**: Displays all available products.
 
@@ -26,8 +28,6 @@ Fashion Fusion is an Ecommerce store built using the MERN Stack (MongoDB, Expres
 
 **Pagination**: Facilitates navigation through the product catalog page by page.
 
-
-
 ## Installation and Setup
 
 1. Clone the repository: `git clone https://github.com/yourusername/yourrepository.git`
@@ -38,7 +38,6 @@ Fashion Fusion is an Ecommerce store built using the MERN Stack (MongoDB, Expres
 6. Start the server: `npm start`
 
 ## Usage
-
 
 1. Open your browser and navigate to `http://localhost:3000` (or whatever port you've set your server to run on).
 2. Register a new user account or log in to an existing one.
