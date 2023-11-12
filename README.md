@@ -6,17 +6,27 @@ Fashion Fusion is an Ecommerce store built using the MERN Stack (MongoDB, Expres
 
 ## Features
 
-**User Management**: This feature allows users to register, login, and manage their profiles. It's essential for personalizing the user experience and securing user data.
+**User Management**: Enables user registration, login, and profile management.
 
-**Product Catalog**: This feature displays all the products available for purchase. Users can browse, search, and filter products based on their preferences.
+**JWT Authentication**: Provides secure, stateless authentication using JSON Web Tokens.
 
-**Shopping Cart**: This feature allows users to add products they wish to purchase to a virtual shopping cart. They can view their cart and modify its contents at any time before checkout.
+**Secure Routes**: Ensures only authenticated users can access certain application areas.
 
-**Checkout Process**: This feature guides users through the process of placing an order. It typically involves confirming the items to purchase, providing shipping information, and choosing a payment method.
+**Admin Dashboard**: Allows administrators to perform CRUD operations on products, orders, categories, and users.
 
-**Payment**: This website supports the Cash on Delivery (COD) payment method. It may also support online payment methods like Stripe, as mentioned in the introduction
+**Product Catalog**: Displays all available products.
 
-**Pagination**: This feature allows users to navigate through the product catalog page by page, making it easier to browse large numbers of products. Users can select a specific page number or use the 'Next' and 'Previous' buttons to move through the pages.
+**Product Details**: Provides detailed information about a specific product when selected.
+
+**Shopping Cart**: Allows users to add products to a cart and modify its contents before checkout.
+
+**Checkout Process**: Guides users through the order placement process.
+
+**Payment**: Supports Cash on Delivery (COD) and Stripe for online payments.
+
+**Pagination**: Facilitates navigation through the product catalog page by page.
+
+
 
 ## Installation and Setup
 
