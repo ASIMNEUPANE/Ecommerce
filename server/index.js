@@ -1,11 +1,13 @@
 require("dotenv").config();
 const cors = require("cors");
 const express = require("express");
+
 const mongoose = require("mongoose");
 const controller = require("./modules/orders/order.controller");
 
 const DB_URL = process.env.DB_URL;
 const PORT = process.env.PORT || 3000;
+
 const endpointSecret = process.env.ENDPOINT_SECRET;
 const stripe = require("stripe")(process.env.SECRET_KEY);
 
@@ -15,6 +17,7 @@ mongoose.connect(DB_URL).then(() => {
 });
 
 const app = express();
+
 app.use(cors());
 
 app.use(express.static("public"));
@@ -74,5 +77,6 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`app is running on ${PORT}`);
 });
+
 
 
