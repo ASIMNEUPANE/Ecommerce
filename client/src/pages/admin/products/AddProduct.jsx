@@ -56,6 +56,7 @@ export default function AddProduct() {
       formData.append("brand", payload?.brand);
       formData.append("category", payload?.category);
       const { data } = await create(formData);
+      
       if (data.msg === "success") {
         setMsg(
           `${payload?.name} Product Added Successfully. Redirecting in 3 secs`
@@ -65,6 +66,7 @@ export default function AddProduct() {
         }, 3000);
       }
     } catch (e) {
+      
       setError("Something went wrong");
     } finally {
       setTimeout(() => {
