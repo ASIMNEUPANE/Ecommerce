@@ -35,6 +35,7 @@ export const useOrder = () => {
       setData(data.data?.data);
       return data.data;
     } catch (e) {
+    
       const errMsg = e.response ? e.response?.data.msg : "Something went wrong";
       setError(errMsg);
     } finally {

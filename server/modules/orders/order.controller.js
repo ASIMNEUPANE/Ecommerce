@@ -28,6 +28,7 @@ const create = (payload) => {
 };
 
 const list =async (size,page,search)=>{
+ 
   const pageNum = parseInt(page)|| 1
   const limit = parseInt(size) || 20
 const query = {};
