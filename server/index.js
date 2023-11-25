@@ -18,8 +18,12 @@ mongoose.connect(DB_URL).then(() => {
 
 const app = express();
 
-// app.use(cors());
-app.options('*', cors()) // include before other routes
+var corsOptions = {
+  origin: 'http://localhost:5173',
+  optionsSuccessStatus: 200 
+}
+app.use(cors(corsOptions));
+// app.options('*', cors()) // include before other routes
 
 app.use(express.static("public"));
 
