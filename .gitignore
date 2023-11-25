@@ -5,9 +5,9 @@ node_modules
 #My test
 playground
 
-server/public/products/*
+# server/public/products/*
 
 
-!server/public/products/.gitkeep
+# !server/public/products/.gitkeep
 
 
