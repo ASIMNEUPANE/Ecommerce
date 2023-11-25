@@ -18,7 +18,8 @@ mongoose.connect(DB_URL).then(() => {
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+app.options('*', cors()) // include before other routes
 
 app.use(express.static("public"));
 
