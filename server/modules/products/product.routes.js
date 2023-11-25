@@ -61,6 +61,7 @@ router.post(
           console.error(err);
           return res.status(500).send('Error uploading file');
         }
+        console.log({data})
       });
       req.body.created_by = req.currentUser;
       
