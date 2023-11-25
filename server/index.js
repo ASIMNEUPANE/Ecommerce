@@ -10,7 +10,8 @@ const PORT = process.env.PORT || 3000;
 
 const endpointSecret = process.env.ENDPOINT_SECRET;
 const stripe = require("stripe")(process.env.SECRET_KEY);
-
+const AWS = require("aws-sdk");
+const s3 = new AWS.S3()
 const indexRouter = require("./routes");
 mongoose.connect(DB_URL).then(() => {
   console.log("DataBase connected...");
@@ -22,6 +23,7 @@ var corsOptions = {
   origin: 'http://localhost:5173',
   optionsSuccessStatus: 200 
 }
+
 app.use(cors(corsOptions));
 // app.options('*', cors()) // include before other routes
 
