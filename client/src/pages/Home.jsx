@@ -1,16 +1,16 @@
 import "./Home.css";
 
 // rounded img
-import airtag from "./photos/airtag.jpg";
-import rings2 from "./photos/rings2.jpg";
-import speaker from "./photos/speaker.jpg";
+import airtag from "./photos/airtag.png";
+import rings2 from "./photos/rings2.png";
+import speaker from "./photos/speaker.png";
 
-import keyboard from "./photos/keyboard.jpg";
-import three from "./photos/three.jpg";
+import keyboard from "./photos/keyboard.png";
+import three from "./photos/three.png";
 import one from "./photos/one.jpg";
 import two from "./photos/two.jpg";
-import earbuds from "./photos/earbuds.jpg";
-import controller from "./photos/controller.jpg";
+import earbuds from "./photos/earbuds.png";
+import controller from "./photos/controller.png";
 
 import Carousel from "react-bootstrap/Carousel";
 import CarouselImage from "../components/CarouselImage";
