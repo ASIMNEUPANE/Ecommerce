@@ -1,5 +1,5 @@
 // export const SERVER_URL = "http://localhost:3333";
-export const SERVER_URL = "https://dull-lime-sockeye.cyclic.app/";
+export const SERVER_URL = "https://dull-lime-sockeye.cyclic.app";
 
 const version = "/api/v1";
 export const URLS = {
