@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
+build.chunkSizeWarningLimit = 1000;
 // import Payment from './payment';
 import React from 'react'
 import ReactDOM from 'react-dom/client'
