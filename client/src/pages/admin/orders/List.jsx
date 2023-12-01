@@ -1,10 +1,10 @@
-import { useCallback, useEffect,useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import { FcApproval } from "react-icons/fc";
 import { Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import Hookpagination from '../../../components/Hookpagination'
+import Hookpagination from "../../../components/HookPagination.jsx";
 import { useOrder } from "../../../hooks/useOrder";
 
 export default function List() {
@@ -16,9 +16,9 @@ export default function List() {
 
   const fetchOrders = useCallback(async () => {
     const result = await list({ page: currentPage, limit: limit });
-    setLimit(result.limit)
-    setCurrentPage(result.pageNum)
-    setTotal(result.total)
+    setLimit(result.limit);
+    setCurrentPage(result.pageNum);
+    setTotal(result.total);
   }, [list, currentPage, limit]);
 
   const handleDelete = async (event, id) => {

@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import API from "../utils/API";
+import API from "../utils/api.jsx";
 import { URLS } from "../constants";
 
 export const useOrder = () => {
@@ -27,15 +27,16 @@ export const useOrder = () => {
     }
   };
 
-  const list = useCallback(async ({page,limit}) => {
+  const list = useCallback(async ({ page, limit }) => {
     try {
       setLoading(true);
-      const { data } = await API.get(`${URLS.ORDERS}?page=${page}&size=${limit}`);
-      
+      const { data } = await API.get(
+        `${URLS.ORDERS}?page=${page}&size=${limit}`
+      );
+
       setData(data.data?.data);
       return data.data;
     } catch (e) {
-    
       const errMsg = e.response ? e.response?.data.msg : "Something went wrong";
       setError(errMsg);
     } finally {
@@ -62,10 +63,10 @@ export const useOrder = () => {
       setLoading(true);
       const result = await API.put(`${URLS.ORDERS}/${id}`, payload);
       return result;
-
-      
     } catch (e) {
-      const errMsg = e.response ? e.response?.data.mssg : "Something went wrong";
+      const errMsg = e.response
+        ? e.response?.data.mssg
+        : "Something went wrong";
       setError(errMsg);
     } finally {
       setLoading(false);
@@ -82,12 +83,11 @@ export const useOrder = () => {
       setLoading(false);
     }
   };
-  const approve = async (id,payload) => {
+  const approve = async (id, payload) => {
     try {
-      const result = await API.patch(`${URLS.ORDERS}/status/${id}`,payload);
+      const result = await API.patch(`${URLS.ORDERS}/status/${id}`, payload);
       return result;
     } catch (e) {
-     
       const errMsg = e.response ? e.response?.data.msg : "Something went wrong";
       setError(errMsg);
     } finally {
@@ -95,5 +95,14 @@ export const useOrder = () => {
     }
   };
 
-  return { data, order,approve, create, list, getById, updateById, deleteById };
+  return {
+    data,
+    order,
+    approve,
+    create,
+    list,
+    getById,
+    updateById,
+    deleteById,
+  };
 };

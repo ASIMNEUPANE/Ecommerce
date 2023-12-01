@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { create } from "../slices/orderSlice";
 import { removeAll } from "../slices/cartSlice";
 import { URLS } from "../constants";
-import API from "../utils/api";
-
+import API from "../utils/api.jsx";
 
 export default function Checkout() {
   const [stripeCheckout, setStripeCheckoutUrl] = useState({
@@ -35,9 +34,8 @@ export default function Checkout() {
   };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
-    
+
     const payload = checkout;
     const { address, pobox, state, country, ...rest } = payload;
 
@@ -61,7 +59,6 @@ export default function Checkout() {
     } else {
       navigate("/checkout/failed");
     }
-    
   };
 
   const createPayments = useCallback(() => {
@@ -127,7 +124,6 @@ export default function Checkout() {
                           : item?.name}
                       </h6>
                       <small className="text-muted">
-                       
                         {item?.description && item?.description.length > 30
                           ? item?.description.substring(0, 50).concat("...")
                           : item?.description}

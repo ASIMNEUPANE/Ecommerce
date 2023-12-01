@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import API from "../utils/api";
+import API from "../utils/api.jsx";
 
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "../slices/productSlice";

@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import API from "../utils/API";
+import API from "../utils/api.jsx";
 import { URLS } from "../constants";
 
 export const useUsers = () => {

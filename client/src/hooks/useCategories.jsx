@@ -1,14 +1,13 @@
 import { useState, useCallback } from "react";
-import API from "../utils/API";
+import API from "../utils/api.jsx";
 import { URLS } from "../constants";
 
 export const useCategories = () => {
   const [data, setData] = useState([]);
-  const [categories,setCategories]= useState()
+  const [categories, setCategories] = useState();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
-
 
   const create = async (payload) => {
     try {
@@ -26,13 +25,15 @@ export const useCategories = () => {
     }
   };
 
-  const list = useCallback(async ({page,limit}) => {
+  const list = useCallback(async ({ page, limit }) => {
     try {
       setLoading(true);
-      const { data } = await API.get(`${URLS.CATEGORIES}?page=${page}&limit=${limit}`);
+      const { data } = await API.get(
+        `${URLS.CATEGORIES}?page=${page}&limit=${limit}`
+      );
       setData(data?.data?.data);
       setMsg("Categories fetch Successfully");
-      return data.data
+      return data.data;
     } catch (e) {
       const setErr = e.response ? e.response.data.msg : "Something went wrong";
       setError(setErr);
@@ -41,7 +42,7 @@ export const useCategories = () => {
     }
   }, []);
 
-  const getById =useCallback( async (id) => {
+  const getById = useCallback(async (id) => {
     try {
       setLoading(true);
       const { data } = await API.get(`${URLS.CATEGORIES}/${id}`);
@@ -55,19 +56,18 @@ export const useCategories = () => {
     } finally {
       setLoading(false);
     }
-  },[]);
+  }, []);
 
-  const updateById = async (id,payload) => {
+  const updateById = async (id, payload) => {
     try {
-      setLoading(true)
-      const result= await API.put(`${URLS.CATEGORIES}/${id}`,payload)
-      return result
-      
+      setLoading(true);
+      const result = await API.put(`${URLS.CATEGORIES}/${id}`, payload);
+      return result;
     } catch (e) {
       const setErr = e.response ? e.response.data.msg : "Something went wrong";
       setError(setErr);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
   const deleteById = async (id) => {

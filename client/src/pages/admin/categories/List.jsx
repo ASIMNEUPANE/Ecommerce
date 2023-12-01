@@ -1,9 +1,9 @@
-import { useCallback, useEffect,useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import { Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import HookPagination from "../../../components/Hookpagination";
+import HookPagination from "../../../components/HookPagination.jsx";
 import { useCategories } from "../../../hooks/useCategories";
 
 export default function List() {
@@ -16,7 +16,7 @@ export default function List() {
 
   const fetchCategories = useCallback(async () => {
     const result = await list({ page: currentPage, limit: limit });
-   if (result) {
+    if (result) {
       setTotal(result.total);
       setCurrentPage(result.page);
     }

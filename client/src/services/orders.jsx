@@ -1,4 +1,4 @@
-import API from "../utils/api";
+import API from "../utils/api.jsx";
 import { URLS } from "../constants";
 
 export const create = async (payload) => {

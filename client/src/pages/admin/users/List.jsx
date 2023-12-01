@@ -5,7 +5,7 @@ import { TiTickOutline } from "react-icons/ti";
 import { Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import Hookpagination from "../../../components/HookPagination";
+import Hookpagination from "../../../components/HookPagination.jsx";
 import { useUsers } from "../../../hooks/useUsers";
 
 export default function List() {
@@ -18,7 +18,7 @@ export default function List() {
 
   const fetchUsers = useCallback(async () => {
     const result = await list({ page: currentPage, limit: limit });
-   
+
     if (result) {
       // setLimit(result.limit);
       setCurrentPage(result.pageNum);
