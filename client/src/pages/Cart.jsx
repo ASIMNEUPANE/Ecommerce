@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SERVER_URL } from "../constants";
 import {
   decreaseQuantity,
-  increaseQuantity,
+  increaseQuantity, 
   removeItem,
 } from "../slices/cartSlice";
 
