@@ -8,7 +8,6 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
-  
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
@@ -16,6 +15,7 @@
     "@stripe/stripe-js": "^2.1.7",
     "axios": "^1.5.1",
     "bootstrap": "^5.3.2",
+    "gh-pages": "^6.1.0",
     "jwt-decode": "^3.1.2",
     "mdb-react-ui-kit": "^6.3.0",
     "number-formatter": "^1.2.0",
