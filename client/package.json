@@ -1,13 +1,17 @@
 {
   "name": "client",
   "private": true,
+  "homepage": "https://ASIMNEUPANE.github.io/gadgethub",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy":"npm run build",
+    "deploy": "ghpages -d build"
+
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
