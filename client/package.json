@@ -1,7 +1,7 @@
 {
   "name": "client",
   "private": true,
-  "homepage": "https://ASIMNEUPANE.github.io/gadgethub",
+  "homepage": "https://asimneupane.github.io/gadgethub",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -10,7 +10,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "predeploy":"npm run build",
-    "deploy": "ghpages -d build"
+    "deploy": "gh-pages -d build"
 
   },
   "dependencies": {
