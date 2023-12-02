@@ -29,6 +29,7 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
+       
           {/* Routes for normal users */}
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
@@ -57,7 +58,7 @@ function App() {
             />
             <Route path="/products" element={<Products />} />
             <Route path="/products/:id" element={<ProductsDetails />} />
-            <Route path="*" element={<ErrorPage />} />
+            <Route path="*" element={<Home />}  />
           </Route>
 
           {/* Routes for Admin  */}
