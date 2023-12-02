@@ -58,7 +58,7 @@ function App() {
             />
             <Route path="/products" element={<Products />} />
             <Route path="/products/:id" element={<ProductsDetails />} />
-            <Route path="*" element={<Home />}  />
+            <Route path="*" element={<ErrorPage />}  />
           </Route>
 
           {/* Routes for Admin  */}
