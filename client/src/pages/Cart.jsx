@@ -6,16 +6,20 @@ import { BsArrowLeftSquare } from "react-icons/bs";
 import numberFormatter from "number-formatter";
 import { useDispatch, useSelector } from "react-redux";
 import { SERVER_URL } from "../constants";
+import { fetchProducts } from "../slices/productSlice";
 import {
   decreaseQuantity,
-  increaseQuantity, 
+  increaseQuantity,
   removeItem,
 } from "../slices/cartSlice";
+import { useCallback, useEffect } from "react";
 
 const Cart = () => {
   const { cart } = useSelector((state) => state.cart);
   const { products } = useSelector((state) => state.products);
+
   const dispatch = useDispatch();
+
   const removeCart = (id) => {
     dispatch(removeItem(id));
   };
@@ -32,6 +36,13 @@ const Cart = () => {
   const decrease = (id) => {
     if (id) dispatch(decreaseQuantity(id));
   };
+
+  const initFetch = useCallback(() => {
+    dispatch(fetchProducts({}));
+  }, [dispatch]);
+  useEffect(() => {
+    initFetch();
+  }, [initFetch]);
   return (
     <>
       {cart.length > 0 ? (
@@ -90,7 +101,8 @@ const FilledCart = ({
                             width={40}
                             height={40}
                             src={
-                              item?.images[0] && item?.images[0].includes("https:")
+                              item?.images[0] &&
+                              item?.images[0].includes("https:")
                                 ? item?.images[0]
                                 : SERVER_URL + "/" + item?.images[0] ||
                                   "https://www.bootdey.com/image/380x380/FF00FF/000000"
