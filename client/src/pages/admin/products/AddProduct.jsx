@@ -1,3 +1,4 @@
+import AWS from 'aws-sdk';
 import { useNavigate } from "react-router-dom";
 import { Alert, Button, Form } from "react-bootstrap";
 import { useCallback, useEffect, useState } from "react";

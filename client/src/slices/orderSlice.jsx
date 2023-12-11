@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as ORDER_API from "../services/orders";
 
 const initialState = {

@@ -26,7 +26,7 @@ export default function Checkout() {
     paymentMethod: "STRIPE",
     state: "",
     pobox: "",
-    amount: 0,
+    amount: 0, 
   });
 
   const getTotal = () => {
