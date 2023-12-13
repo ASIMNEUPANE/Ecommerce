@@ -1,5 +1,5 @@
 import Tables from "../../../components/Table";
-
+import '../../../components/init'
 import { Link } from "react-router-dom";
 import { useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";

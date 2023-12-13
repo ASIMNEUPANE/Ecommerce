@@ -16,9 +16,10 @@ export default function List() {
 
   const fetchOrders = useCallback(async () => {
     const result = await list({ page: currentPage, limit: limit });
-    setLimit(result.limit);
+   if(result){ setLimit(result.limit);
     setCurrentPage(result.pageNum);
     setTotal(result.total);
+   }
   }, [list, currentPage, limit]);
 
   const handleDelete = async (event, id) => {
