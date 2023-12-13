@@ -7,6 +7,6 @@ export default defineConfig({
   mode: 'hash', 
   plugins: [react()],
   build: {
-    outDir: "docs",
+    outDir: "dist",
   },
 });
