@@ -1,7 +1,8 @@
-const multer = require("multer");
 const router = require("express").Router();
+const multer = require("multer");
 const controller = require("./product.controller");
 const secureAPI = require("../../utils/secure");
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./public/products");
