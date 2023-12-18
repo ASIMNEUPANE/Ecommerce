@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { create } from "../slices/orderSlice";
 import { removeAll } from "../slices/cartSlice";
 import { URLS } from "../constants";
-import API from "../utils/api.jsx";
+import API from "../utils/api";
 
 export default function Checkout() {
   const [stripeCheckout, setStripeCheckoutUrl] = useState({
