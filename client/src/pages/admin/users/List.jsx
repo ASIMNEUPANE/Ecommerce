@@ -5,7 +5,7 @@ import { TiTickOutline } from "react-icons/ti";
 import { Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import Hookpagination from "../../../components/HookPagination";
+import Hookpagination from "../../../components/Hookpagination";
 import { useUsers } from "../../../hooks/useUsers";
 
 export default function List() {
