@@ -6,7 +6,7 @@ import rings2 from "./photos/rings2.png";
 import speaker from "./photos/speaker.png";
 
 import keyboard from "./photos/keyboard.png";
-import three from "./photos/three.png";
+import three from "./photos/three.jpg";
 import one from "./photos/one.jpg";
 import two from "./photos/two.jpg";
 import earbuds from "./photos/earbuds.png";
