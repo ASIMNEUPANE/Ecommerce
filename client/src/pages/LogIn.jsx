@@ -3,8 +3,7 @@ import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { loginByEmail } from "../slices/authSlice";
-import useSignUp from "../hooks/useSignup.jsx";
-
+import useSignUp from "../hooks/useSignUp"
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
