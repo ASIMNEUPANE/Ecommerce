@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { create } from "../slices/orderSlice";
 import { removeAll } from "../slices/cartSlice";
 import { URLS } from "../constants";
-import API from "../utils/api";
+import API from "../utils/API";
 
 export default function Checkout() {
   const [stripeCheckout, setStripeCheckoutUrl] = useState({
@@ -26,7 +26,7 @@ export default function Checkout() {
     paymentMethod: "STRIPE",
     state: "",
     pobox: "",
-    amount: 0, 
+    amount: 0,
   });
 
   const getTotal = () => {
