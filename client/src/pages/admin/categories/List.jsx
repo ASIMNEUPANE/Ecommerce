@@ -3,7 +3,7 @@ import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import { Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import HookPagination from "../../../components/HookPagination.jsx";
+import HookPagination from "../../../components/HookPagination";
 import { useCategories } from "../../../hooks/useCategories";
 
 export default function List() {

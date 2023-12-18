@@ -4,7 +4,7 @@ import { FcApproval } from "react-icons/fc";
 import { Table } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import Hookpagination from "../../../components/HookPagination.jsx";
+import Hookpagination from "../../../components/HookPagination";
 import { useOrder } from "../../../hooks/useOrder";
 
 export default function List() {
