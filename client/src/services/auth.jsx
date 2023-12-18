@@ -1,4 +1,4 @@
-import API from "../utils/api";
+import API from "../utils/API";
 import { URLS } from "../constants";
 
 export const login = async (payload) => {

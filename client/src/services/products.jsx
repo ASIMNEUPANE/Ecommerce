@@ -1,5 +1,5 @@
 import { URLS } from "../constants";
-import API from "../utils/api";
+import API from "../utils/API";
 
 export const list = async (limit, page) => {
   return API.get(`${URLS.PRODUCTS}?limit=${limit}&page=${page}`);
